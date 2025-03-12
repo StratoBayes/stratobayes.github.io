@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Welcome to StratoBayes"
+  description: "Automated stratigraphic correlation and age modelling"
+  page-navigation: false
+  site-url: "https://stratobayes.github.io"
+
+  sidebar:
+    style: "docked"
+    search: true
+    logo: "images/logo-2.png"
+    contents:
+      - text: "Home"
+        href: index.qmd
+      - text: "Software"
+        href: https://stratobayes.github.io/software
+      - text: "Website"
+        href: https://stratobayes.com
+      - text: "Workshop"
+        href: https://stratobayes.github.io/workshop
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+
+editor: visual
