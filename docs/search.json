@@ -1,0 +1,62 @@
+[
+  {
+    "objectID": "software/index.html",
+    "href": "software/index.html",
+    "title": "StratoBayes",
+    "section": "",
+    "text": "Automated stratigraphic correlation and age modelling",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "software/index.html#about",
+    "href": "software/index.html#about",
+    "title": "StratoBayes",
+    "section": "About",
+    "text": "About\nIntroduce the software…",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "software/index.html#installation",
+    "href": "software/index.html#installation",
+    "title": "StratoBayes",
+    "section": "Installation",
+    "text": "Installation\nR version 4.4 (4.4.0 - 4.4.3) and Rstudio need to be installed.\nOpen Rstudio.\nIn the console, type\ninstall.packages(\"StratoBayes\", repos = c(\"https://stratobayes.github.io\", getOption(\"repos\")), type = \"binary\", dependencies = TRUE)\n\nWindows\n\n\nmacOS\n\n\nLinux",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "software/index.html#using-stratobayes",
+    "href": "software/index.html#using-stratobayes",
+    "title": "StratoBayes",
+    "section": "Using StratoBayes",
+    "text": "Using StratoBayes",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome to StratoBayes",
+    "section": "",
+    "text": "Software – Download and use the free StratoBayes software for non-commercial use\nWebsite - A broader look at StratoBayes and a survey on commercial use\nWorkshop – Materials from the 2024 StratoBayes Workshop",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Welcome to StratoBayes",
+    "section": "",
+    "text": "Software – Download and use the free StratoBayes software for non-commercial use\nWebsite - A broader look at StratoBayes and a survey on commercial use\nWorkshop – Materials from the 2024 StratoBayes Workshop",
+    "crumbs": [
+      "Home"
+    ]
+  }
+]
