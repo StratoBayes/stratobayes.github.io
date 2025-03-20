@@ -16,7 +16,7 @@ website:
       - text: "Home"
         href: index.qmd
       - text: "Software"
-        href: https://stratobayes.github.io/software
+        href: software/index.qmd
       - text: "Website"
         href: https://stratobayes.com
       - text: "Workshop"
