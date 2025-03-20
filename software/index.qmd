@@ -20,7 +20,11 @@ In the console, type
 
 ### Windows
 
+currently supports R 4.4
+
 ### macOS
+
+currently supports R 4.4 for Intel and for Apple silicon
 
 ### Linux
 
