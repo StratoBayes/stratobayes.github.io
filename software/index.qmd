@@ -22,6 +22,6 @@ In the console, type
 
 ### macOS
 
-### Linux/Unix
+### Linux
 
 ## Using StratoBayes
