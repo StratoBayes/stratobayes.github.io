@@ -6,7 +6,7 @@ website:
   title: "Welcome to StratoBayes"
   description: "Automated stratigraphic correlation and age modelling"
   page-navigation: false
-  site-url: "https://StratoBayes.github.io"
+  site-url: "https://stratobayes.github.io"
 
   sidebar:
     style: "docked"
@@ -16,7 +16,7 @@ website:
       - text: "Home"
         href: index.qmd
       - text: "Software"
-        href: software/index.html
+        href: software.qmd
       - text: "Website"
         href: https://stratobayes.com
       - text: "Workshop"
@@ -25,7 +25,6 @@ website:
 format:
   html:
     theme: cosmo
-    css: styles.css
     toc: false
 
 editor: visual
