@@ -9,6 +9,10 @@ slug: software
 ## About
 StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below. 
 
+> **Note**: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please [email us](mailto:kilian.eichenseer@durham.ac.uk).
+
+
+
 ## Installation
 <!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
 StratoBayes requires [**R version 4.4.x**](https://cran.r-project.org/) (currently supporting only version 4.4.x binaries). We recommend using R through the [RStudio IDE](https://posit.co/downloads/).

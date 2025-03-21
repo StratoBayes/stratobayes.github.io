@@ -100,7 +100,7 @@
     "href": "software.html#about",
     "title": "StratoBayes",
     "section": "About",
-    "text": "About\nStratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.",
+    "text": "About\nStratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.\n\nNote: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please email us.",
     "crumbs": [
       "Software"
     ]
