@@ -69,3 +69,5 @@ currently supports R 4.4 for Intel and for Apple silicon
 -->
 
 ## Using StratoBayes
+Please start with the [Vignette](/vignettes/StratoBayes.html) for an introduction to StratoBayes.
+To get help on individual functions, type e.g. `?StratData` in the console.

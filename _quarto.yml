@@ -17,6 +17,11 @@ website:
         href: index.qmd
       - text: "Software"
         href: software.qmd
+        contents:
+          - text: "Installation"
+            href: software.html#installation
+          - text: "Vignette"
+            href: vignettes/StratoBayes.qmd
       - text: "Website"
         href: https://stratobayes.com
       - text: "Workshop"
@@ -28,3 +33,6 @@ format:
     toc: false
 
 editor: visual
+
+resources:
+  - bin/**

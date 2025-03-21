@@ -144,12 +144,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Home</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./software.html" class="sidebar-item-text sidebar-link active">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./software.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./software.html#installation" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Installation</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./vignettes/StratoBayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vignette</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="https://stratobayes.com" class="sidebar-item-text sidebar-link">
@@ -253,6 +270,7 @@ currently supports R 4.4 for Intel and for Apple silicon
 </section>
 <section id="using-stratobayes" class="level2">
 <h2 class="anchored" data-anchor-id="using-stratobayes">Using StratoBayes</h2>
+<p>Please start with the <a href=".\vignettes/StratoBayes.html">Vignette</a> for an introduction to StratoBayes. To get help on individual functions, type e.g.&nbsp;<code>?StratData</code> in the console.</p>
 
 
 </section>
