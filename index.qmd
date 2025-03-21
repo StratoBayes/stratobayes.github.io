@@ -6,6 +6,6 @@
 
 ## 🔗 Explore
 
--   [**Software**](https://stratobayes.github.io/software/) – Download and use the free StratoBayes software for non-commercial use
+-   [**Software**](https://stratobayes.github.io/index) – Download and use the free StratoBayes software for non-commercial use
 -   [**Website**](https://stratobayes.com/) - A broader look at StratoBayes and a survey on commercial use
 -   [**Workshop**](https://stratobayes.github.io/workshop/) – Materials from the 2024 StratoBayes Workshop <!-- - **[GitHub](https://github.com/StratoBayes)** – Source code and development -->
