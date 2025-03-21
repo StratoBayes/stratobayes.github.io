@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Welcome to StratoBayes - Software</title>
+<title>Welcome to StratoBayes - StratoBayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -139,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Software</h1>
+<h1 class="title">StratoBayes</h1>
 </div>
 
 
@@ -159,24 +193,62 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Automated stratigraphic correlation and age modelling</strong></p>
 <section id="about" class="level2">
 <h2 class="anchored" data-anchor-id="about">About</h2>
-<p>Introduce the software… test 5</p>
+<p>StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.</p>
 </section>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p><a href="https://www.r-project.org/">R version 4.4</a> (4.4.0 - 4.4.3) and <a href="https://posit.co/downloads/">Rstudio</a> need to be installed.</p>
-<p>Open Rstudio.</p>
-<p>In the console, type</p>
-<p><code>install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)</code></p>
-<section id="windows" class="level3">
-<h3 class="anchored" data-anchor-id="windows">Windows</h3>
-<p>currently supports R 4.4</p>
-</section>
-<section id="macos" class="level3">
-<h3 class="anchored" data-anchor-id="macos">macOS</h3>
-<p>currently supports R 4.4 for Intel and for Apple silicon</p>
-</section>
-<section id="linux" class="level3">
-<h3 class="anchored" data-anchor-id="linux">Linux</h3>
+<!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
+<p>StratoBayes requires <a href="https://cran.r-project.org/"><strong>R version 4.4.x</strong></a> (currently supporting only version 4.4.x binaries). We recommend using R through the <a href="https://posit.co/downloads/">RStudio IDE</a>.</p>
+<section id="step-by-step-guide" class="level3">
+<h3 class="anchored" data-anchor-id="step-by-step-guide">Step-by-step guide</h3>
+<ol type="1">
+<li><strong>Install R and RStudio</strong>:
+<ul>
+<li><a href="https://cran.r-project.org/">Download and install R</a>, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).</li>
+<li><a href="https://posit.co/downloads/">Download and install RStudio</a> corresponding to your operating system.</li>
+</ul></li>
+</ol>
+<blockquote class="blockquote">
+<p><em>If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.</em></p>
+</blockquote>
+<ol start="2" type="1">
+<li><p><strong>Confirm R version in RStudio</strong>:</p>
+<ul>
+<li><p>Open RStudio.</p></li>
+<li><p>Select your R version via:</p>
+<pre><code>Tools → Global Options → General → R version</code></pre></li>
+<li><p>If not already selected, chose <strong>R version 4.4.x</strong> and restart RStudio to apply the change.</p></li>
+</ul></li>
+<li><p><strong>Install StratoBayes</strong>: Paste the following command into the R console within RStudio:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"StratoBayes"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"https://stratobayes.github.io"</span>, <span class="fu">getOption</span>(<span class="st">"repos"</span>)), </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">"binary"</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: Currently, StratoBayes binaries are only available for R version 4.4. Ensure your R installation meets this requirement to avoid compatibility issues.</p>
+</blockquote>
+<ol start="4" type="1">
+<li><p><strong>Load StratoBayes:</strong> Paste this into the R console within RStudio:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(StratoBayes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<!-- Once R and Rstudio are installed, open Rstudio. You can select the correct version of R in `Tools`  `Global Options...`  `R version:`, then restart Rstudio.
+
+In the console, type
+
+`install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)`
+
+-->
+<!-- ### Windows
+
+currently supports R 4.4
+
+### macOS
+
+currently supports R 4.4 for Intel and for Apple silicon
+
+### Linux
+-->
 </section>
 </section>
 <section id="using-stratobayes" class="level2">
