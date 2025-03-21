@@ -1,12 +1,13 @@
 ---
 title: "StratoBayes"
+format: html
 ---
 
 **Automated stratigraphic correlation and age modelling**
 
 ## About
 
-Introduce the software...
+Introduce the software... test
 
 ## Installation
 
