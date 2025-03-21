@@ -1,5 +1,5 @@
 ---
-title: "StratoBayes"
+title: "Software"
 format: html
 ---
 

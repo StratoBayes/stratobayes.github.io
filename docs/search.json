@@ -1,8 +1,8 @@
 [
   {
-    "objectID": "software/index.html",
-    "href": "software/index.html",
-    "title": "StratoBayes",
+    "objectID": "software.html",
+    "href": "software.html",
+    "title": "Software",
     "section": "",
     "text": "Automated stratigraphic correlation and age modelling",
     "crumbs": [
@@ -10,9 +10,9 @@
     ]
   },
   {
-    "objectID": "software/index.html#about",
-    "href": "software/index.html#about",
-    "title": "StratoBayes",
+    "objectID": "software.html#about",
+    "href": "software.html#about",
+    "title": "Software",
     "section": "About",
     "text": "About\nIntroduce the software… test",
     "crumbs": [
@@ -20,9 +20,9 @@
     ]
   },
   {
-    "objectID": "software/index.html#installation",
-    "href": "software/index.html#installation",
-    "title": "StratoBayes",
+    "objectID": "software.html#installation",
+    "href": "software.html#installation",
+    "title": "Software",
     "section": "Installation",
     "text": "Installation\nR version 4.4 (4.4.0 - 4.4.3) and Rstudio need to be installed.\nOpen Rstudio.\nIn the console, type\ninstall.packages(\"StratoBayes\", repos = c(\"https://stratobayes.github.io\", getOption(\"repos\")), type = \"binary\", dependencies = TRUE)\n\nWindows\ncurrently supports R 4.4\n\n\nmacOS\ncurrently supports R 4.4 for Intel and for Apple silicon\n\n\nLinux",
     "crumbs": [
@@ -30,9 +30,9 @@
     ]
   },
   {
-    "objectID": "software/index.html#using-stratobayes",
-    "href": "software/index.html#using-stratobayes",
-    "title": "StratoBayes",
+    "objectID": "software.html#using-stratobayes",
+    "href": "software.html#using-stratobayes",
+    "title": "Software",
     "section": "Using StratoBayes",
     "text": "Using StratoBayes",
     "crumbs": [
