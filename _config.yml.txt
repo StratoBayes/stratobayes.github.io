@@ -1,0 +1,20 @@
+title: Welcome to StratoBayes
+description: Automated stratigraphic correlation and age modelling
+
+# Base URL
+baseurl: ""  # the subpath of your site, e.g. /blog
+url: "https://stratobayes.github.io"  # the base hostname & protocol for your site
+
+# Build settings
+theme: minima  # This is a simple and minimal Jekyll theme that's included by default
+
+# Exclude files from the conversion
+exclude:
+  - README.md
+  - LICENSE
+  - .nojekyll
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - .gitignore
+  - .github/

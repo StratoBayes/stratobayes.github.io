@@ -1,8 +1,6 @@
 ---
 title: "Software"
-format:
-  html:
-    standalone: true
+format: html
 ---
 
 **Automated stratigraphic correlation and age modelling**
