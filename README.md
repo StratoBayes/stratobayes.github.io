@@ -1,4 +1,4 @@
-# StratoBayes_WorkshopWebsite
+# StratoBayes website
  
 The website can be modified by editing the .qmd files. Each .qmd file corresponds to a page. 
 
