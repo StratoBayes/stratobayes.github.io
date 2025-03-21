@@ -11,11 +11,11 @@ StratoBayes is implemented as a package for the R programming language. Please f
 
 > **Note**: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please [email us](mailto:kilian.eichenseer@durham.ac.uk).
 
-
-
 ## Installation
 <!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
 StratoBayes requires [**R version 4.4.x**](https://cran.r-project.org/) (currently supporting only version 4.4.x binaries). We recommend using R through the [RStudio IDE](https://posit.co/downloads/).
+
+> Binaries for R version 4.1.x up to 4.5.x and Linux binaries will be added soon.
 
 ### Step-by-step guide
 
@@ -23,7 +23,7 @@ StratoBayes requires [**R version 4.4.x**](https://cran.r-project.org/) (current
    - [Download and install R](https://cran.r-project.org/), ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).
    - [Download and install RStudio](https://posit.co/downloads/) corresponding to your operating system.
 
-> *If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. "Apple M1", "M2", or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require  R “For older Intel Macs".*
+> If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. "Apple M1", "M2", or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require  R “For older Intel Macs".
 
 2. **Confirm R version in RStudio**:
    - Open RStudio.
