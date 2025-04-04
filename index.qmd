@@ -7,5 +7,6 @@
 ## 🔗 Explore
 
 -   [**Software**](https://stratobayes.github.io/software.html) – Download and use the free StratoBayes software for non-commercial use
+-   [**Preprint**](https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1355/) - Detailed description of the StratoBayes algorithm and a case study with early Cambrian stratigraphic data 
 -   [**Website**](https://stratobayes.com/) - A broader look at StratoBayes and a survey on commercial use
 -   [**Workshop**](https://stratobayes.github.io/workshop/) – Materials from the 2024 StratoBayes Workshop <!-- - **[GitHub](https://github.com/StratoBayes)** – Source code and development -->
