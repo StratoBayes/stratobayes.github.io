@@ -9,4 +9,4 @@ LinkingTo: Rcpp, RcppEigen (>= 0.3.3.9.1)
 Suggests: gridExtra, knitr, Matrix, rmarkdown, testthat (>= 3.0),
         vdiffr,
 License: file LICENSE
-MD5sum: 132bcc1556520f6e1fe07a6c45d056da
+MD5sum: 2e3507eb6e497e7086f0c2668b0ebf45
