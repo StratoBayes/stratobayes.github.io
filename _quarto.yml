@@ -22,6 +22,8 @@ website:
             href: software.html#installation
           - text: "Vignette"
             href: vignettes/StratoBayes.qmd
+          - text: "Tutorial 1"
+            href: tutorial-1/StratoBayes-Tutorial-1.qmd
       - text: "Preprint"
         href: https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1355/
       - text: "Website"
@@ -38,3 +40,5 @@ editor: visual
 
 resources:
   - bin/**
+  - tutorial-1/StratoBayes-Tutorial-1.zip**
+
