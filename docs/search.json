@@ -118,111 +118,111 @@
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "",
     "text": "For more information on StratoBayes, or to install the software, please visit https://stratobayes.github.io/.\nResources:\n- 📥 Download tutorial as ZIP\n- 📄 View .qmd on GitHub\n- 📦 View data on GitHub\nThe goal of this tutorial is to take stratigraphic data from two sections and shift and stretch or squeeze one section relative to the other, to align them:\nFigure 1: Sulphur isotope data from two sites on their original depth scale.\n\n\n\n\n\n \n\n\n\n\n\n\n\n\nFigure 2: North Sea data has been shifted and squeezed to align with the Staithes data.\nIn the figure above, the depths associated with the sulphur isotope data from a North Sea well (blue) have been transformed to match the data from the Staithes well (red).\nBelow is a step-by-step guide to correlate the two wells using the StratoBayes R package, starting with an introduction to the data sets involved.",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#reading-data-with-stratobayes",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#reading-data-with-stratobayes",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Reading data with StratoBayes",
     "text": "Reading data with StratoBayes\nNow we can process this data with the StratoBayes package. First, we need to load the package:\n\n# load the StratoBayes library\nlibrary(\"StratoBayes\")\n\nWe start by reading it with the StratData() function. We specify “d34S” as the name of the column holding our stratigraphic signal. As the Staithes section has a lot more data than the North Sea section, we specify “Staithes” as our reference site. Because the data are organized along depth – representing the vertical (or “z”) stratigraphic dimension – and this information is stored in the “depth” column, we set both zScale and zColumn to “depth”.\n\n# read data with the StratData function\nstratDat &lt;- StratData(signal = dataset, signalColumn = \"d34S\", \n                      referenceSite = \"Staithes\", \n                      zScale = \"depth\", zColumn = \"depth\")\n# check the class of this object\nclass(stratDat)\n\n[1] \"StratData\" \"list\"     \n\n\nstratDat is now an object of class “StratData”. The print() function will recognise this and print some information on the dataset:\n\n# this is equivalent to print(stratDat) or print.StratData(stratDat)\nstratDat\n\nStratigraphic data comprising 1 signal from 2 sites\n\n\nThe plot() function visualises the signal data from both sites:\n\n# visualise stratDat using plot.StratData(stratDat)\nplot(stratDat)\n\n\n\n\n\n\n\nFigure 5: Sulphur isotope data from the Staithes and the North Sea well\n\n\n\n\n\nNotice that depths have been internally multiplied by -1 to allow for calculations as if measurements were on the height scale, and for easier plotting.",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#building-a-stratigraphic-model",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#building-a-stratigraphic-model",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Building a stratigraphic model",
     "text": "Building a stratigraphic model\nWe can now think about how we want to align the two sections. A simple option would be to shift the North Sea section and apply a “stretch” factor that compresses the section to match the Staithes section. The Staithes section is thus our reference section and remains unchanged. We need a single “stretch” factor or sedimentation rate (\\(\\gamma\\)) for the aligned section, as well as an offset or shift that corresponds to the depth in the reference section to which the bottom of the aligned section will be shifted (\\(\\alpha\\)).\nCalculating the depth at the reference site (Staithes) that corresponds to a depth at the North Sea site is done as follows: \\[depth_{Staithes} = \\alpha + \\gamma * \\Delta_{North Sea}~,\\]\nwhere \\(\\Delta_{North Sea}\\) is the distance from the bottom of the North Sea section to the depth of interest.\nNote that depths are internally multiplied by -1 to allow for calculations as if measurements were on the height scale, and for easier plotting.",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#the-bayesian-framework",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#the-bayesian-framework",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "The Bayesian framework",
     "text": "The Bayesian framework\nHow do we find the \\(\\alpha\\) and \\(\\gamma\\) that lead to the best alignment?\nStratoBayes estimates those parameters in the Bayesian framework by\n\nplacing priors on \\(\\alpha\\) and \\(\\gamma\\)\ndefining a likelihood based on the deviations of the sulphur isotope data from a cubic spline fitted to the (depth-shifted) sulphur isotope data from both sites\nrunning a Markov-chain Monte Carlo (MCMC) simulation to find the posterior distribution of \\(\\alpha\\) and \\(\\gamma\\)",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#priors",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#priors",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Priors",
     "text": "Priors\nWe will need to place priors on the shift and the stretch factor. To find out what the priors need to look like, we use the StratModelTemplate() function. We specify that the sections will be aligned on a height or depth scale (alignmentScale = “height”), rather than on an age scale. We further specify that our sedimentation rate model has one rate per site (sedModel = “site”).\n\n# get a template for the priors\nStratModelTemplate(stratData = stratDat, alignmentScale = \"height\", sedModel = \"site\")\n\n\npriors &lt;- structure(list(\n  \"alpha_North Sea\" = UniformPrior(min = , max = ),\n  \"gammaLog_North Sea\" = NormalPrior(mean = , sd = )),\n  class = c(\"StratPrior\", \"list\"))\n\nmodel &lt;- StratModel(stratData = stratDat,\n                    priors = priors,\n                    alignmentScale = \"height\",\n                    sedModel = \"site\",\n                    alphaPosition = \"middle\",\n                    nKnots = 25)\n\nresult &lt;- RunStratModel(stratObject = stratDat,\n                        stratModel = model,\n                        nRun = 1,\n                        nIter = 1000)\n\n\n`stratData` consists of depth-scale measurements. To facilitate data processing, depths have been converted to heights by multiplying them by `-1`. Please use negative depths (i.e. heights) to specify the priors on `alpha` parameters.\n\n\nThe template suggests using a uniform prior for the shift \\(\\alpha\\), and to use a normal prior for the stretch factor on the log scale, \\(\\log \\gamma\\). The log scale is used for \\(\\gamma\\) as this ensures that ratios are treated symmetrically, and that \\(\\gamma\\) cannot be negative.\nBecause we are working on the depth scale, we need to specify priors on \\(\\alpha\\) on the negative depth scale.\nTo allow the possibility for partial overlap with the Staithes section, we can for example allow \\(\\alpha\\) to range from -2000 to -500. For the relative sedimentation rate \\(\\gamma\\), we might initially assume that it may be around 1, which would imply equivalent sedimentation rates in the Staithes and the North Sea section. We use a mean of \\(\\log(1) = 0\\), and a standard deviation of \\(1/2\\).\n\n# fill the prior template\npriors &lt;- structure(list(\n  `alpha_North Sea` = UniformPrior(min = -2000, max = -500),\n  `gammaLog_North Sea` = NormalPrior(mean = 0, sd = 0.5)),\nclass = c(\"list\", \"StratPrior\"))",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#running-the-model",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#running-the-model",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Running the model",
     "text": "Running the model\nTo run the MCMC to estimate the posterior of the model parameters, we need to pass stratDat and the priors to the RunStratModel() function. We also need to specify that the model should be run on the “height” scale (as opposed to the “age” scale), and that our sedimentation rate model equals one rate per “site”. We run a single model run (nRun = 1) for 4000 iterations (nIter = 4000).\n\n# run model and save results to an R object named \"result\"\nresult &lt;- RunStratModel(stratObject = stratDat, alignmentScale = \"height\", \n                        sedModel = \"site\", priors = priors,  \n                        nRun = 1, nIter = 4000)",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#plotting-an-alignment",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#plotting-an-alignment",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Plotting an alignment",
     "text": "Plotting an alignment\nWe can visualise the correlation resulting from the model run with the plot function. Again, the function will recognise that result is an object of class “StratPosterior” and visualise it accordingly. We can use standard plot arguments such as “xlab” to modify the resulting figure.\n\nplot(result, xlab = expression(delta ^ 34 * S))\n\n\n\n\n\n\n\nFigure 6: Most likely alignment estimated by the model run. The North Sea data are plotted at the median reference section depths.\n\n\n\n\n\nPer default, plot() shows the data from the reference site (Staithes) along with the shifted section (North Sea) on the depth scale of the reference section. The heights of the data points from the North Sea curve are drawn using the iteration that is closest to median reference section depths (\\(50^{th}\\) percentile) of a subset of reference depths (see Eichenseer et al. in review), calculated from the posterior draws corresponding to the most likely alignment (alignment 1/2). In this case, the result suggests more than one (i.e. two) possible alignments. The different, discrete alignments are determined by performing a clustering analysis on the posterior samples of the model parameters, \\(\\alpha_{North Sea}\\) and \\(\\log \\gamma_{North Sea}\\) in our case. Per default, the first half of all samples (iterations of the MCMC) are discarded as burn-in, and are not included in the clustering analysis or in the display of the results.\nLet us visualise the other possible alignments alongside the first:\n\npar(mar = c(4, 4, 1, 1), mfrow = c(1, 2))\nplot(result, xlab = expression(delta^34*S), overridePar = FALSE, separateSites = F)\nplot(result, xlab = expression(delta^34*S), overridePar = FALSE, alignment = 2, separateSites = F)\n\n\n\n\n\n\n\nFigure 7: Three distinct alignments found in the posterior of the model run.\n\n\n\n\n\nThe two alignments don’t look very different – the major peak at -600 m is always aligned.",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#the-parameter-estimates",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#the-parameter-estimates",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "The parameter estimates",
     "text": "The parameter estimates\nTo understand why the results suggest these different alignments, we can inspect the parameter estimates. Visualising the posterior samples in a histogram works with the hist() function. We want to show both the \\(\\alpha_{North Sea}\\) and \\(\\log \\gamma_{North Sea}\\) parameters, and colour the parameter values by the alignment they have been classified in the cluster analysis:\n\npar(mar = c(4, 4, 0.5, 0.5))\nhist(result, parameters = c(1, 2), colourBy = \"alignment\", prior = F)\n\n\n\n\n\n\n\nFigure 8: Histograms of the posterior samples of the alpha and gamma parameter.\n\n\n\n\n\nNow it is more clear why the results suggest two distinct alignments. The clustering algorithm has cut the left tail of the distributions, and a few posterior samples have not been assigned to any cluster (“alignment 0”).\nWe can also visualise the parameters in 2D:\n\nScatterPlot(result, colourBy = \"alignment\")\n\n\n\n\n\n\n\nFigure 9: Cross plot of the posterior samples of the alpha and gamma parameter.\n\n\n\n\n\nIf we are unhappy with the clustering analysis, we could try to change it. For example, we could use the hierarchical dbscan (“hdbscan”) method instead of the default protoclust (“proto”) method, using the Cluster() function:\n\nnewClust &lt;- Cluster(result, clusterMethod = \"hdbscan\", minPts = 10)\nScatterPlot(result, colourBy = \"alignment\", stratCluster = newClust)\n\n\n\n\n\n\n\nFigure 10: Cross plot of the posterior samples of the alpha and gamma parameter, using hdbscan clustering\n\n\n\n\n\nThis looks like a more natural separation into two clusters.",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#assessing-convergence",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#assessing-convergence",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Assessing convergence",
     "text": "Assessing convergence\nAn important step in evaluating the model results is to check whether the chain(s) of our Markov chain Monte Carlo simulation have converged. Trace plots, in which the posterior samples of model parameters are shown in the order in which they were obtained, are a great tool for that:\n\npar(mar = c(4, 4, 0.5, 0.5))\nTracePlot(result, parameters = c(1, 2))\n\n\n\n\n\n\n\nFigure 11: Trace plot showing the posterior samples of the alpha and gamma parameter in the sequence in which they were obtained during the MCMC (after burn-in).\n\n\n\n\n\nHere we can see that the chain looks like it may have converged (the posterior samples don’t seem to shift into new, unexplored areas over time). There still seems to be a lot of autocorrelation in the chain, and if we had let the model run for longer, we would probably get somewhat different estimates for the model parameters and the probabilities of different alignments.\nAnother tool to assess convergence is to to look at the posterior probabilities associated with each of the samples obtained from the MCMC:\n\nTracePlot(result, parameters = \"posterior\")\n\n\n\n\n\n\n\nFigure 12: Evolution of the log posterior density during the MCMC (after burn-in).\n\n\n\n\n\nThe log posterior being relatively stable is a good sign. If it would increase with increasing iteration number, this would be a tell that the chain hasn’t converged yet.\nIdeally, more than one independent model run is conducted. If they all give a similar answer, that is a good sign.",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html#depths-on-reference-scale",
     "href": "tutorial-1/StratoBayes-Tutorial-1.html#depths-on-reference-scale",
-    "title": "Tutorial 1: automated stratigraphic correlation using StratoBayes",
+    "title": "Tutorial 1: Using StratoBayes with real-world data",
     "section": "Depths on reference scale",
     "text": "Depths on reference scale\nTo get the depth in the reference section (Staithes) that correspond to the shifted depths of the aligned North Sea section, the StratMap() function can be used. For example, the depths at the Staithes site that correspond to \\(-1900 \\, \\text{m}\\) and \\(-2400 \\, \\text{m}\\) at the North Sea site (site = 2) can be computed as follows:\n\nStratMap(result, heights = c(-1900, -2400), site = 2, alignment = \"all\")\n\n  height      mean       sd      2.5%       50%     97.5%\n1  -1900 -636.8809 2.080428 -640.8139 -636.8918 -633.0691\n2  -2400 -956.8522 6.191525 -969.7813 -955.6859 -948.1615\n\n\nA depth of \\(-1900 \\, \\text{m}\\) from the North Sea well corresponds to a mean depth of \\(-637 \\, \\text{m}\\) in the Staithes well. Note that this depth comes with uncertainty, in this case, the 95% credible interval, spanned by the \\(0.025\\) and the \\(0.975\\) quantiles ranges from \\(-640.8 \\, \\text{ to } -633.1 \\, \\text{m}\\). This is quite a low uncertainty, as the the prominent \\(\\delta^{34}S_{evap}\\) peak allows for precise alignment.\nThe uncertainty around the reference depth corresponding to \\(-2400 \\, \\text{m}\\) in the North Sea well is much higher because each of the two distinct alignments shown earlier results in a different reference depth for the lower part of the section, and there is considerable variation also within the alignment clusters.\nIf we want to just use one alignment to compute the reference depth and uncertainty, we can specify for example alignment = 1 to use alignment 1:\n\nStratMap(result, heights = c(-1900, -2400), site = 2, alignment = 1)\n\n  height      mean       sd      2.5%       50%     97.5%\n1  -1900 -636.9152 2.101876 -640.8139 -636.9495 -633.0691\n2  -2400 -955.4025 3.829975 -963.2279 -955.1406 -948.0990\n\n\nHere, the uncertainty of the reference depth corresponding to \\(-2400 \\, \\text{m}\\) is much lower.\nWe can visualise the reference depths corresponding to North Sea depths by using the StratMapPlot() function:\n\nStratMapPlot(result, alignment = \"all\")\n\n\n\n\n\n\n\nFigure 13: Median depths (line) with 95% credible intervals (shading) in the reference section (Staithes) corresponding to depths in the North Sea section, using all alignments from the posterior (after burn-in).",
     "crumbs": [
       "Software",
-      "Tutorial 1"
+      "Tutorial - Permian case study"
     ]
   }
 ]

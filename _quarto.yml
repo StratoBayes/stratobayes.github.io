@@ -22,7 +22,7 @@ website:
             href: software.html#installation
           - text: "Vignette"
             href: vignettes/StratoBayes.qmd
-          - text: "Tutorial 1"
+          - text: "Tutorial - Permian case study"
             href: tutorial-1/StratoBayes-Tutorial-1.qmd
       - text: "Preprint"
         href: https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1355/

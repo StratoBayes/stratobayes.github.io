@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 1: automated stratigraphic correlation using StratoBayes"
+title: "Tutorial 1: Using StratoBayes with real-world data"
 #subtitle: "StratoBayes Workshop, 18-20 March 2024, Durham"
 
 # Define multiple outputs
