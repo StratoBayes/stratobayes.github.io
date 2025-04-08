@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 1: Using StratoBayes with real-world data"
+title: "Tutorial: Using StratoBayes with real-world data"
 #subtitle: "StratoBayes Workshop, 18-20 March 2024, Durham"
 
 # Define multiple outputs
@@ -13,12 +13,12 @@ format:
   #   fig-pos: 'H'
 ---
 
-> For more information on StratoBayes, or to install the software, please visit <https://stratobayes.github.io/>.  
-  *Resources:*  
-  - [📥 Download tutorial as ZIP](StratoBayes-Tutorial-1.zip)  
-  - [📄 View `.qmd` on GitHub](https://github.com/StratoBayes/stratobayes.github.io/tree/main/tutorial-1/StratoBayes-Tutorial-1.qmd)  
-  - [📦 View `data` on GitHub](https://github.com/StratoBayes/stratobayes.github.io/tree/main/tutorial-1/data/)  
-  
+> For more information on StratoBayes, or to install the software, please visit <https://stratobayes.github.io/>.\
+> *Resources:*\
+> - [📥 Download tutorial as ZIP](StratoBayes-Tutorial-1.zip)\
+> - [📄 View `.qmd` on GitHub](https://github.com/StratoBayes/stratobayes.github.io/tree/main/tutorial-1/StratoBayes-Tutorial-1.qmd)\
+> - [📦 View `data` on GitHub](https://github.com/StratoBayes/stratobayes.github.io/tree/main/tutorial-1/data/)
+
 The goal of this tutorial is to take stratigraphic data from two sections and shift and stretch or squeeze one section relative to the other, to align them:
 
 ```{r introductory plot of sections and alignment, echo = FALSE, fig.width=5, fig.height=5}
@@ -51,6 +51,7 @@ The authors correlated the two curves by visually matching several peaks and tro
 We will now try to recreate that correlation using StratoBayes.
 
 # Preparing the data
+
 [📥 Download the tutorial as ZIP](StratoBayes-Tutorial-1.zip) and unpack or extract it. Open the `StratoBayes-Tutorial-1.qmd` file to run the code chunks in this tutorial.
 
 We have downloaded the data from the North Sea well from the Supplementary Materials of [Salisbury et al. (2023)](https://doi.org/10.3389/feart.2023.1216365), and received the data from Staithes from the authors of [Salisbury et al. (2022)](https://doi.org/10.1038/s41598-022-21542-4). These data were saved as .xlsx files. To facilitate reading the data in R, we copied the relevant data (depth and $\delta^{34}S_{evap}$ measurements) into new Excel spreadsheets with clean column names, and saved them as .csv files.

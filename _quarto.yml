@@ -39,6 +39,7 @@ format:
 editor: visual
 
 resources:
+  - bin/*
   - bin/**
   - tutorial-1/StratoBayes-Tutorial-1.zip**
 
