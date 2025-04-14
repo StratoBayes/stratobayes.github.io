@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Using StratoBayes with real-world data"
+title: "Using StratoBayes with real-world data"
 #subtitle: "StratoBayes Workshop, 18-20 March 2024, Durham"
 
 # Define multiple outputs
@@ -12,14 +12,13 @@ format:
   #   document: true
   #   fig-pos: 'H'
 ---
-
-> For more information on StratoBayes, or to install the software, please visit <https://stratobayes.github.io/>.\
+> For a basic introduction to StratoBayes, see the [StratoBayes vignette]( https://stratobayes.github.io/vignettes/StratoBayes.html). For more information, or to install the software, please visit <https://stratobayes.github.io/>.\
 > *Resources:*\
 > - [📥 Download tutorial as ZIP](StratoBayes-Tutorial-1.zip)\
 > - [📄 View `.qmd` on GitHub](https://github.com/StratoBayes/stratobayes.github.io/tree/main/tutorial-1/StratoBayes-Tutorial-1.qmd)\
 > - [📦 View `data` on GitHub](https://github.com/StratoBayes/stratobayes.github.io/tree/main/tutorial-1/data/)
 
-The goal of this tutorial is to take stratigraphic data from two sections and shift and stretch or squeeze one section relative to the other, to align them:
+This tutorial is to take stratigraphic data from two sections and shift and stretch or squeeze one section relative to the other, to align them:
 
 ```{r introductory plot of sections and alignment, echo = FALSE, fig.width=5, fig.height=5}
 #| label: fig-3

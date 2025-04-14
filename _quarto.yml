@@ -20,9 +20,9 @@ website:
         contents:
           - text: "Installation"
             href: software.html#installation
-          - text: "Vignette"
+          - text: "Getting started"
             href: vignettes/StratoBayes.qmd
-          - text: "Tutorial - Permian case study"
+          - text: "Real-world example"
             href: tutorial-1/StratoBayes-Tutorial-1.qmd
       - text: "Preprint"
         href: https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1355/
