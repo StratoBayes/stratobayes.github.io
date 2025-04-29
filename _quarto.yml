@@ -22,6 +22,12 @@ website:
             href: software.html#installation
           - text: "Getting started"
             href: vignettes/StratoBayes.qmd
+          - text: "Sedimentation rates/ gaps"
+            href: vignettes/Partitioning.qmd
+          - text: "Tie points"
+            href: vignettes/Tie-points.qmd
+          - text: "Age modelling"
+            href: vignettes/Age-modelling.qmd
           - text: "Real-world example"
             href: tutorial-1/StratoBayes-Tutorial-1.qmd
       - text: "Preprint"

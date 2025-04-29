@@ -1,0 +1,136 @@
+---
+title: "Improving correlations with tie points"
+# author: 
+#   - "Kilian Eichenseer <kilian.eichenseer@durham.ac.uk>"
+#   - "Matthias Sinnesael <msinnesam@tcd.ie>"
+#   - "Martin R. Smith <martin.smith@durham.ac.uk>"
+#   - "Andrew Millard <a.r.millard@durham.ac.uk>"
+# date: "`r Sys.Date()`"
+format: html
+vignette: >
+  %\VignetteIndexEntry{Tie-points}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "sans-serif",
+      webFont: "sans-serif"
+    }
+  });
+</script>
+
+<style>
+.mjx-chtml {
+  font-family: sans-serif !important;
+}
+</style>
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
+> StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at [https://stratobayes.github.io/](https://stratobayes.github.io/).
+For a basic introduction to StratoBayes, see the [StratoBayes vignette](https://stratobayes.github.io/vignettes/StratoBayes.html)
+
+This guide explains how you can incorporate tie points in your analysis. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
+
+Tie points are stratigraphic horizons which are assumed to have the same age across two or more sites. We can declare tie points either by their height or depth in a chosen reference section, or by absolute age (age-scale alignment). In this example, we use a tie point expressed in height at the reference section:
+
+![Tie-point example. The tie will be speficied for site2, with a height corresponding to the position of the tie point at the reference site (site1).](images/vignette-ties-1.png){width=45%}  
+
+We will be using the above data set, `signalData5`. An initial model run without using tie points (using `stratData5a`) shows that the signal of $site2$ could match any one of three distinct positions in the reference site ($site1$):
+
+``` {r plot stratPosterior5a}
+library(StratoBayes) # loading StratoBayes
+plot(stratPosterior5a, alignment = 1:3, ylab = "height (m)")
+```
+## Specifying tie points
+Now, we want to include a tie point. Assume we know that the positive peak of $site2$ at `r round(stratData5b$ties$height,1)` m roughly corresponds to the second peak of the reference site ($site1$); this would be a height of $2.5 \pi \approx 7.85~\text{m}$. To express our uncertainty on the exact horizon on the reference scale, we use a probability distribution rather than a single value. In this case, we use a normal distribution with mean $\approx 7.85~\text{m}$ and a standard deviation of $1~\text{m}$. 
+
+We can include this knowledge with a `ties` dataframe. Every row of the dataframe represents a tie point and needs a `site` and a `height` column. We also need to specify the `mean` and the standard deviation (`sd`) of the height at the reference site that corresponds to the height of the tie point.
+
+``` {r ties df}
+tiesData5 <- data.frame(site = "site2",
+                        height = 3.72,
+                        mean = 2.5 * pi,
+                        sd = 1)
+```
+
+## Non-normal uncertainty
+Sometimes the normal distribution is not the best way to capture the uncertainty on a tie point. Instead, we can specify any R probability density in the ties dataframe. Instead of `mean` and `sd`, we can provide the name of a probability density function (e.g. `"dnorm"` for the normal distribution, `"dunif"` for the uniform distribution, ...) and the numerical arguments that define the distribution, in the order they appear in. If we check `?dnorm`, we see the arguments are `x`, `mean`, `sd` and `log`. The first formal argument of every density function (`x`) and the optional `log` argument are supplied automatically by the algorithm, so you should not include either of them. For the normal distribution `arg1` corresponds to the `mean`, and `arg2` to `sd`:
+
+``` {r ties df densityFun}
+tiesData5 <- data.frame(site = "site2",
+                        height = 3.72,
+                        densityFun = "dnorm",
+                        arg1 = 2.5 * pi,
+                        arg2 = 1)
+```
+
+> StratoBayes does not allow for fixed tie points to be declared via the `ties` dataframe. However, a single fixed tie point per site can be specified via the $\alpha$ parameters in the prior  
+(see `?StratModelTemplate` and `?Priors`).
+
+## Running a model with tie points
+We can now create a `StratData` object using the `signalData5` and the `tiesData5` dataframes:
+
+``` {r StratData}
+stratData5b <- StratData(signal = signalData5, ties = tiesData5, referenceSite = "site1")
+summary(stratData5b)
+```
+The horizons with tie points can be visiualised by using the `show = "partition"` option from `plot.StratData()`, with asterisks indicating tie points: 
+``` {r plot StratData}
+plot(stratData5b, show = "partition")
+```
+
+We can now define the priors and model, and run the model, as usual. The tie point will be incorporated based on its presence in `stratData`.
+``` {r run model, eval = FALSE}
+# get min and max height of reference site for prior
+site1Min <- min(signalData5$height[signalData5$site == "site1"])
+site1Max <- max(signalData5$height[signalData5$site == "site1"])
+# define prior
+stratPrior5 <- structure(list(
+  "alpha_site2" = UniformPrior(min = site1Min, max = site1Max),
+  "gammaLog_site2" = NormalPrior(mean = 0, sd = log(2))),
+  class = c("StratPrior", "list"))
+# define model
+stratModel5b <- StratModel(stratData = stratData5b,
+                           priors = stratPrior5,
+                           alignmentScale = "height",
+                           sedModel = "site",
+                           alphaPosition = "middle",
+                           nKnots = 15,
+                           sigmaFixed = T)
+# run model
+stratPosterior5b <- RunStratModel(stratObject = stratData5b,
+                                  stratModel = stratModel5b,
+                                  nRun = 3,
+                                  nIter = 4000,
+                                  nThin = 10,
+                                  runParallel = TRUE)
+```
+                                  
+## Results  
+
+The model run now identified a single alignment solution, instead of three when the tie point was not incorporated:
+``` {r plot alignment}
+plot(stratPosterior5b, ylab = "reference height (m)")
+```
+
+We can use the `StratMap()` function to check whether the reference height estimate of the tie point indeed matches the specified normal distribution (with $\text{mean}\approx 7.85\,\text{m}$). The tie point height (at $site2$) was $3.72\,\text{m}$:
+
+``` {r StratMap}
+StratMap(stratPosterior5b, height = 3.72, site = 2)
+```
+
+``` {r StratMap values, echo = FALSE}
+posteriorTie <- round(StratMap(stratPosterior5b, height = 3.72, site = 2)[ ,c("mean", "sd")],2)
+```
+The posterior mean estimate for the tie point $`{r} posteriorTie[[1]]`\,\text{m}$ is very close to the mean of the normal distribution. The standard deviation is much lower ($`{r} posteriorTie[[2]]`\,\text{m}$) than the standard deviation specified in the `ties` dataframe ($1\,\text{m}$). We can interprete this to mean that the tie point has excluded the alternative alignments (top and bottom wiggle of of the sign wave of $site1$), but the exact position on the middle wiggle was specified by matching the signals (and not simply determined by the tie point).
+
+## Next steps
+- [Partitioning data](https://stratobayes.github.io/vignettes/Partitioning-data.html) allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations  
+- [Age scale correlation and age modelling](https://stratobayes.github.io/vignettes/Tie-points.html) allows for dating sections using absolute age constraints

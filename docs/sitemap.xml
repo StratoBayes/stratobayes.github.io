@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://stratobayes.github.io/vignettes/StratoBayes.html</loc>
-    <lastmod>2025-03-21T12:51:22.501Z</lastmod>
+    <loc>https://stratobayes.github.io/vignettes/Tie-points.html</loc>
+    <lastmod>2025-04-29T15:03:18.608Z</lastmod>
   </url>
   <url>
-    <loc>https://stratobayes.github.io/software.html</loc>
-    <lastmod>2025-04-14T10:32:17.607Z</lastmod>
-  </url>
-  <url>
-    <loc>https://stratobayes.github.io/index.html</loc>
-    <lastmod>2025-04-08T15:26:29.860Z</lastmod>
+    <loc>https://stratobayes.github.io/vignettes/Partitioning.html</loc>
+    <lastmod>2025-04-29T14:59:35.153Z</lastmod>
   </url>
   <url>
     <loc>https://stratobayes.github.io/tutorial-1/StratoBayes-Tutorial-1.html</loc>
-    <lastmod>2025-04-14T10:27:59.777Z</lastmod>
+    <lastmod>2025-04-29T15:46:53.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://stratobayes.github.io/index.html</loc>
+    <lastmod>2025-04-29T15:46:53.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://stratobayes.github.io/software.html</loc>
+    <lastmod>2025-04-29T15:46:53.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://stratobayes.github.io/vignettes/Age-modelling.html</loc>
+    <lastmod>2025-04-29T14:59:12.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://stratobayes.github.io/vignettes/StratoBayes.html</loc>
+    <lastmod>2025-04-29T14:57:25.592Z</lastmod>
   </url>
 </urlset>

@@ -1,118 +1,134 @@
 [
   {
-    "objectID": "vignettes/StratoBayes.html",
-    "href": "vignettes/StratoBayes.html",
-    "title": "How to use ‘StratoBayes’",
+    "objectID": "vignettes/Tie-points.html",
+    "href": "vignettes/Tie-points.html",
+    "title": "Improving correlations with tie points",
     "section": "",
-    "text": "StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at https://stratobayes.github.io/.\nThis guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please let us know if you have any issues or suggestions on improving this documentation.\nWe start by loading the library:\nlibrary(\"StratoBayes\")\nSetting a random seed ensures the consistency of results:\nset.seed(0)",
+    "text": "StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at https://stratobayes.github.io/. For a basic introduction to StratoBayes, see the StratoBayes vignette\nThis guide explains how you can incorporate tie points in your analysis. Please let us know if you have any issues or suggestions on improving this documentation.\nTie points are stratigraphic horizons which are assumed to have the same age across two or more sites. We can declare tie points either by their height or depth in a chosen reference section, or by absolute age (age-scale alignment). In this example, we use a tie point expressed in height at the reference section:\nWe will be using the above data set, signalData5. An initial model run without using tie points (using stratData5a) shows that the signal of \\(site2\\) could match any one of three distinct positions in the reference site (\\(site1\\)):\nlibrary(StratoBayes) # loading StratoBayes\nplot(stratPosterior5a, alignment = 1:3, ylab = \"height (m)\")",
     "crumbs": [
       "Software",
-      "Getting started"
+      "Tie points"
     ]
   },
   {
-    "objectID": "vignettes/StratoBayes.html#loading-the-data",
-    "href": "vignettes/StratoBayes.html#loading-the-data",
-    "title": "How to use ‘StratoBayes’",
-    "section": "Loading the data",
-    "text": "Loading the data\nThe function StratData() is used for loading data containing the geological signal used for correlation, and, optionally, dates and partitioning information. The function can read CSV files directly, if the paths to the files are specified. Alternatively, R data.frames can be provided as input.\nHere, we read the signalData0 data.frame included in this package, containing a simulated signal recorded at two sites:\n\ndata(signalData0, package = \"StratoBayes\") # load data from package\nhead(signalData0)\n##    site    height      value\n## 1 site1 16.902344 -1.5092049\n## 2 site1  5.004720  0.8027955\n## 3 site1  7.014370  1.6707740\n## 4 site1 10.798032 -0.3173079\n## 5 site1 17.119314 -1.9677405\n## 6 site1  3.801615  1.5792926\n\nWe can transform it into a StratData object, which tabulates the information in the format required to run a stratigraphic model, with StratData():\n\nstratDat &lt;- StratData(signal = signalData0)\n\nAlternatively, we can read the data directly from a csv file:\n\ncsvPath &lt;- system.file(\"extdata\", \"signalData0.csv\", package = \"StratoBayes\")\nstratDat &lt;- StratData(signal = csvPath)\n\nWe can use the plot() method to visualize the raw data:\n\nplot(stratDat)",
+    "objectID": "vignettes/Tie-points.html#specifying-tie-points",
+    "href": "vignettes/Tie-points.html#specifying-tie-points",
+    "title": "Improving correlations with tie points",
+    "section": "Specifying tie points",
+    "text": "Specifying tie points\nNow, we want to include a tie point. Assume we know that the positive peak of \\(site2\\) at 3.7 m roughly corresponds to the second peak of the reference site (\\(site1\\)); this would be a height of \\(2.5 \\pi \\approx 7.85~\\text{m}\\). To express our uncertainty on the exact horizon on the reference scale, we use a probability distribution rather than a single value. In this case, we use a normal distribution with mean \\(\\approx 7.85~\\text{m}\\) and a standard deviation of \\(1~\\text{m}\\).\nWe can include this knowledge with a ties dataframe. Every row of the dataframe represents a tie point and needs a site and a height column. We also need to specify the mean and the standard deviation (sd) of the height at the reference site that corresponds to the height of the tie point.\n\ntiesData5 &lt;- data.frame(site = \"site2\",\n                        height = 3.72,\n                        mean = 2.5 * pi,\n                        sd = 1)",
     "crumbs": [
       "Software",
-      "Getting started"
+      "Tie points"
     ]
   },
   {
-    "objectID": "vignettes/StratoBayes.html#model-set-up",
-    "href": "vignettes/StratoBayes.html#model-set-up",
-    "title": "How to use ‘StratoBayes’",
-    "section": "Model set-up",
-    "text": "Model set-up\n\nNow, we want to specify a stratigraphic correlation model that takes \\(site1\\) as the reference section, and shifts and stretches the signal of \\(site2\\) to achieve the best possible fit to the data of \\(site1\\).\nThe nature of the data informs the type of model we might use. In this case, we have no absolute age information, such as radiometric dates. We will thus fit the model on the “height” scale. \nFurthermore, we don’t have information on potential sedimentation rate changes within the sections, e.g. due to lithology changes. We will therefore chose a simple model that assumes a uniform sedimentation rate within each section, but allows for sedimentation rates to differ from site to site .\nThe model used here will employ two parameters, denoting the offset of \\(site2\\) relative to \\(site1\\), \\(\\alpha_{site\\_2}\\), and the natural logarithm of the sedimentation rate of \\(site2\\), relative to \\(site1\\), \\(ln(\\gamma_{site\\_2})\\). The reference site \\(site1\\) remains unchanged. In this model, a sedimentation rate of \\(ln(\\gamma_{site\\_2}) = ln(3) \\approx 1.1\\) would mean that the sedimentation rate of \\(site2\\) is three times as high as that of \\(site1\\). Using the log-scale for the rate parameters ensures that the prior on the rate is symmetric; a doubling or halving of the rate has equivalent distances on the log-scale.\n\nPriors\nAs we are working in a Bayesian framework, we need to specify priors for those two parameters. The helper function StratModelTemplate() will tell us which priors we need to specify, and provides the code needed to run the model. When calling this function, we will specify that our model should be on the \"height\" scale (alignmentscale = \"height\"), since we don’t have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each \"site\" (sedModel = \"site\"). We further specify that the offset of \\(site2\\) relative to \\(site1\\), \\(\\alpha_{site\\_2}\\), refers to the \"middle\" of \\(site\\_2\\) (alphaPosition = \"middle\"). Here, we will use a uniform prior on the \\(\\alpha\\) parameter, and a normal prior on the \\(ln(\\gamma)\\) parameters:\n\nStratModelTemplate(\n  stratDat,\n  alignmentScale = \"height\",\n  sedModel = \"site\",\n  alphaPosition = \"middle\",\n  alpha = \"uniform\",\n  gammaLog = \"normal\"\n)\n## \n## priors &lt;- structure(list(\n##   \"alpha_site2\" = UniformPrior(min = , max = ),\n##   \"gammaLog_site2\" = NormalPrior(mean = , sd = )),\n##   class = c(\"StratPrior\", \"list\"))\n## \n## model &lt;- StratModel(stratData = stratDat,\n##                     priors = priors,\n##                     alignmentScale = \"height\",\n##                     sedModel = \"site\",\n##                     alphaPosition = \"middle\",\n##                     nKnots = 25)\n## \n## result &lt;- RunStratModel(stratObject = stratDat,\n##                         stratModel = model,\n##                         nRun = 1,\n##                         nIter = 1000)\n\nNow, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from \\(0.25\\) to \\(18.7\\, \\text{m}\\). Using these as the min and max values for the uniform prior on \\(\\alpha_{site\\_2}\\) means that the mid height of \\(site2\\) may fall anywhere within the height range of \\(site_1\\). For the normal prior on the log of the sedimentation rate of \\(site\\_1\\) relative to \\(site\\_2\\) we use a mean of 0 (a log sedimentation rate of 0 corresponds to a relative sedimentation rate of, i.e. no stretching or squeezing of the signal). We set the standard deviation to \\(\\ln(2)\\), which places ~68% of the prior probability of this parameter on sedimentation rates between \\(0.5\\) and \\(2.0\\), with the remaining 32% being allocated to more extreme relative sedimentation rates.\n\npriors &lt;- structure(list(\n  \"alpha_site2\" = UniformPrior(min = 0.25, max = 18.7),\n  \"gammaLog_site2\" = NormalPrior(mean = 0, sd = log(2))),\n  class = c(\"StratPrior\", \"list\"))\n\n\n\nThe model object\nBefore being able to run the model, we have to create a model object. We can simply use the code suggested by the StratModelTemplate function, but because we have a small data set, we will decrease the number of knots for the splines to 10, which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.\n\nmodel &lt;- StratModel(stratData = stratDat,\n                    priors = priors,\n                    alignmentScale = \"height\",\n                    sedModel = \"site\",\n                    alphaPosition = \"middle\",\n                    nKnots = 10)",
+    "objectID": "vignettes/Tie-points.html#non-normal-uncertainty",
+    "href": "vignettes/Tie-points.html#non-normal-uncertainty",
+    "title": "Improving correlations with tie points",
+    "section": "Non-normal uncertainty",
+    "text": "Non-normal uncertainty\nSometimes the normal distribution is not the best way to capture the uncertainty on a tie point. Instead, we can specify any R probability density in the ties dataframe. Instead of mean and sd, we can provide the name of a probability density function (e.g. \"dnorm\" for the normal distribution, \"dunif\" for the uniform distribution, …) and the numerical arguments that define the distribution, in the order they appear in. If we check ?dnorm, we see the arguments are x, mean, sd and log. The first formal argument of every density function (x) and the optional log argument are supplied automatically by the algorithm, so you should not include either of them. For the normal distribution arg1 corresponds to the mean, and arg2 to sd:\n\ntiesData5 &lt;- data.frame(site = \"site2\",\n                        height = 3.72,\n                        densityFun = \"dnorm\",\n                        arg1 = 2.5 * pi,\n                        arg2 = 1)\n\n\nStratoBayes does not allow for fixed tie points to be declared via the ties dataframe. However, a single fixed tie point per site can be specified via the \\(\\alpha\\) parameters in the prior\n(see ?StratModelTemplate and ?Priors).",
     "crumbs": [
       "Software",
-      "Getting started"
+      "Tie points"
     ]
   },
   {
-    "objectID": "vignettes/StratoBayes.html#running-the-model",
-    "href": "vignettes/StratoBayes.html#running-the-model",
-    "title": "How to use ‘StratoBayes’",
-    "section": "Running the model",
-    "text": "Running the model\nWe will estimate the parameter values with the RunStratModel() function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. nIter specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 2,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the nThin parameter to thin the samples and keep only every 10th sample by setting nThin = 10. nRun determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting runParallel to TRUE allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the foreach and the doParallel R packages. Note that progress bars don’t work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when runParallel = TRUE. If you want to just do a single run, or several runs sequentially, set runParallel to FALSE.\n\nrunParallel &lt;- requireNamespace(\"doParallel\", quietly = TRUE) &&\n  parallel::detectCores() &gt; 1\nrunParallel\n## [1] TRUE\n\nWe run the model using the RunStratModel() function:\n\nresult &lt;- RunStratModel(stratObject = stratDat,\n                        stratModel = model,\n                        nRun = 3,\n                        nIter = 2000,\n                        nThin = 10,\n                        runParallel = runParallel)",
+    "objectID": "vignettes/Tie-points.html#running-a-model-with-tie-points",
+    "href": "vignettes/Tie-points.html#running-a-model-with-tie-points",
+    "title": "Improving correlations with tie points",
+    "section": "Running a model with tie points",
+    "text": "Running a model with tie points\nWe can now create a StratData object using the signalData5 and the tiesData5 dataframes:\n\nstratData5b &lt;- StratData(signal = signalData5, ties = tiesData5, referenceSite = \"site1\")\nsummary(stratData5b)\n## \n## Stratigraphic data from 2 sites:\n##   site1, site2\n## \n## 1 signal: value\n##   value:\n##     Points per site: 201, 60\n##     Signal spans: 21.4 m, 15.4 m\n##     Signal top: 20.1 m, 15.4 m\n##     Signal bottom: -1.3 m, 0 m\n## \n## Partitions: 1\n## \n## Ties (mean values): 7.85398163397448\n\nThe horizons with tie points can be visiualised by using the show = \"partition\" option from plot.StratData(), with asterisks indicating tie points:\n\nplot(stratData5b, show = \"partition\")\n\n\n\n\n\n\n\n\nWe can now define the priors and model, and run the model, as usual. The tie point will be incorporated based on its presence in stratData.\n\n# get min and max height of reference site for prior\nsite1Min &lt;- min(signalData5$height[signalData5$site == \"site1\"])\nsite1Max &lt;- max(signalData5$height[signalData5$site == \"site1\"])\n# define prior\nstratPrior5 &lt;- structure(list(\n  \"alpha_site2\" = UniformPrior(min = site1Min, max = site1Max),\n  \"gammaLog_site2\" = NormalPrior(mean = 0, sd = log(2))),\n  class = c(\"StratPrior\", \"list\"))\n# define model\nstratModel5b &lt;- StratModel(stratData = stratData5b,\n                           priors = stratPrior5,\n                           alignmentScale = \"height\",\n                           sedModel = \"site\",\n                           alphaPosition = \"middle\",\n                           nKnots = 15,\n                           sigmaFixed = T)\n# run model\nstratPosterior5b &lt;- RunStratModel(stratObject = stratData5b,\n                                  stratModel = stratModel5b,\n                                  nRun = 3,\n                                  nIter = 4000,\n                                  nThin = 10,\n                                  runParallel = TRUE)",
     "crumbs": [
       "Software",
-      "Getting started"
+      "Tie points"
     ]
   },
   {
-    "objectID": "vignettes/StratoBayes.html#processing-and-analysing-the-results",
-    "href": "vignettes/StratoBayes.html#processing-and-analysing-the-results",
-    "title": "How to use ‘StratoBayes’",
-    "section": "Processing and analysing the results",
-    "text": "Processing and analysing the results\nresult is now an object of class StratPosterior, which we can examine using the print(), summary(), and various plot methods. This particular result is also available for use in examples, without running the model, as package data stratPosterior0.\n\nresult\n## Posterior of stratigraphic model from 3 runs after 2000 iterations:\n##   Samples: 603 (201 per run)\n## \n## The model has 2 age-height parameters: \n##   alpha_site2, gammaLog_site2\n## \n##   Alignment scale: height\n##   Sedimentation model: site\n##   Alpha position: NA, 8.62\n##   Knots for spline: 10\n\n\nChecking for convergence\nThe first thing to do with the result of the model run is to check for convergence. Convergence means that the chains have reached a state were they are no longer influenced by their starting values, and they have thoroughly explored the parameter space. We also want to make sure that the chains are mixing well. This can be visually assessed with trace plots.\nTo plot the trace of \\(\\alpha_{site\\_2}\\) and \\(\\ln \\gamma_{site\\_2}\\), we can run:\n\nTracePlot(result, parameters = 1:2)\n\n\n\n\n\n\n\n\n\n\nVisual inspection of the trace plot shows that the chains are showing stable and overlapping patterns, suggesting that they have reached a stationary distribution and converged. For more information on assessing convergence, see Gelman et al. 2016, Chapter 11.4.\n\n\nPlotting alignments\nThe plot() function displays the alignment corresponding to an approximate multivariate median of the converted heights (see Eichenseer et al., submitted to Geochronology). If a Cluster analysis reveals more than one distinct possible alignment, the most likely alignment is shown by default.\n\nplot(result, alignment = \"all\")\n\n\n\n\n\n\n\n\n\n\nModel run summary\nThe summary() function generates a summary of information from the model run. If more than one cluster of possible alignments has been identified, it will display information for each alignment cluster.\n\nsummary(result)\n## \n## Posterior of stratigraphic model from 3 runs after 2000 iterations:\n## \n##   Total samples: 603 (201 per run).\n##   Statistics summarise 300 samples (100 per run), after discarding the first 50% of\n##   iterations from each run as burn-in.\n##   The acceptance rate of proposals across the selected iterations was 37%.\n##   'ess' is a measure of effective sample size, using coda::effectiveSize().\n## \n## Potential scale reduction factor: (Convergence when ~1.00)\n##   alpha_site2    0.99863\n##   gammaLog_site2 1.00292\n##   lambda_value   0.99642\n##   log prior      0.99489\n##   log likelihood 0.98968\n##   log posterior  0.99108\n## \n## Summary statistics for alignment 1 (of 1 alignments), comprising 300 samples (100%):\n##   Multivariate effective sample size of age-height parameters, using\n##   mcmcse::multiESS(): 300\n##                    mean      sd     2.5%      25%      50%      75%    97.5%\n## alpha_site2      9.4569 0.13336   9.1843   9.3728   9.4625   9.5508   9.7017\n## gammaLog_site2  1.01533 0.07013  0.89344  0.96734  1.01649  1.05203  1.17095\n## lambda_value    1.31973 0.61653  0.46745  0.89967  1.23938  1.59627  2.65167\n## log prior      -54.5889 2.75965 -61.9361 -55.9090 -54.6915 -52.2859 -49.8394\n## log likelihood -10.3881 3.69910 -19.8245 -12.4298  -9.8716 -7.53950 -4.74404\n## log posterior  -64.9771 2.93520 -71.5402 -66.4608 -64.6042 -62.9519 -60.1909\n##                    ess\n## alpha_site2    328.807\n## gammaLog_site2 300.000\n## lambda_value   300.000\n## log prior      300.000\n## log likelihood 300.000\n## log posterior  248.797\n\n\n\nStratigraphic mapping\nWith our age model, we can now convert any height from \\(site2\\) to the height scale of our reference section \\(site1\\) using the StratMap() function. For example, to give us the heights in section_1 corresponding to a height of 1 m in \\(site2\\), we can use:\n\nStratMap(result, heights = 1, site = \"site2\")\n##   height     mean        sd    2.5%      50%    97.5%\n## 1      1 6.688474 0.2671418 6.15726 6.682224 7.181895\n\nThis tells us that a height of 1 m at \\(site2\\) would correspond to a mean height of 6.7 m at \\(site1\\), for this alignment.\nWe can visualise the stratigraphic mapping of heights from \\(site2\\) to the reference height scale from \\(site1\\) using the StratMapPlot() function:\n\nStratMapPlot(result, site = \"site2\")",
+    "objectID": "vignettes/Tie-points.html#results",
+    "href": "vignettes/Tie-points.html#results",
+    "title": "Improving correlations with tie points",
+    "section": "Results",
+    "text": "Results\nThe model run now identified a single alignment solution, instead of three when the tie point was not incorporated:\n\nplot(stratPosterior5b, ylab = \"reference height (m)\")\n\n\n\n\n\n\n\n\nWe can use the StratMap() function to check whether the reference height estimate of the tie point indeed matches the specified normal distribution (with \\(\\text{mean}\\approx 7.85\\,\\text{m}\\)). The tie point height (at \\(site2\\)) was \\(3.72\\,\\text{m}\\):\n\nStratMap(stratPosterior5b, height = 3.72, site = 2)\n##   height     mean         sd     2.5%     50%   97.5%\n## 1   3.72 7.819069 0.07053555 7.691334 7.81787 7.96203\n\nThe posterior mean estimate for the tie point \\(7.82\\,\\text{m}\\) is very close to the mean of the normal distribution. The standard deviation is much lower (\\(0.07\\,\\text{m}\\)) than the standard deviation specified in the ties dataframe (\\(1\\,\\text{m}\\)). We can interprete this to mean that the tie point has excluded the alternative alignments (top and bottom wiggle of of the sign wave of \\(site1\\)), but the exact position on the middle wiggle was specified by matching the signals (and not simply determined by the tie point).",
     "crumbs": [
       "Software",
-      "Getting started"
+      "Tie points"
     ]
   },
   {
-    "objectID": "vignettes/StratoBayes.html#summary",
-    "href": "vignettes/StratoBayes.html#summary",
-    "title": "How to use ‘StratoBayes’",
-    "section": "Summary",
-    "text": "Summary\n\nOur model run identified the alignment that results in the best match of the proxy records from \\(site1\\) and \\(site1\\), and estimated the uncertainty associated with that alignment. The median sedimentation rate of \\(site2\\) relative to \\(site1\\), \\(\\gamma_{site\\_2} = \\exp(\\ln\\gamma_{site\\_2})\\), has been estimated at 2.8, meaning the analysis has “squeezed” the record of \\(site2\\) by a factor of 2.8 to match that of \\(site1\\).",
+    "objectID": "vignettes/Tie-points.html#next-steps",
+    "href": "vignettes/Tie-points.html#next-steps",
+    "title": "Improving correlations with tie points",
+    "section": "Next steps",
+    "text": "Next steps\n\nPartitioning data allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations\n\nAge scale correlation and age modelling allows for dating sections using absolute age constraints",
     "crumbs": [
       "Software",
-      "Getting started"
+      "Tie points"
     ]
   },
   {
-    "objectID": "software.html",
-    "href": "software.html",
-    "title": "StratoBayes",
+    "objectID": "vignettes/Partitioning.html",
+    "href": "vignettes/Partitioning.html",
+    "title": "Variable sedimentation rates and gaps: partitioning data",
     "section": "",
-    "text": "Automated stratigraphic correlation and age modelling",
+    "text": "StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at https://stratobayes.github.io/. For a basic introduction to StratoBayes, see the StratoBayes vignette\nThis guide explains how partitioning your data into segments allows StratoBayes to model changing sedimentation rates. Please let us know if you have any issues or suggestions on improving this documentation.\nWe start by loading StratoBayes and set a random seed for reproducibility:\nlibrary(\"StratoBayes\")\nset.seed(0)",
     "crumbs": [
-      "Software"
+      "Software",
+      "Sedimentation rates/ gaps"
     ]
   },
   {
-    "objectID": "software.html#about",
-    "href": "software.html#about",
-    "title": "StratoBayes",
-    "section": "About",
-    "text": "About\nStratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.\n\nNote: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please email us.",
+    "objectID": "vignettes/Partitioning.html#the-data",
+    "href": "vignettes/Partitioning.html#the-data",
+    "title": "Variable sedimentation rates and gaps: partitioning data",
+    "section": "The data",
+    "text": "The data\nIn this example, we use the included dataset signalData4. This data has been simulated with a hiatus (stratigraphic gap) at \\(site_2\\), and sedimentation rates differ between the bottom and the top stratigraphic partition (delineated by the hiatus):",
     "crumbs": [
-      "Software"
+      "Software",
+      "Sedimentation rates/ gaps"
     ]
   },
   {
-    "objectID": "software.html#installation",
-    "href": "software.html#installation",
-    "title": "StratoBayes",
-    "section": "Installation",
-    "text": "Installation\n\nStratoBayes requires R version 4.2.x – 4.5.x. We recommend using R through the RStudio IDE.\n\nBinaries are available for Windows and macOS.\n\n\nStep-by-step guide\n\nInstall R and RStudio:\n\nDownload and install R, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).\nDownload and install RStudio corresponding to your operating system.\n\n\n\nIf you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.\n\n\nConfirm R version in RStudio:\n\nOpen RStudio.\nSelect your R version via:\nTools → Global Options → General → R version\nIf not already selected, chose R version 4.5.x (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.\n\nInstall StratoBayes: Paste the following command into the R console within RStudio:\ninstall.packages(\"StratoBayes\", \n                 repos = c(\"https://stratobayes.github.io\", getOption(\"repos\")), \n                 type = \"binary\", \n                 dependencies = TRUE)\n\n\nNote: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.\n\n\nLoad StratoBayes: Paste this into the R console within RStudio:\nlibrary(StratoBayes)",
+    "objectID": "vignettes/Partitioning.html#building-the-partition-dataframe",
+    "href": "vignettes/Partitioning.html#building-the-partition-dataframe",
+    "title": "Variable sedimentation rates and gaps: partitioning data",
+    "section": "Building the partition dataframe",
+    "text": "Building the partition dataframe\nTo instruct StratoBayes how the data is segmented, we must construct a partition dataframe. This requires to specify the heights of the upper boundaries (tops) of the partitions.\nWhen specifying a hiatus within a stratigraphic sequence, the same height needs to appear twice – first as a hiatus (indicated by an NA in the partition column), and then as the top of the partition below.\n\nNote: At a minimum, the top height of every site must be recorded in the the partition dataframe.\n\nA partition dataframe needs to have the columns site, height, and partition.\n\nInstead of those names, different column names can be used by providing siteColumn, zColumn and/or partitionColumn arguments to the StratData function later on. The former two need to match the column names used in the signal dataframe.\n\nIn this example:\n- For \\(site_1\\), the maximum height value (or top of the sequence) is used to define a single partition for the whole site. As we will use \\(site_1\\) as the reference site (heights will be unchanged), additional partitions would not affect the analysis.\n- For \\(site_2\\), two partitions are specified: one for the part above the hiatus (for which we altered the sedimentation rate earlier) and one for part below.\nTo define the hiatus:\n- The gap height is included first with an NA to denote the break in continuity.\n- The same height is then specified as the top of the partition below the hiatus.\n\n# Determine the maximum recorded height for each site.\nsite1Max &lt;- max(signalData4$height[signalData4$site == \"site1\"])\nsite2Max &lt;- max(signalData4$height[signalData4$site == \"site2\"])\nhiatus &lt;- 3/2 * pi\nsite2BottomPartitionTop &lt;- hiatus # hiatus height needs to appear twice\n\n# construct the partition dataframe\npartsData4 &lt;- data.frame(\n  site = c(\"site1\", \"site2\", \"site2\", \"site2\"),\n  height = c(site1Max, site2Max, hiatus, site2BottomPartitionTop), \n  partition = c(\"partition site 1\", \"top partition\", NA, \"bottom partition\"))\n\n# print dataframe\npartsData4\n##    site    height        partition\n## 1 site1 24.948872 partition site 1\n## 2 site2 23.541414    top partition\n## 3 site2  4.712389             &lt;NA&gt;\n## 4 site2  4.712389 bottom partition\n\nWe can now create a StratData object from the signalData0b and the partsData0b objects with StratData():\n\nstratData4 &lt;- StratData(signal = signalData4, parts = partsData4)\n\nTo visualise the partitions, we can use the show = \"partition\" option of the plot.StratData() function:\n\nplot(stratData4, show = \"partition\", ylab = \"height (m)\")\n\n\n\n\n\n\n\n\nAlternatively, we can visualise the signals colour-coded by partition as in the figure at the beginning of this tutorial:\n\nplot(stratData4, colourBy = \"partition\", ylab = \"height (m)\")",
     "crumbs": [
-      "Software"
+      "Software",
+      "Sedimentation rates/ gaps"
     ]
   },
   {
-    "objectID": "software.html#using-stratobayes",
-    "href": "software.html#using-stratobayes",
-    "title": "StratoBayes",
-    "section": "Using StratoBayes",
-    "text": "Using StratoBayes\nPlease start with the Vignette for an introduction to StratoBayes:\nvignette(\"StratoBayes\")\nTo get help on individual functions, type e.g. ?StratData in the console.",
+    "objectID": "vignettes/Partitioning.html#model-set-up-and--run",
+    "href": "vignettes/Partitioning.html#model-set-up-and--run",
+    "title": "Variable sedimentation rates and gaps: partitioning data",
+    "section": "Model set-up and -run",
+    "text": "Model set-up and -run\nThe model-setup is analogous to the example in the How to use ‘StratoBayes’ vignette, with one key modification: We want to allow sedimentation rates to vary between partitions, so we specify sedModel = \"partition\".\n\nStratModelTemplate(\n  stratData4,\n  alignmentScale = \"height\",\n  sedModel = \"partition\",\n  alphaPosition = \"middle\",\n  alpha = \"uniform\",\n  gammaLog = \"normal\"\n)\n## \n## priors &lt;- structure(list(\n##   \"alpha_site2\" = UniformPrior(min = , max = ),\n##   \"gammaLog_bottom partition\" = NormalPrior(mean = , sd = ),\n##   \"gammaLog_top partition\" = NormalPrior(mean = , sd = ),\n##   \"gap_site2_1\" = ExponentialPrior(rate = )),\n##   class = c(\"StratPrior\", \"list\"))\n## \n## model &lt;- StratModel(stratData = stratData4,\n##                     priors = priors,\n##                     alignmentScale = \"height\",\n##                     sedModel = \"partition\",\n##                     alphaPosition = \"middle\",\n##                     nKnots = 25)\n## \n## result &lt;- RunStratModel(stratObject = stratData4,\n##                         stratModel = model,\n##                         nRun = 1,\n##                         nIter = 1000)\n\n\nPriors\nInstead of a site-specific sedimentation rate prior for \\(site_2\\) relative to \\(site_1\\), we now specify separate sedimentation rates for the bottom partition and top partition relative to \\(site_1\\).\nWe use the same \\(\\alpha\\) and \\(\\ln(\\gamma)\\) priors as previously, with \\(\\alpha\\) spanning the entirety of \\(site_1\\). We use normal prior for the relative sedimentation rates (on the logarithmic scale) of both partitions. The priors are centred at \\(0\\), reflecting our belief that the sedimentation rates at \\(site_1\\) and both partitions of \\(site_2\\) are broadly similar.\nWe also need to include a prior on the hiatus (“gap”) at \\(site_2\\). This prior represents our belief about the number of reference height units (e.g. meters) that correspond to the gap. In the absence of specific knowledge, we suggest using an exponential prior, which places most of the probability mass on values smaller than the height range of the reference site. In this example, we use an exponential prior with a rate parameter of \\(1/4\\).\n\nsite1Min &lt;- min(signalData4$height[signalData4$site == \"site1\"])\nsite1Max &lt;- max(signalData4$height[signalData4$site == \"site1\"])\n\nstratPrior4 &lt;- structure(list(\n  \"alpha_site2\" = UniformPrior(min = site1Min, max = site1Max),\n  \"gammaLog_bottom partition\" = NormalPrior(mean = 0, sd = log(2)),\n  \"gammaLog_top partition\" = NormalPrior(mean = 0, sd = log(2)),\n  \"gap_site2_1\" = ExponentialPrior(rate = 1/4)),\n  class = c(\"StratPrior\", \"list\"))\n\n\n\nRunning the model\nTo run the model, we create the model object using the code suggested earlier by StratModelTemplate() (using 15 knots to save time) and select the desired number of iterations and runs.\n\nstratModel4 &lt;- StratModel(stratData = stratData4,\n                    priors = stratPrior4,\n                    alignmentScale = \"height\",\n                    sedModel = \"partition\",\n                    alphaPosition = \"middle\",\n                    nKnots = 15,\n                    sigmaFixed = T)\n\nstratPosterior4 &lt;- RunStratModel(stratObject = stratData4,\n                        stratModel = stratModel4,\n                        nRun = 3,\n                        nIter = 10000,\n                        nThin = 25,\n                        runParallel = TRUE)",
     "crumbs": [
-      "Software"
+      "Software",
+      "Sedimentation rates/ gaps"
     ]
   },
   {
-    "objectID": "index.html#explore",
-    "href": "index.html#explore",
-    "title": "Welcome to StratoBayes",
-    "section": "🔗 Explore",
-    "text": "🔗 Explore\n\nSoftware – Download and use the free StratoBayes software for non-commercial use\nPreprint - Detailed description of the StratoBayes algorithm and a case study with early Cambrian stratigraphic data\nWebsite - A broader look at StratoBayes and a survey on commercial use\nWorkshop – Materials from the 2024 StratoBayes Workshop",
+    "objectID": "vignettes/Partitioning.html#results",
+    "href": "vignettes/Partitioning.html#results",
+    "title": "Variable sedimentation rates and gaps: partitioning data",
+    "section": "Results",
+    "text": "Results\nWe can see that the model run found an alignment solution that applies different sedimentation rates to the bottom and top partition of \\(site_2\\). It also identified that there is a gap of a few height units between the two partitions:\n\nplot(stratPosterior4, alignment = 1, colourBy = \"partition\", ylab = \"reference height (m)\")\n\n\n\n\n\n\n\n\nTo get summary statistics of the model parameters, we can use the summary() function. For brevity, we just print a subset of the summary:\n\nsummary(stratPosterior4)[[c(\"alignment1\", \"summary\")]]\n##                                   mean         sd         2.5%          25%\n## alpha_site2                 14.8273791 0.05729985   14.7286813   14.7861217\n## gammaLog_bottom partition    0.2653797 0.07075603    0.1519085    0.2082650\n## gammaLog_top partition       1.0079606 0.02770481    0.9573503    0.9905692\n## gap_site2_1                  2.5135618 0.15835828    2.2308204    2.4066265\n## lambda_value                 1.2786945 0.42988194    0.6010661    0.9588100\n## log prior                 -299.5788746 8.78321206 -316.9752550 -305.8923406\n## log likelihood              98.5137336 9.09694877   78.1285772   92.9639663\n## log posterior             -201.0651410 3.94462591 -209.2130156 -203.3586700\n##                                    50%          75%        97.5%      ess\n## alpha_site2                 14.8249733   14.8659686   14.9509883 343.5421\n## gammaLog_bottom partition    0.2577429    0.3174761    0.4056758 364.2266\n## gammaLog_top partition       1.0060646    1.0230780    1.0673169 478.3895\n## gap_site2_1                  2.5012097    2.6144596    2.8690735 367.7341\n## lambda_value                 1.2332032    1.5525960    2.2171121 600.0000\n## log prior                 -299.2585025 -292.6579155 -283.7066172 370.6999\n## log likelihood              98.9650366  105.2088067  112.8821157 407.1240\n## log posterior             -200.5465125 -198.0835508 -194.7860344 568.4914\n\nThe summary shows median (\"50%\") log sedimentation rates \\(\\ln(\\gamma)\\) of 0.26 for the bottom and 1.01 for the top partition of \\(site_2\\). These translate to a sedimentation rate (\\(\\gamma\\)) of the bottom partition of 1.29 relative to \\(site_1\\), and a relative sedimentation rate of 2.73 for the top partition. The hiatus is estimated as 2.50 \\(\\text{m}\\) on the reference scale.\nFor a visual summary of the posterior probability densities of parameters, we might use the BeanPlot() function:\n\nBeanPlot(stratPosterior4, parameters = 1:4)",
     "crumbs": [
-      "Home"
+      "Software",
+      "Sedimentation rates/ gaps"
+    ]
+  },
+  {
+    "objectID": "vignettes/Partitioning.html#next-steps",
+    "href": "vignettes/Partitioning.html#next-steps",
+    "title": "Variable sedimentation rates and gaps: partitioning data",
+    "section": "Next steps",
+    "text": "Next steps\n\nTie points can improve correlations where available\n\nAge scale correlation and age modelling allows for dating sections using absolute age constraints",
+    "crumbs": [
+      "Software",
+      "Sedimentation rates/ gaps"
     ]
   },
   {
@@ -223,6 +239,199 @@
     "crumbs": [
       "Software",
       "Real-world example"
+    ]
+  },
+  {
+    "objectID": "index.html#explore",
+    "href": "index.html#explore",
+    "title": "Welcome to StratoBayes",
+    "section": "🔗 Explore",
+    "text": "🔗 Explore\n\nSoftware – Download and use the free StratoBayes software for non-commercial use\nPreprint - Detailed description of the StratoBayes algorithm and a case study with early Cambrian stratigraphic data\nWebsite - A broader look at StratoBayes and a survey on commercial use\nWorkshop – Materials from the 2024 StratoBayes Workshop",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "software.html",
+    "href": "software.html",
+    "title": "StratoBayes",
+    "section": "",
+    "text": "Automated stratigraphic correlation and age modelling",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "software.html#about",
+    "href": "software.html#about",
+    "title": "StratoBayes",
+    "section": "About",
+    "text": "About\nStratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.\n\nNote: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please email us.",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "software.html#installation",
+    "href": "software.html#installation",
+    "title": "StratoBayes",
+    "section": "Installation",
+    "text": "Installation\n\nStratoBayes requires R version 4.2.x – 4.5.x. We recommend using R through the RStudio IDE.\n\nBinaries are available for Windows and macOS.\n\n\nStep-by-step guide\n\nInstall R and RStudio:\n\nDownload and install R, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).\nDownload and install RStudio corresponding to your operating system.\n\n\n\nIf you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.\n\n\nConfirm R version in RStudio:\n\nOpen RStudio.\nSelect your R version via:\nTools → Global Options → General → R version\nIf not already selected, chose R version 4.5.x (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.\n\nInstall StratoBayes: Paste the following command into the R console within RStudio:\ninstall.packages(\"StratoBayes\", \n                 repos = c(\"https://stratobayes.github.io\", getOption(\"repos\")), \n                 type = \"binary\", \n                 dependencies = TRUE)\n\n\nNote: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.\n\n\nLoad StratoBayes: Paste this into the R console within RStudio:\nlibrary(StratoBayes)",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "software.html#using-stratobayes",
+    "href": "software.html#using-stratobayes",
+    "title": "StratoBayes",
+    "section": "Using StratoBayes",
+    "text": "Using StratoBayes\nPlease start with the Vignette for an introduction to StratoBayes:\nvignette(\"StratoBayes\")\nTo get help on individual functions, type e.g. ?StratData in the console.",
+    "crumbs": [
+      "Software"
+    ]
+  },
+  {
+    "objectID": "vignettes/Age-modelling.html",
+    "href": "vignettes/Age-modelling.html",
+    "title": "Correlation on the age scale and age models",
+    "section": "",
+    "text": "StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at https://stratobayes.github.io/. For a basic introduction to StratoBayes, see the StratoBayes vignette\nThis guide introduces stratigraphic correlations on the age scale via absolute age constraints. Please let us know if you have any issues or suggestions on improving this documentation.\nAbsolute age constraints – radiometric dates, bioevents dated elsewhere, etc. – anchor the correlation in absolute time. In StratoBayes, absolute ages are treated like Tie points, except that the correlation is carried out on the geological time axis, rather than a reference height scale.",
+    "crumbs": [
+      "Software",
+      "Age modelling"
+    ]
+  },
+  {
+    "objectID": "vignettes/Age-modelling.html#absolute-ages-as-tie-points",
+    "href": "vignettes/Age-modelling.html#absolute-ages-as-tie-points",
+    "title": "Correlation on the age scale and age models",
+    "section": "Absolute ages as tie points",
+    "text": "Absolute ages as tie points\nWe will specify ages in a ties dataframe for the dataset StratData4. Every row of the dataframe represents a tie point and needs a site and a height column. The mean and the standard deviation (sd) now correspond to the absolute age estimate of the horizon at the corresponding height and site.\nHere, we specify two dated horizons for \\(site1\\):\n\ntiesData4 &lt;- data.frame(site = c(\"site1\", \"site1\"),\n                        height = c(2.5 * pi, 6.5 * pi),\n                        mean = c(12, 10),\n                        sd = c(0.1, 0.05))\n\nAge estimates are expressed as normal distributions with a mean and normal distribution.",
+    "crumbs": [
+      "Software",
+      "Age modelling"
+    ]
+  },
+  {
+    "objectID": "vignettes/Age-modelling.html#setting-priors",
+    "href": "vignettes/Age-modelling.html#setting-priors",
+    "title": "Correlation on the age scale and age models",
+    "section": "Setting priors",
+    "text": "Setting priors\nWorking on the absolute age scale forces us to specify model parameters (offsets, \\(\\alpha\\); sedimentation rates, \\(\\gamma\\), hiatuses, \\(\\delta\\)) on the absolute age scale in \\(\\text{Ma}\\) and \\(\\text{m}/\\text{Myr}\\) or similar. Sedimentation rate priors can no longer be specified relative to a reference site, and we need rough estimates of absolute sedimentation rates.\nIn our case, we can use the pair of dated horizons from \\(Site1\\) for an a priori sedimentation rate estimate:\n\nsedRateSite1 &lt;- diff(tiesData4$height[c(2,1)]) / diff(tiesData4$mean)\nprint(round(sedRateSite1, 2)) # display result\n## [1] 6.28\n\nWe use\n\n\\(\\alpha\\) (offsets) – We use a normal prior centred on the midpoint between the two dates for \\(site1\\) (\\(4.5\\pi\\)),and a deliberately broad standard deviation of \\(1\\,\\text{Myr}\\) to not “double-count” those ages. For site 2, in the absence of a better estimate, we simply use the mid point of the section and the same broad age uncertainty (specifying “middle” in the alphaPosition argument).\n\\(\\gamma\\) (sedimentation rates) – As we don’t have age estimates from \\(site2\\), will use the log of this estimate as the mean of a normal distributed prior on \\(\\ln(\\gamma) = 6.28\\,\\text{m}/\\text{Myr}\\) on all partitions. To express considerable uncertainty, we set the standard deviation to \\(1\\,\\text{m}/\\text{Myr}\\). This implies a \\(95\\%\\) prior probability interval ranging from \\(0.14\\) to \\(7\\) times the mean. Higher or lower values may be sensible in other scenarios, depending on prior expectations of sedimentation rate variability.\n\\(\\delta\\) (hiatus or “gap”) – An exponential prior concentrates probability near zero but has a long tail to account for the possibility of a longer gap. A rate of (\\(1\\)) gives a prior mean hiatus duration of \\(1 \\text{Ma}\\) and \\(\\approx 85\\%\\) probability that the gap is \\(&lt; 2\\,\\text{Myr}\\).\n\nStratModelTemplate() lists the required priors, which we can then copy and fill in. Importantly, we have to set alignmentScale = \"age\" to confirm age scale alignment. As there is no reference site, we have to specify an \\(\\alpha\\) prior for every site.\n\nStratModelTemplate(stratData4b, alignmentScale = \"age\", sedModel = \"partition\",\n                   alpha = \"normal\", alphaPosition = c(4.5 * pi, \"middle\"))\n\nWe load the library and specify the priors:\n\nlibrary(StratoBayes)\nstratPrior4b &lt;- structure(list(\n  \"alpha_site1\" = NormalPrior(mean = 11, sd = 1),\n  \"alpha_site2\" = NormalPrior(mean = 11, sd = 1),\n  \"gammaLog_partition site 1\" = NormalPrior(mean = log(sedRateSite1), sd = 1),\n  \"gammaLog_bottom partition\" = NormalPrior(mean = log(sedRateSite1), sd = 1),\n  \"gammaLog_top partition\" = NormalPrior(mean = log(sedRateSite1), sd = 1),\n  \"gap_site2_1\" = ExponentialPrior(rate = 1)),\n  class = c(\"StratPrior\", \"list\"))\n\nTo verify that the priors depict our belief, it is useful to plot them. We can show \\(\\gamma\\) rather than \\(\\ln(\\gamma)\\)) by setting log = FALSE:\n\nplot(stratPrior4b, log = FALSE)",
+    "crumbs": [
+      "Software",
+      "Age modelling"
+    ]
+  },
+  {
+    "objectID": "vignettes/Age-modelling.html#the-model-run",
+    "href": "vignettes/Age-modelling.html#the-model-run",
+    "title": "Correlation on the age scale and age models",
+    "section": "The model run",
+    "text": "The model run\nThe difficult work has been done. We can now set up and run the model by modifying the StratModelTemplate output:\n\nstratModel4b &lt;- StratModel(stratData = stratData4b,\n                    priors = stratPrior4b,\n                    alignmentScale = \"age\",\n                    sedModel = \"partition\",\n                    alphaPosition = c(14.1371669411541, \"middle\"),\n                    nKnots = 15)\n\nstratPosterior4b &lt;- RunStratModel(stratObject = stratData4b,\n                        stratModel = stratModel4b,\n                        nRun = 3,\n                        runParallel = TRUE,\n                        nThin = 10,\n                        nIter = 10000)",
+    "crumbs": [
+      "Software",
+      "Age modelling"
+    ]
+  },
+  {
+    "objectID": "vignettes/Age-modelling.html#results",
+    "href": "vignettes/Age-modelling.html#results",
+    "title": "Correlation on the age scale and age models",
+    "section": "Results",
+    "text": "Results\nAfter we have assessed the performance of the MCMC with a TracePlot(), we can verify that the data has been correctly aligned on the age scale:\n\nplot(stratPosterior4b, ylab = \"age (Ma)\")\n\n\n\n\n\n\n\n\nThe StratMapPlot function allows us to visualise the stratigraphic mapping (age-depth model) for each site:\n\nStratMapPlot(stratPosterior4b, sites = c(1,2))\n\n\n\n\n\n\n\n\nTo get an age estimate with uncertainty at individual horizons, we can use StratMap():\n\nStratMap(stratPosterior4b, heights = c(0.5 * pi, 4.5 * pi), site = 1)\n##      height     mean         sd     2.5%      50%    97.5%\n## 1  1.570796 13.03880 0.22837078 12.58317 13.03865 13.43674\n## 2 14.137167 11.00879 0.08533684 10.84382 11.01295 11.17668\n\nWe can see that age estimates at the bottom of \\(site1\\) have larger uncertainties than age estimates in the middle, where they are surrounded by two absolute ages.",
+    "crumbs": [
+      "Software",
+      "Age modelling"
+    ]
+  },
+  {
+    "objectID": "vignettes/Age-modelling.html#next-steps",
+    "href": "vignettes/Age-modelling.html#next-steps",
+    "title": "Correlation on the age scale and age models",
+    "section": "Next steps",
+    "text": "Next steps\n\nSee Partitioning data for a refresher on how sedimentation rate changes and/or hiatuses enable more accurate correlations\n\nTie points introduces the use of tie points from scratch",
+    "crumbs": [
+      "Software",
+      "Age modelling"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html",
+    "href": "vignettes/StratoBayes.html",
+    "title": "How to use ‘StratoBayes’",
+    "section": "",
+    "text": "StratoBayes is an R package for correlating and dating geological data. For more information, please visit https://stratobayes.github.io.\nThis guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please let us know if you have any issues or suggestions on improving this documentation.\nBefore proceeding, please ensure that you have installed StratoBayes. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (e.g., RStudio).\nWe start by loading the library:\nlibrary(\"StratoBayes\")\nSetting a random seed ensures the consistency of results:\nset.seed(0)",
+    "crumbs": [
+      "Software",
+      "Getting started"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html#loading-the-data",
+    "href": "vignettes/StratoBayes.html#loading-the-data",
+    "title": "How to use ‘StratoBayes’",
+    "section": "Loading the data",
+    "text": "Loading the data\nThe function StratData() is used for loading data containing the geological signal used for correlation, and, optionally, dates and partitioning information. The function can read CSV files directly, if the paths to the files are specified. Alternatively, R data.frames can be provided as input.\nHere, we use the signalData0 data.frame included in this package, containing a simulated signal recorded at two sites:\n\nhead(signalData0)\n##    site    height      value\n## 1 site1 16.902344 -1.5092049\n## 2 site1  5.004720  0.8027955\n## 3 site1  7.014370  1.6707740\n## 4 site1 10.798032 -0.3173079\n## 5 site1 17.119314 -1.9677405\n## 6 site1  3.801615  1.5792926\n\nWe can transform it into a StratData object, which tabulates the information in the format required to run a stratigraphic model, with StratData():\n\nstratDat &lt;- StratData(signal = signalData0)\n\nAlternatively, we can read the data directly from a csv file:\n\ncsvPath &lt;- system.file(\"extdata\", \"signalData0.csv\", package = \"StratoBayes\")\nstratDat &lt;- StratData(signal = csvPath)\n\nWe can use the plot() method to visualize the raw data:\n\nplot(stratDat)",
+    "crumbs": [
+      "Software",
+      "Getting started"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html#model-set-up",
+    "href": "vignettes/StratoBayes.html#model-set-up",
+    "title": "How to use ‘StratoBayes’",
+    "section": "Model set-up",
+    "text": "Model set-up\n\nNow, we want to specify a stratigraphic correlation model that takes \\(site1\\) as the reference section, and shifts and stretches the signal of \\(site2\\) to achieve the best possible fit to the data of \\(site1\\).\nThe nature of the data informs the type of model we might use. In this case, we have no absolute age information, such as radiometric dates. We will thus fit the model on the “height” scale. \nFurthermore, we don’t have information on potential sedimentation rate changes within the sections, e.g. due to lithology changes. We will therefore chose a simple model that assumes a uniform sedimentation rate within each section, but allows for sedimentation rates to differ from site to site .\nThe model used here will employ two parameters, denoting the offset of \\(site2\\) relative to \\(site1\\), \\(\\alpha_{site\\_2}\\), and the natural logarithm of the sedimentation rate of \\(site2\\), relative to \\(site1\\), \\(ln(\\gamma_{site\\_2})\\). The reference site \\(site1\\) remains unchanged. In this model, a sedimentation rate of \\(ln(\\gamma_{site\\_2}) = ln(3) \\approx 1.1\\) would mean that the sedimentation rate of \\(site2\\) is three times as high as that of \\(site1\\). Using the log-scale for the rate parameters ensures that the prior on the rate is symmetric; a doubling or halving of the rate has equivalent distances on the log-scale.\n\nPriors\nAs we are working in a Bayesian framework, we need to specify priors for those two parameters. The helper function StratModelTemplate() will tell us which priors we need to specify, and provides the code needed to run the model. When calling this function, we will specify that our model should be on the \"height\" scale (alignmentscale = \"height\"), since we don’t have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each \"site\" (sedModel = \"site\"). We further specify that the offset of \\(site2\\) relative to \\(site1\\), \\(\\alpha_{site\\_2}\\), refers to the \"middle\" of \\(site\\_2\\) (alphaPosition = \"middle\"). Here, we will use a uniform prior on the \\(\\alpha\\) parameter, and a normal prior on the \\(ln(\\gamma)\\) parameters:\n\nStratModelTemplate(\n  stratDat,\n  alignmentScale = \"height\",\n  sedModel = \"site\",\n  alphaPosition = \"middle\",\n  alpha = \"uniform\",\n  gammaLog = \"normal\"\n)\n## \n## priors &lt;- structure(list(\n##   \"alpha_site2\" = UniformPrior(min = , max = ),\n##   \"gammaLog_site2\" = NormalPrior(mean = , sd = )),\n##   class = c(\"StratPrior\", \"list\"))\n## \n## model &lt;- StratModel(stratData = stratDat,\n##                     priors = priors,\n##                     alignmentScale = \"height\",\n##                     sedModel = \"site\",\n##                     alphaPosition = \"middle\",\n##                     nKnots = 25)\n## \n## result &lt;- RunStratModel(stratObject = stratDat,\n##                         stratModel = model,\n##                         nRun = 1,\n##                         nIter = 1000)\n\nNow, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from \\(0.25\\) to \\(18.7\\, \\text{m}\\). Using these as the min and max values for the uniform prior on \\(\\alpha_{site\\_2}\\) means that the mid height of \\(site2\\) may fall anywhere within the height range of \\(site_1\\). For the normal prior on the log of the sedimentation rate of \\(site\\_1\\) relative to \\(site\\_2\\) we use a mean of 0 (a log sedimentation rate of 0 corresponds to a relative sedimentation rate of 1, i.e. no stretching or squeezing of the signal). We set the standard deviation to \\(\\ln(2)\\), which places ~68% of the prior probability of this parameter on sedimentation rates between \\(0.5\\) and \\(2.0\\), with the remaining 32% being allocated to more extreme relative sedimentation rates.\n\npriors &lt;- structure(list(\n  \"alpha_site2\" = UniformPrior(min = 0.25, max = 18.7),\n  \"gammaLog_site2\" = NormalPrior(mean = 0, sd = log(2))),\n  class = c(\"StratPrior\", \"list\"))\n\n\n\nThe model object\nBefore being able to run the model, we have to create a model object. We can simply use the code suggested by the StratModelTemplate function, but because we have a small data set, we will decrease the number of knots for the splines to 10, which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.\n\nmodel &lt;- StratModel(stratData = stratDat,\n                    priors = priors,\n                    alignmentScale = \"height\",\n                    sedModel = \"site\",\n                    alphaPosition = \"middle\",\n                    nKnots = 10)",
+    "crumbs": [
+      "Software",
+      "Getting started"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html#running-the-model",
+    "href": "vignettes/StratoBayes.html#running-the-model",
+    "title": "How to use ‘StratoBayes’",
+    "section": "Running the model",
+    "text": "Running the model\nWe will estimate the parameter values with the RunStratModel() function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. nIter specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 2,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the nThin parameter to thin the samples and keep only every 10th sample by setting nThin = 10. nRun determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting runParallel to TRUE allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the foreach and the doParallel R packages. Note that progress bars don’t work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when runParallel = TRUE. If you want to just do a single run, or several runs sequentially, set runParallel to FALSE.\n\nrunParallel &lt;- requireNamespace(\"doParallel\", quietly = TRUE) &&\n  parallel::detectCores() &gt; 1\nrunParallel\n## [1] TRUE\n\nWe run the model using the RunStratModel() function:\n\nresult &lt;- RunStratModel(stratObject = stratDat,\n                        stratModel = model,\n                        nRun = 3,\n                        nIter = 2000,\n                        nThin = 10,\n                        runParallel = runParallel)",
+    "crumbs": [
+      "Software",
+      "Getting started"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html#processing-and-analysing-the-results",
+    "href": "vignettes/StratoBayes.html#processing-and-analysing-the-results",
+    "title": "How to use ‘StratoBayes’",
+    "section": "Processing and analysing the results",
+    "text": "Processing and analysing the results\nresult is now an object of class StratPosterior, which we can examine using the print(), summary(), and various plot methods. This particular result is also available for use in examples, without running the model, as package data stratPosterior0.\n\nresult\n## Posterior of stratigraphic model from 3 runs after 2000 iterations:\n##   Samples: 603 (201 per run)\n## \n## The model has 2 age-height parameters: \n##   alpha_site2, gammaLog_site2\n## \n##   Alignment scale: height\n##   Sedimentation model: site\n##   Alpha position: NA, 8.62\n##   Knots for spline: 10\n\n\nChecking for convergence\nThe first thing to do with the result of the model run is to check for convergence. Convergence means that the chains have reached a state were they are no longer influenced by their starting values, and they have thoroughly explored the parameter space. We also want to make sure that the chains are mixing well. This can be visually assessed with trace plots.\nTo plot the trace of \\(\\alpha_{site\\_2}\\) and \\(\\ln \\gamma_{site\\_2}\\), we can run:\n\nTracePlot(result, parameters = 1:2)\n\n\n\n\n\n\n\n\n\n\nVisual inspection of the trace plot shows that the chains are showing stable and overlapping patterns, suggesting that they have reached a stationary distribution and converged. For more information on assessing convergence, see Gelman et al. 2016, Chapter 11.4.\n\n\nPlotting alignments\nThe plot() function displays the alignment corresponding to an approximate multivariate median of the converted heights (see Eichenseer et al., submitted to Geochronology). If a Cluster analysis reveals more than one distinct possible alignment, the most likely alignment is shown by default.\n\nplot(result, alignment = \"all\")\n\n\n\n\n\n\n\n\n\n\nModel run summary\nThe summary() function generates a summary of information from the model run. If more than one cluster of possible alignments has been identified, it will display information for each alignment cluster.\n\nsummary(result)\n## \n## Posterior of stratigraphic model from 3 runs after 2000 iterations:\n## \n##   Total samples: 603 (201 per run).\n##   Statistics summarise 300 samples (100 per run), after discarding the first 50% of\n##   iterations from each run as burn-in.\n##   The acceptance rate of proposals across the selected iterations was 37%.\n##   'ess' is a measure of effective sample size, using coda::effectiveSize().\n## \n## Potential scale reduction factor: (Convergence when ~1.00)\n##   alpha_site2    0.99863\n##   gammaLog_site2 1.00292\n##   lambda_value   0.99642\n##   log prior      0.99489\n##   log likelihood 0.98968\n##   log posterior  0.99108\n## \n## Summary statistics for alignment 1 (of 1 alignments), comprising 300 samples (100%):\n##   Multivariate effective sample size of age-height parameters, using\n##   mcmcse::multiESS(): 300\n##                    mean      sd     2.5%      25%      50%      75%    97.5%\n## alpha_site2      9.4569 0.13336   9.1843   9.3728   9.4625   9.5508   9.7017\n## gammaLog_site2  1.01533 0.07013  0.89344  0.96734  1.01649  1.05203  1.17095\n## lambda_value    1.31973 0.61653  0.46745  0.89967  1.23938  1.59627  2.65167\n## log prior      -54.5889 2.75965 -61.9361 -55.9090 -54.6915 -52.2859 -49.8394\n## log likelihood -10.3881 3.69910 -19.8245 -12.4298  -9.8716 -7.53950 -4.74404\n## log posterior  -64.9771 2.93520 -71.5402 -66.4608 -64.6042 -62.9519 -60.1909\n##                    ess\n## alpha_site2    328.807\n## gammaLog_site2 300.000\n## lambda_value   300.000\n## log prior      300.000\n## log likelihood 300.000\n## log posterior  248.797\n\n\n\nStratigraphic mapping\nWith our age model, we can now convert any height from \\(site2\\) to the height scale of our reference section \\(site1\\) using the StratMap() function. For example, to give us the heights in section_1 corresponding to a height of 1 m in \\(site2\\), we can use:\n\nStratMap(result, heights = 1, site = \"site2\")\n##   height     mean        sd    2.5%      50%    97.5%\n## 1      1 6.688474 0.2671418 6.15726 6.682224 7.181895\n\nThis tells us that a height of 1 m at \\(site2\\) would correspond to a mean height of 6.7 m at \\(site1\\), for this alignment.\nWe can visualise the stratigraphic mapping of heights from \\(site2\\) to the reference height scale from \\(site1\\) using the StratMapPlot() function:\n\nStratMapPlot(result, site = \"site2\")",
+    "crumbs": [
+      "Software",
+      "Getting started"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html#summary",
+    "href": "vignettes/StratoBayes.html#summary",
+    "title": "How to use ‘StratoBayes’",
+    "section": "Summary",
+    "text": "Summary\n\nOur model run identified the alignment that results in the best match of the proxy records from \\(site1\\) and \\(site1\\), and estimated the uncertainty associated with that alignment. The median sedimentation rate of \\(site2\\) relative to \\(site1\\), \\(\\gamma_{site\\_2} = \\exp(\\ln\\gamma_{site\\_2})\\), has been estimated at 2.8, meaning the analysis has “squeezed” the record of \\(site2\\) by a factor of 2.8 to match that of \\(site1\\).",
+    "crumbs": [
+      "Software",
+      "Getting started"
+    ]
+  },
+  {
+    "objectID": "vignettes/StratoBayes.html#next-steps",
+    "href": "vignettes/StratoBayes.html#next-steps",
+    "title": "How to use ‘StratoBayes’",
+    "section": "Next steps",
+    "text": "Next steps\n\nPartitioning data allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations\n\nTie points can improve correlations where available\n\nAge scale correlation and age modelling allows for dating sections using absolute age constraints",
+    "crumbs": [
+      "Software",
+      "Getting started"
     ]
   }
 ]

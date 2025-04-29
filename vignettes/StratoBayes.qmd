@@ -1,22 +1,19 @@
 ---
 title: "How to use 'StratoBayes'"
 # author: 
-#   - name: "Kilian Eichenseer"
-#     email: "kilian.eichenseer@durham.ac.uk"
-#   - name: "Matthias Sinnesael"
-#     email: "msinnesam@tcd.ie"
-#   - name: "Martin R. Smith"
-#     email: "martin.smith@durham.ac.uk"
-#   - name: "Andrew Millard"
-#     email: "a.r.millard@durham.ac.uk"
-# date: today
-format:
-  html:
-    toc: true
-    toc-depth: 3
+#   - "Kilian Eichenseer <kilian.eichenseer@durham.ac.uk>"
+#   - "Matthias Sinnesael <msinnesam@tcd.ie>"
+#   - "Martin R. Smith <martin.smith@durham.ac.uk>"
+#   - "Andrew Millard <a.r.millard@durham.ac.uk>"
+# date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{StratoBayes}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+  <!-- %\VignetteOption{rmarkdown.html_vignette.check_title=FALSE} -->
 ---
 
-```{=html}
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     "HTML-CSS": {
@@ -25,15 +22,12 @@ format:
     }
   });
 </script>
-```
-```{=html}
+
 <style>
 .mjx-chtml {
   font-family: sans-serif !important;
 }
 </style>
-```
-```{=html}
 <!-- NOTES
 
 - StratMap instead of AgeModel & AgeConversion (merge to 1 function for user)
@@ -42,22 +36,22 @@ format:
 - allow for vector input in clusterelect
 - fix AgeModel (StratMap) cluster logic
 -->
-```
-```{=html}
+
 <!-- The user may stumble across this vignette via a link or Google that places
 it out of context.  Thus it's good practice to open with links to provide users
 with necessary context; e.g. we should certainly link "StratoBayes" to the
 main documentation home page.-->
-```
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE
 )
 ```
+*StratoBayes is an R package for correlating and dating geological data. For more information, please visit <https://stratobayes.github.io>.*
 
-StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at <https://stratobayes.github.io/>.
+This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
 
-This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation.
+**Before proceeding, please ensure that you have [installed StratoBayes](https://stratobayes.github.io/software.html#installation)**. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (e.g., RStudio).
 
 We start by loading the library:
 
@@ -75,10 +69,9 @@ set.seed(0)
 
 The function `StratData()` is used for loading data containing the geological signal used for correlation, and, optionally, dates and partitioning information. The function can read CSV files directly, if the paths to the files are specified. Alternatively, R data.frames can be provided as input.
 
-Here, we read the `signalData0` data.frame included in this package, containing a simulated signal recorded at two sites:
+Here, we use the `signalData0` data.frame included in this package, containing a simulated signal recorded at two sites:
 
 ```{r signalData}
-data(signalData0, package = "StratoBayes") # load data from package
 head(signalData0)
 ```
 
@@ -97,13 +90,14 @@ stratDat <- StratData(signal = csvPath)
 
 We can use the `plot()` method to visualize the raw data:
 
-```{r plot.StratData, fig.width=7, fig.height=3.5}
+``` {r plot.StratData, fig.width=7, fig.height=3.5}
 plot(stratDat)
 ```
 
 ## Model set-up
 
 <!--Somewhere about here we should help a user to answer the question "Which models might be suitable for my own data, and how are they implemented in StratoBayes"-->
+
 
 Now, we want to specify a stratigraphic correlation model that takes $site1$ as the reference section, and shifts and stretches the signal of $site2$ to achieve the best possible fit to the data of $site1$.
 
@@ -113,11 +107,15 @@ Furthermore, we don't have information on potential sedimentation rate changes w
 
 The model used here will employ two parameters, denoting the offset of $site2$ relative to $site1$, $\alpha_{site\_2}$, and the natural logarithm of the sedimentation rate of $site2$, relative to $site1$, $ln(\gamma_{site\_2})$. The reference site $site1$ remains unchanged. In this model, a sedimentation rate of $ln(\gamma_{site\_2}) = ln(3) \approx 1.1$ would mean that the sedimentation rate of $site2$ is three times as high as that of $site1$. Using the log-scale for the rate parameters ensures that the prior on the rate is symmetric; a doubling or halving of the rate has equivalent distances on the log-scale.
 
+
 ### Priors
 
-As we are working in a Bayesian framework, we need to specify priors for those two parameters. The helper function `StratModelTemplate()` will tell us which priors we need to specify, and provides the code needed to run the model. When calling this function, we will specify that our model should be on the `"height"` scale (`alignmentscale = "height"`), since we don't have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each `"site"` (`sedModel = "site"`). We further specify that the offset of $site2$ relative to $site1$, $\alpha_{site\_2}$, refers to the `"middle"` of $site\_2$ (`alphaPosition = "middle"`). Here, we will use a uniform prior on the $\alpha$ parameter, and a normal prior on the $ln(\gamma)$ parameters:
+As we are working in a Bayesian framework, we need to specify priors for those two parameters.
+The helper function `StratModelTemplate()` will tell us which priors we need to specify, and provides the code needed to run the model.
+When calling this function, we will specify that our model should be on the `"height"` scale (`alignmentscale = "height"`), since we don't have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each `"site"` (`sedModel = "site"`). We further specify that the offset of $site2$ relative to $site1$, $\alpha_{site\_2}$, refers to the `"middle"` of $site\_2$ (`alphaPosition = "middle"`). 
+Here, we will use a uniform prior on the $\alpha$ parameter, and a normal prior on the $ln(\gamma)$ parameters:
 
-```{r PriorTemplate}
+``` {r PriorTemplate}
 StratModelTemplate(
   stratDat,
   alignmentScale = "height",
@@ -128,17 +126,19 @@ StratModelTemplate(
 )
 ```
 
-Now, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from $0.25$ to $18.7\, \text{m}$. Using these as the `min` and `max` values for the uniform prior on $\alpha_{site\_2}$ means that the mid height of $site2$ may fall anywhere within the height range of $site_1$. For the normal prior on the log of the sedimentation rate of $site\_1$ relative to $site\_2$ we use a mean of `0` (a log sedimentation rate of `0` corresponds to a relative sedimentation rate of, i.e. no stretching or squeezing of the signal). We set the standard deviation to $\ln(2)$, which places `~68%` of the prior probability of this parameter on sedimentation rates between $0.5$ and $2.0$, with the remaining `32%` being allocated to more extreme relative sedimentation rates.
+Now, we can copy this template into our script and fill in the priors with appropriate values
+Our reference section spans the interval from $0.25$ to $18.7\, \text{m}$. Using these as the `min` and `max` values for the uniform prior on $\alpha_{site\_2}$ means that the mid height of $site2$ may fall anywhere within the height range of $site_1$. 
+For the normal prior on the log of the sedimentation rate of $site\_1$ relative to $site\_2$ we use a mean of `0` (a log sedimentation rate of `0` corresponds to a relative sedimentation rate of 1, i.e. no stretching or squeezing of the signal). We set the standard deviation to $\ln(2)$, which places `~68%` of the prior probability of this parameter on sedimentation rates between $0.5$ and $2.0$, with the remaining `32%` being allocated to more extreme relative sedimentation rates.
 
-```{r priors}
+``` {r priors}
 priors <- structure(list(
   "alpha_site2" = UniformPrior(min = 0.25, max = 18.7),
   "gammaLog_site2" = NormalPrior(mean = 0, sd = log(2))),
   class = c("StratPrior", "list"))
 ```
 
-### The model object
 
+### The model object 
 Before being able to run the model, we have to create a model object. We can simply use the code suggested by the `StratModelTemplate` function, but because we have a small data set, we will decrease the number of knots for the splines to `10`, which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.
 
 ```{r model}
@@ -152,7 +152,7 @@ model <- StratModel(stratData = stratDat,
 
 ## Running the model
 
-We will estimate the parameter values with the `RunStratModel()` function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. `nIter` specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for `2,000` iterations. Samples from an MCMC are usually autocorrelated, so we use the `nThin` parameter to thin the samples and keep only every `10th` sample by setting `nThin = 10`. `nRun` determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least `3` independent model runs starting from different parameter values. Setting `runParallel` to `TRUE` allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the `foreach` and the `doParallel` R packages. Note that progress bars don't work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when `runParallel = TRUE`. If you want to just do a single run, or several runs sequentially, set `runParallel` to `FALSE`.
+We will estimate the parameter values with the `RunStratModel()` function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. `nIter` specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for `2,000` iterations. Samples from an MCMC are usually autocorrelated, so we use the `nThin` parameter to thin the samples and keep only every `10th` sample by setting `nThin = 10`. `nRun` determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least `3` independent model runs starting from different parameter values. Setting `runParallel` to `TRUE` allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the `foreach` and the `doParallel` R packages. Note that progress bars don't work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when `runParallel = TRUE`. If you want to just do a single run, or several runs sequentially, set `runParallel` to `FALSE`. 
 
 ```{r, checkParallel}
 runParallel <- requireNamespace("doParallel", quietly = TRUE) &&
@@ -187,7 +187,7 @@ result
 
 The first thing to do with the result of the model run is to check for convergence. Convergence means that the chains have reached a state were they are no longer influenced by their starting values, and they have thoroughly explored the parameter space. We also want to make sure that the chains are mixing well. This can be visually assessed with trace plots.
 
-To plot the trace of $\alpha_{site\_2}$ and $\ln \gamma_{site\_2}$, we can run:
+To plot the trace of $\alpha_{site\_2}$ and  $\ln \gamma_{site\_2}$, we can run:
 
 ```{r first-traceplot-code, eval = FALSE}
 TracePlot(result, parameters = 1:2)
@@ -209,22 +209,21 @@ plot(result, alignment = "all")
 ```
 
 ### Model run summary
-
-The `summary()` function generates a summary of information from the model run. If more than one cluster of possible alignments has been identified, it will display information for each alignment cluster.
+The `summary()` function generates a summary of information from the model run. If more than one cluster of possible alignments has been identified, it will display information for each alignment cluster.  
 
 ```{r summary.StratPosterior}
 summary(result)
 ```
 
 ### Stratigraphic mapping
-
-With our age model, we can now convert any height from $site2$ to the height scale of our reference section $site1$ using the `StratMap()` function. For example, to give us the heights in section_1 corresponding to a height of 1 m in $site2$, we can use:
+With our age model, we can now convert any height from $site2$ to the height scale of our reference section $site1$ using the `StratMap()` function.
+For example, to give us the heights in section_1 corresponding to a height of 1&nbsp;m in $site2$, we can use:
 
 ```{r StratMap}
 StratMap(result, heights = 1, site = "site2")
 ```
 
-This tells us that a height of 1 m at $site2$ would correspond to a mean height of `r signif(StratMap(result, heights = 1, site = "site2")$mean, 2)` m at $site1$, for this alignment.
+This tells us that a height of 1&nbsp;m at $site2$ would correspond to a mean height of `r signif(StratMap(result, heights = 1, site = "site2")$mean, 2)`&nbsp;m at $site1$, for this alignment.
 
 We can visualise the stratigraphic mapping of heights from $site2$ to the reference height scale from $site1$ using the `StratMapPlot()` function:
 
@@ -237,16 +236,12 @@ par(mar = c(4.1, 4.1, 1, 1))
 StratMapPlot(result, site = "site2")
 ```
 
+
 ## Summary
-
 <!-- [ Brief summary of what our model run has taught us and what we might conclude ]-->
-
 Our model run identified the alignment that results in the best match of the proxy records from $site1$ and $site1$, and estimated the uncertainty associated with that alignment. The median sedimentation rate of $site2$ relative to $site1$, $\gamma_{site\_2} = \exp(\ln\gamma_{site\_2})$, has been estimated at `r round(exp(result$summary$alignment1$summary["gammaLog_site2", "50%"]), 1)`, meaning the analysis has "squeezed" the record of $site2$ by a factor of `r round(exp(result$summary$alignment1$summary["gammaLog_site2", "50%"]), 1)` to match that of $site1$.
 
-```{=html}
-<!--
-## Next steps 
-
-[ Links to further vignettes / relevant functions / etc? ]
--->
-```
+## Next steps
+- [Partitioning data](https://stratobayes.github.io/vignettes/Partitioning-data.html) allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations  
+- [Tie points](https://stratobayes.github.io/vignettes/Tie-points.html) can improve correlations where available  
+- [Age scale correlation and age modelling](https://stratobayes.github.io/vignettes/Tie-points.html) allows for dating sections using absolute age constraints

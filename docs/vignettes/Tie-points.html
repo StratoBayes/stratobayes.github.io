@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>StratoBayes – Welcome to StratoBayes</title>
+<title>Improving correlations with tie points – Welcome to StratoBayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,22 +57,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,6 +101,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -113,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./software.html">Software</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/Tie-points.html">Tie points</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -127,8 +156,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/logo-2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo-2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -140,13 +169,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./software.html" class="sidebar-item-text sidebar-link active">
+            <a href="../software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Software</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -155,38 +184,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./software.html#installation" class="sidebar-item-text sidebar-link">
+  <a href="../software.html#installation" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Installation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/StratoBayes.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/StratoBayes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting started</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/Partitioning.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Partitioning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sedimentation rates/ gaps</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/Tie-points.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Tie-points.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tie points</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial-1/StratoBayes-Tutorial-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial - Permian case study</span></a>
+  <a href="../tutorial-1/StratoBayes-Tutorial-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Real-world example</span></a>
   </div>
 </li>
       </ul>
@@ -218,9 +247,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/Tie-points.html">Tie points</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">StratoBayes</h1>
+<h1 class="title">Improving correlations with tie points</h1>
 </div>
 
 
@@ -237,78 +266,155 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>Automated stratigraphic correlation and age modelling</strong></p>
-<section id="about" class="level2">
-<h2 class="anchored" data-anchor-id="about">About</h2>
-<p>StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.</p>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "sans-serif",
+      webFont: "sans-serif"
+    }
+  });
+</script>
+<style>
+.mjx-chtml {
+  font-family: sans-serif !important;
+}
+</style>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please <a href="mailto:kilian.eichenseer@durham.ac.uk">email us</a>.</p>
+<p>StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at <a href="https://stratobayes.github.io/">https://stratobayes.github.io/</a>. For a basic introduction to StratoBayes, see the <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">StratoBayes vignette</a></p>
+</blockquote>
+<p>This guide explains how you can incorporate tie points in your analysis. Please <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">let us know</a> if you have any issues or suggestions on improving this documentation.</p>
+<p>Tie points are stratigraphic horizons which are assumed to have the same age across two or more sites. We can declare tie points either by their height or depth in a chosen reference section, or by absolute age (age-scale alignment). In this example, we use a tie point expressed in height at the reference section:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/vignette-ties-1.png" class="img-fluid figure-img" style="width:45.0%"></p>
+<figcaption>Tie-point example. The tie will be speficied for site2, with a height corresponding to the position of the tie point at the reference site (site1).</figcaption>
+</figure>
+</div>
+<p>We will be using the above data set, <code>signalData5</code>. An initial model run without using tie points (using <code>stratData5a</code>) shows that the signal of <span class="math inline">\(site2\)</span> could match any one of three distinct positions in the reference site (<span class="math inline">\(site1\)</span>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(StratoBayes) <span class="co"># loading StratoBayes</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratPosterior5a, <span class="at">alignment =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">ylab =</span> <span class="st">"height (m)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tie-points_files/figure-html/plot stratPosterior5a-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="specifying-tie-points" class="level2">
+<h2 class="anchored" data-anchor-id="specifying-tie-points">Specifying tie points</h2>
+<p>Now, we want to include a tie point. Assume we know that the positive peak of <span class="math inline">\(site2\)</span> at 3.7 m roughly corresponds to the second peak of the reference site (<span class="math inline">\(site1\)</span>); this would be a height of <span class="math inline">\(2.5 \pi \approx 7.85~\text{m}\)</span>. To express our uncertainty on the exact horizon on the reference scale, we use a probability distribution rather than a single value. In this case, we use a normal distribution with mean <span class="math inline">\(\approx 7.85~\text{m}\)</span> and a standard deviation of <span class="math inline">\(1~\text{m}\)</span>.</p>
+<p>We can include this knowledge with a <code>ties</code> dataframe. Every row of the dataframe represents a tie point and needs a <code>site</code> and a <code>height</code> column. We also need to specify the <code>mean</code> and the standard deviation (<code>sd</code>) of the height at the reference site that corresponds to the height of the tie point.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tiesData5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">site =</span> <span class="st">"site2"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">height =</span> <span class="fl">3.72</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean =</span> <span class="fl">2.5</span> <span class="sc">*</span> pi,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="non-normal-uncertainty" class="level2">
+<h2 class="anchored" data-anchor-id="non-normal-uncertainty">Non-normal uncertainty</h2>
+<p>Sometimes the normal distribution is not the best way to capture the uncertainty on a tie point. Instead, we can specify any R probability density in the ties dataframe. Instead of <code>mean</code> and <code>sd</code>, we can provide the name of a probability density function (e.g.&nbsp;<code>"dnorm"</code> for the normal distribution, <code>"dunif"</code> for the uniform distribution, …) and the numerical arguments that define the distribution, in the order they appear in. If we check <code>?dnorm</code>, we see the arguments are <code>x</code>, <code>mean</code>, <code>sd</code> and <code>log</code>. The first formal argument of every density function (<code>x</code>) and the optional <code>log</code> argument are supplied automatically by the algorithm, so you should not include either of them. For the normal distribution <code>arg1</code> corresponds to the <code>mean</code>, and <code>arg2</code> to <code>sd</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tiesData5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">site =</span> <span class="st">"site2"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">height =</span> <span class="fl">3.72</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">densityFun =</span> <span class="st">"dnorm"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">arg1 =</span> <span class="fl">2.5</span> <span class="sc">*</span> pi,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">arg2 =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>StratoBayes does not allow for fixed tie points to be declared via the <code>ties</code> dataframe. However, a single fixed tie point per site can be specified via the <span class="math inline">\(\alpha\)</span> parameters in the prior<br>
+(see <code>?StratModelTemplate</code> and <code>?Priors</code>).</p>
 </blockquote>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
-<p>StratoBayes requires <a href="https://cran.r-project.org/"><strong>R version 4.2.x – 4.5.x</strong></a>. We recommend using R through the <a href="https://posit.co/downloads/">RStudio IDE</a>.</p>
-<blockquote class="blockquote">
-<p>Binaries are available for Windows and macOS.</p>
-</blockquote>
-<section id="step-by-step-guide" class="level3">
-<h3 class="anchored" data-anchor-id="step-by-step-guide">Step-by-step guide</h3>
-<ol type="1">
-<li><strong>Install R and RStudio</strong>:
+<section id="running-a-model-with-tie-points" class="level2">
+<h2 class="anchored" data-anchor-id="running-a-model-with-tie-points">Running a model with tie points</h2>
+<p>We can now create a <code>StratData</code> object using the <code>signalData5</code> and the <code>tiesData5</code> dataframes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stratData5b <span class="ot">&lt;-</span> <span class="fu">StratData</span>(<span class="at">signal =</span> signalData5, <span class="at">ties =</span> tiesData5, <span class="at">referenceSite =</span> <span class="st">"site1"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stratData5b)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Stratigraphic data from 2 sites:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   site1, site2</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 signal: value</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   value:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">##     Points per site: 201, 60</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">##     Signal spans: 21.4 m, 15.4 m</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">##     Signal top: 20.1 m, 15.4 m</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">##     Signal bottom: -1.3 m, 0 m</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Partitions: 1</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Ties (mean values): 7.85398163397448</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The horizons with tie points can be visiualised by using the <code>show = "partition"</code> option from <code>plot.StratData()</code>, with asterisks indicating tie points:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratData5b, <span class="at">show =</span> <span class="st">"partition"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tie-points_files/figure-html/plot StratData-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can now define the priors and model, and run the model, as usual. The tie point will be incorporated based on its presence in <code>stratData</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get min and max height of reference site for prior</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>site1Min <span class="ot">&lt;-</span> <span class="fu">min</span>(signalData5<span class="sc">$</span>height[signalData5<span class="sc">$</span>site <span class="sc">==</span> <span class="st">"site1"</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>site1Max <span class="ot">&lt;-</span> <span class="fu">max</span>(signalData5<span class="sc">$</span>height[signalData5<span class="sc">$</span>site <span class="sc">==</span> <span class="st">"site1"</span>])</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define prior</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>stratPrior5 <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site2"</span> <span class="ot">=</span> <span class="fu">UniformPrior</span>(<span class="at">min =</span> site1Min, <span class="at">max =</span> site1Max),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_site2"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>))),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"StratPrior"</span>, <span class="st">"list"</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># define model</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>stratModel5b <span class="ot">&lt;-</span> <span class="fu">StratModel</span>(<span class="at">stratData =</span> stratData5b,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">priors =</span> stratPrior5,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">alignmentScale =</span> <span class="st">"height"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sedModel =</span> <span class="st">"site"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                           <span class="at">alphaPosition =</span> <span class="st">"middle"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                           <span class="at">nKnots =</span> <span class="dv">15</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sigmaFixed =</span> T)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># run model</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>stratPosterior5b <span class="ot">&lt;-</span> <span class="fu">RunStratModel</span>(<span class="at">stratObject =</span> stratData5b,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">stratModel =</span> stratModel5b,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">nRun =</span> <span class="dv">3</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">nIter =</span> <span class="dv">4000</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">nThin =</span> <span class="dv">10</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">runParallel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>The model run now identified a single alignment solution, instead of three when the tie point was not incorporated:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratPosterior5b, <span class="at">ylab =</span> <span class="st">"reference height (m)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tie-points_files/figure-html/plot alignment-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can use the <code>StratMap()</code> function to check whether the reference height estimate of the tie point indeed matches the specified normal distribution (with <span class="math inline">\(\text{mean}\approx 7.85\,\text{m}\)</span>). The tie point height (at <span class="math inline">\(site2\)</span>) was <span class="math inline">\(3.72\,\text{m}\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratMap</span>(stratPosterior5b, <span class="at">height =</span> <span class="fl">3.72</span>, <span class="at">site =</span> <span class="dv">2</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   height     mean         sd     2.5%     50%   97.5%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1   3.72 7.819069 0.07053555 7.691334 7.81787 7.96203</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The posterior mean estimate for the tie point <span class="math inline">\(7.82\,\text{m}\)</span> is very close to the mean of the normal distribution. The standard deviation is much lower (<span class="math inline">\(0.07\,\text{m}\)</span>) than the standard deviation specified in the <code>ties</code> dataframe (<span class="math inline">\(1\,\text{m}\)</span>). We can interprete this to mean that the tie point has excluded the alternative alignments (top and bottom wiggle of of the sign wave of <span class="math inline">\(site1\)</span>), but the exact position on the middle wiggle was specified by matching the signals (and not simply determined by the tie point).</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
-<li><a href="https://cran.r-project.org/">Download and install R</a>, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).</li>
-<li><a href="https://posit.co/downloads/">Download and install RStudio</a> corresponding to your operating system.</li>
-</ul></li>
-</ol>
-<blockquote class="blockquote">
-<p>If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.</p>
-</blockquote>
-<ol start="2" type="1">
-<li><p><strong>Confirm R version in RStudio</strong>:</p>
-<ul>
-<li><p>Open RStudio.</p></li>
-<li><p>Select your R version via:</p>
-<pre><code>Tools → Global Options → General → R version</code></pre></li>
-<li><p>If not already selected, chose <strong>R version 4.5.x</strong> (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.</p></li>
-</ul></li>
-<li><p><strong>Install StratoBayes</strong>: Paste the following command into the R console within RStudio:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"StratoBayes"</span>, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"https://stratobayes.github.io"</span>, <span class="fu">getOption</span>(<span class="st">"repos"</span>)), </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">"binary"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
-<blockquote class="blockquote">
-<p><strong>Note</strong>: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.</p>
-</blockquote>
-<ol start="4" type="1">
-<li><p><strong>Load StratoBayes:</strong> Paste this into the R console within RStudio:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(StratoBayes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
-<!-- Once R and Rstudio are installed, open Rstudio. You can select the correct version of R in `Tools`  `Global Options...`  `R version:`, then restart Rstudio.
-
-In the console, type
-
-`install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)`
-
--->
-<!-- ### Windows
-
-currently supports R 4.4
-
-### macOS
-
-currently supports R 4.4 for Intel and for Apple silicon
-
-### Linux
--->
-</section>
-</section>
-<section id="using-stratobayes" class="level2">
-<h2 class="anchored" data-anchor-id="using-stratobayes">Using StratoBayes</h2>
-<p>Please start with the <a href=".\vignettes/StratoBayes.html">Vignette</a> for an introduction to StratoBayes:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">"StratoBayes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To get help on individual functions, type e.g.&nbsp;<code>?StratData</code> in the console.</p>
+<li><a href="https://stratobayes.github.io/vignettes/Partitioning-data.html">Partitioning data</a> allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations<br>
+</li>
+<li><a href="https://stratobayes.github.io/vignettes/Tie-points.html">Age scale correlation and age modelling</a> allows for dating sections using absolute age constraints</li>
+</ul>
 
 
 </section>

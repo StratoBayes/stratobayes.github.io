@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Welcome to StratoBayes - How to use ‘StratoBayes’</title>
+<title>How to use ‘StratoBayes’ – Welcome to StratoBayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -133,19 +133,19 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked">
+<body class="nav-sidebar docked fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/StratoBayes.html">Getting started</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -177,7 +177,7 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="../software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Software</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -192,6 +192,24 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../vignettes/StratoBayes.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Getting started</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/Partitioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sedimentation rates/ gaps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/Tie-points.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tie points</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -225,29 +243,7 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#loading-the-data" id="toc-loading-the-data" class="nav-link active" data-scroll-target="#loading-the-data">Loading the data</a></li>
-  <li><a href="#model-set-up" id="toc-model-set-up" class="nav-link" data-scroll-target="#model-set-up">Model set-up</a>
-  <ul class="collapse">
-  <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors">Priors</a></li>
-  <li><a href="#the-model-object" id="toc-the-model-object" class="nav-link" data-scroll-target="#the-model-object">The model object</a></li>
-  </ul></li>
-  <li><a href="#running-the-model" id="toc-running-the-model" class="nav-link" data-scroll-target="#running-the-model">Running the model</a></li>
-  <li><a href="#processing-and-analysing-the-results" id="toc-processing-and-analysing-the-results" class="nav-link" data-scroll-target="#processing-and-analysing-the-results">Processing and analysing the results</a>
-  <ul class="collapse">
-  <li><a href="#checking-for-convergence" id="toc-checking-for-convergence" class="nav-link" data-scroll-target="#checking-for-convergence">Checking for convergence</a></li>
-  <li><a href="#plotting-alignments" id="toc-plotting-alignments" class="nav-link" data-scroll-target="#plotting-alignments">Plotting alignments</a></li>
-  <li><a href="#model-run-summary" id="toc-model-run-summary" class="nav-link" data-scroll-target="#model-run-summary">Model run summary</a></li>
-  <li><a href="#stratigraphic-mapping" id="toc-stratigraphic-mapping" class="nav-link" data-scroll-target="#stratigraphic-mapping">Stratigraphic mapping</a></li>
-  </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -295,8 +291,9 @@ window.Quarto = {
 it out of context.  Thus it's good practice to open with links to provide users
 with necessary context; e.g. we should certainly link "StratoBayes" to the
 main documentation home page.-->
-<p>StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at <a href="https://stratobayes.github.io/" class="uri">https://stratobayes.github.io/</a>.</p>
+<p><em>StratoBayes is an R package for correlating and dating geological data. For more information, please visit <a href="https://stratobayes.github.io" class="uri">https://stratobayes.github.io</a>.</em></p>
 <p>This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">let us know</a> if you have any issues or suggestions on improving this documentation.</p>
+<p><strong>Before proceeding, please ensure that you have <a href="https://stratobayes.github.io/software.html#installation">installed StratoBayes</a></strong>. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (e.g., RStudio).</p>
 <p>We start by loading the library:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"StratoBayes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -308,17 +305,16 @@ main documentation home page.-->
 <section id="loading-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-the-data">Loading the data</h2>
 <p>The function <code>StratData()</code> is used for loading data containing the geological signal used for correlation, and, optionally, dates and partitioning information. The function can read CSV files directly, if the paths to the files are specified. Alternatively, R data.frames can be provided as input.</p>
-<p>Here, we read the <code>signalData0</code> data.frame included in this package, containing a simulated signal recorded at two sites:</p>
+<p>Here, we use the <code>signalData0</code> data.frame included in this package, containing a simulated signal recorded at two sites:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(signalData0, <span class="at">package =</span> <span class="st">"StratoBayes"</span>) <span class="co"># load data from package</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(signalData0)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    site    height      value</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 site1 16.902344 -1.5092049</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 site1  5.004720  0.8027955</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 site1  7.014370  1.6707740</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 site1 10.798032 -0.3173079</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 site1 17.119314 -1.9677405</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 site1  3.801615  1.5792926</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(signalData0)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    site    height      value</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 site1 16.902344 -1.5092049</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 site1  5.004720  0.8027955</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 site1  7.014370  1.6707740</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 site1 10.798032 -0.3173079</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 site1 17.119314 -1.9677405</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 site1  3.801615  1.5792926</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can transform it into a <code>StratData</code> object, which tabulates the information in the format required to run a stratigraphic model, with <code>StratData()</code>:</p>
 <div class="cell">
@@ -378,7 +374,7 @@ main documentation home page.-->
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##                         nRun = 1,</span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">##                         nIter = 1000)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(18.7\, \text{m}\)</span>. Using these as the <code>min</code> and <code>max</code> values for the uniform prior on <span class="math inline">\(\alpha_{site\_2}\)</span> means that the mid height of <span class="math inline">\(site2\)</span> may fall anywhere within the height range of <span class="math inline">\(site_1\)</span>. For the normal prior on the log of the sedimentation rate of <span class="math inline">\(site\_1\)</span> relative to <span class="math inline">\(site\_2\)</span> we use a mean of <code>0</code> (a log sedimentation rate of <code>0</code> corresponds to a relative sedimentation rate of, i.e.&nbsp;no stretching or squeezing of the signal). We set the standard deviation to <span class="math inline">\(\ln(2)\)</span>, which places <code>~68%</code> of the prior probability of this parameter on sedimentation rates between <span class="math inline">\(0.5\)</span> and <span class="math inline">\(2.0\)</span>, with the remaining <code>32%</code> being allocated to more extreme relative sedimentation rates.</p>
+<p>Now, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(18.7\, \text{m}\)</span>. Using these as the <code>min</code> and <code>max</code> values for the uniform prior on <span class="math inline">\(\alpha_{site\_2}\)</span> means that the mid height of <span class="math inline">\(site2\)</span> may fall anywhere within the height range of <span class="math inline">\(site_1\)</span>. For the normal prior on the log of the sedimentation rate of <span class="math inline">\(site\_1\)</span> relative to <span class="math inline">\(site\_2\)</span> we use a mean of <code>0</code> (a log sedimentation rate of <code>0</code> corresponds to a relative sedimentation rate of 1, i.e.&nbsp;no stretching or squeezing of the signal). We set the standard deviation to <span class="math inline">\(\ln(2)\)</span>, which places <code>~68%</code> of the prior probability of this parameter on sedimentation rates between <span class="math inline">\(0.5\)</span> and <span class="math inline">\(2.0\)</span>, with the remaining <code>32%</code> being allocated to more extreme relative sedimentation rates.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site2"</span> <span class="ot">=</span> <span class="fu">UniformPrior</span>(<span class="at">min =</span> <span class="fl">0.25</span>, <span class="at">max =</span> <span class="fl">18.7</span>),</span>
@@ -535,11 +531,16 @@ main documentation home page.-->
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <!-- [ Brief summary of what our model run has taught us and what we might conclude ]-->
 <p>Our model run identified the alignment that results in the best match of the proxy records from <span class="math inline">\(site1\)</span> and <span class="math inline">\(site1\)</span>, and estimated the uncertainty associated with that alignment. The median sedimentation rate of <span class="math inline">\(site2\)</span> relative to <span class="math inline">\(site1\)</span>, <span class="math inline">\(\gamma_{site\_2} = \exp(\ln\gamma_{site\_2})\)</span>, has been estimated at 2.8, meaning the analysis has “squeezed” the record of <span class="math inline">\(site2\)</span> by a factor of 2.8 to match that of <span class="math inline">\(site1\)</span>.</p>
-<!--
-## Next steps 
-
-[ Links to further vignettes / relevant functions / etc? ]
--->
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<ul>
+<li><a href="https://stratobayes.github.io/vignettes/Partitioning-data.html">Partitioning data</a> allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations<br>
+</li>
+<li><a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a> can improve correlations where available<br>
+</li>
+<li><a href="https://stratobayes.github.io/vignettes/Tie-points.html">Age scale correlation and age modelling</a> allows for dating sections using absolute age constraints</li>
+</ul>
 
 
 </section>
@@ -580,18 +581,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -623,7 +613,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/stratobayes\.github\.io");
@@ -631,7 +643,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

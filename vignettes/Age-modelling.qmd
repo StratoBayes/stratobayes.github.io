@@ -1,0 +1,147 @@
+---
+title: "Correlation on the age scale and age models"
+# author: 
+#   - "Kilian Eichenseer <kilian.eichenseer@durham.ac.uk>"
+#   - "Matthias Sinnesael <msinnesam@tcd.ie>"
+#   - "Martin R. Smith <martin.smith@durham.ac.uk>"
+#   - "Andrew Millard <a.r.millard@durham.ac.uk>"
+# date: "`r Sys.Date()`"
+format: html
+vignette: >
+  %\VignetteIndexEntry{Age-models}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "sans-serif",
+      webFont: "sans-serif"
+    }
+  });
+</script>
+
+<style>
+.mjx-chtml {
+  font-family: sans-serif !important;
+}
+</style>
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
+> StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at [https://stratobayes.github.io/](https://stratobayes.github.io/).
+For a basic introduction to StratoBayes, see the [StratoBayes vignette](https://stratobayes.github.io/vignettes/StratoBayes.html)
+
+This guide introduces stratigraphic correlations on the age scale via absolute age constraints. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
+
+Absolute age constraints -- radiometric dates, bioevents dated elsewhere, etc. -- anchor the correlation in absolute time. In StratoBayes, absolute ages are treated like [Tie points](https://stratobayes.github.io/vignettes/Tie-points.html), except that the correlation is carried out on the geological time axis, rather than a reference height scale. 
+
+> This example also includes [Partitions](https://stratobayes.github.io/vignettes/Partitioning-data.html).
+
+## Absolute ages as tie points
+
+We will specify ages in a `ties` dataframe for the dataset `StratData4`. Every row of the dataframe represents a tie point and needs a `site` and a `height` column. The `mean` and the standard deviation (`sd`) now correspond to the absolute age estimate of the horizon at the corresponding height and site.
+
+Here, we specify two dated horizons for $site1$: 
+``` {r ties df}
+tiesData4 <- data.frame(site = c("site1", "site1"),
+                        height = c(2.5 * pi, 6.5 * pi),
+                        mean = c(12, 10),
+                        sd = c(0.1, 0.05))
+```
+
+Age estimates are expressed as normal distributions with a mean and normal distribution.
+
+## Setting priors
+
+Working on the absolute age scale forces us to specify model parameters (offsets, $\alpha$; sedimentation rates, $\gamma$, hiatuses, $\delta$) on the absolute age scale in $\text{Ma}$ and $\text{m}/\text{Myr}$ or similar. Sedimentation rate priors can no longer be specified relative to a reference site, and we need rough estimates of absolute sedimentation rates. 
+
+In our case, we can use the pair of dated horizons from $Site1$ for an *a priori* sedimentation rate estimate:  
+
+``` {r sed rate}
+sedRateSite1 <- diff(tiesData4$height[c(2,1)]) / diff(tiesData4$mean)
+print(round(sedRateSite1, 2)) # display result
+```
+
+We use  
+
+- $\alpha$ (offsets) -- We use a normal prior centred on the midpoint between the two dates for $site1$ ($4.5\pi$),and a deliberately broad standard deviation of $1\,\text{Myr}$ to not "double-count" those ages. For site 2, in the absence of a better estimate, we simply use the mid point of the section and the same broad age uncertainty (specifying "middle" in the `alphaPosition` argument).
+
+- $\gamma$ (sedimentation rates) -- As we don't have age estimates from $site2$, will use the log of this estimate as the mean of a normal distributed prior on $\ln(\gamma) = `{r} round(sedRateSite1, 2)`\,\text{m}/\text{Myr}$ on all partitions. To express considerable uncertainty, we set the standard deviation to $1\,\text{m}/\text{Myr}$. This implies a $95\%$ prior probability interval ranging from $0.14$ to $7$ times the mean. Higher or lower values may be sensible in other scenarios, depending on prior expectations of sedimentation rate variability.
+
+- $\delta$ (hiatus or "gap") -- An exponential prior concentrates probability near zero but has a long tail to account for the possibility of a longer gap. A rate of ($1$) gives a prior mean hiatus duration of $1 \text{Ma}$ and $\approx 85\%$ probability that the gap is $< 2\,\text{Myr}$.
+
+
+`StratModelTemplate()` lists the required priors, which we can then copy and fill in. Importantly, we have to set `alignmentScale = "age"` to confirm age scale alignment. As there is no reference site, we have to specify an $\alpha$ prior for every site.
+
+``` {r StratModelTemplate, eval = FALSE}
+StratModelTemplate(stratData4b, alignmentScale = "age", sedModel = "partition",
+                   alpha = "normal", alphaPosition = c(4.5 * pi, "middle"))
+```
+
+We load the library and specify the priors:
+``` {r priors}
+library(StratoBayes)
+stratPrior4b <- structure(list(
+  "alpha_site1" = NormalPrior(mean = 11, sd = 1),
+  "alpha_site2" = NormalPrior(mean = 11, sd = 1),
+  "gammaLog_partition site 1" = NormalPrior(mean = log(sedRateSite1), sd = 1),
+  "gammaLog_bottom partition" = NormalPrior(mean = log(sedRateSite1), sd = 1),
+  "gammaLog_top partition" = NormalPrior(mean = log(sedRateSite1), sd = 1),
+  "gap_site2_1" = ExponentialPrior(rate = 1)),
+  class = c("StratPrior", "list"))
+```
+
+To verify that the priors depict our belief, it is useful to plot them. We can show $\gamma$ rather than $\ln(\gamma)$) by setting `log = FALSE`:
+
+``` {r plot priors, fig.width = 4.5, fig.height = 6.5}
+plot(stratPrior4b, log = FALSE)
+```
+
+## The model run
+The difficult work has been done. We can now set up and run the model by modifying the `StratModelTemplate` output:
+
+``` {r run model, eval = FALSE}
+stratModel4b <- StratModel(stratData = stratData4b,
+                    priors = stratPrior4b,
+                    alignmentScale = "age",
+                    sedModel = "partition",
+                    alphaPosition = c(14.1371669411541, "middle"),
+                    nKnots = 15)
+
+stratPosterior4b <- RunStratModel(stratObject = stratData4b,
+                        stratModel = stratModel4b,
+                        nRun = 3,
+                        runParallel = TRUE,
+                        nThin = 10,
+                        nIter = 10000)
+```
+
+## Results
+
+After we have assessed the performance of the MCMC with a `TracePlot()`, we can verify that the data has been correctly aligned on the age scale:
+``` {r plot.StratPosterior}
+plot(stratPosterior4b, ylab = "age (Ma)")
+```
+
+The `StratMapPlot` function allows us to visualise the stratigraphic mapping (age-depth model) for each site:
+
+``` {r StratMapPlot, fig.width = 4, fig.height = 7.5}
+StratMapPlot(stratPosterior4b, sites = c(1,2))
+```
+
+To get an age estimate with uncertainty at individual horizons, we can use `StratMap()`:
+
+``` {r StratMap}
+StratMap(stratPosterior4b, heights = c(0.5 * pi, 4.5 * pi), site = 1)
+```
+
+We can see that age estimates at the bottom of $site1$ have larger uncertainties than age estimates in the middle, where they are surrounded by two absolute ages.
+
+## Next steps
+- See [Partitioning data](https://stratobayes.github.io/vignettes/Partitioning-data.html) for a refresher on how  sedimentation rate changes and/or hiatuses enable more accurate correlations  
+- [Tie points](https://stratobayes.github.io/vignettes/Tie-points.html) introduces the use of tie points from scratch
