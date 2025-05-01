@@ -27,19 +27,6 @@ vignette: >
   font-family: sans-serif !important;
 }
 </style>
-<!-- NOTES
-
-- StratMap instead of AgeModel & AgeConversion (merge to 1 function for user)
-- AgeConversion needs to check for vector input (or accept DF as well)
-- Do not use Metropolis parameters, use mapping parameters
-- allow for vector input in clusterelect
-- fix AgeModel (StratMap) cluster logic
--->
-
-<!-- The user may stumble across this vignette via a link or Google that places
-it out of context.  Thus it's good practice to open with links to provide users
-with necessary context; e.g. we should certainly link "StratoBayes" to the
-main documentation home page.-->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -60,17 +47,17 @@ set.seed(0)
 ```
 
 ## The data  
-In this example, we use the included dataset `signalData4`. This data has been simulated with a hiatus (stratigraphic gap) at $site_2$, and sedimentation rates differ between the bottom and the top stratigraphic partition (delineated by the hiatus): 
+In this example, we use the included dataset `signalData4`. This data has been simulated with a hiatus (stratigraphic gap) at *Site 2*, and sedimentation rates differ between the bottom and the top stratigraphic partition (delineated by the hiatus): 
 
-```{r plot signalData4, echo = FALSE}
+```{r plot-signalData4, echo = FALSE}
 # Plot the modified data
-par(mfrow = c(1,3))
+par(mfrow = c(1, 3))
 plot(stratData4, colourBy = "p", overridePar = F, sites = 1, ylab = "height (m)")
 plot(stratData4, colourBy = "p", overridePar = F, sites = 2, ylab = "height (m)")
 abline(h = 3/2 * pi, lwd = 2, lty = 3)
 plot.new()
 legend(
-          x = par("usr")[1]*0.99,
+          x = par("usr")[1] * 0.99,
           y = par("usr")[4],
           legend = c(stratData4$partsAttr$uniqueParts, "hiatus"),
           title = "partitions",
@@ -79,7 +66,7 @@ legend(
           lwd = c(NA, NA, NA, 2),
           pt.bg = c(hcl.colors(3, "Dark 3", alpha = 0.75), NA),
           bty = "n",
-          xpd = T
+          xpd = TRUE
         )
 ```
 
@@ -95,9 +82,9 @@ A partition dataframe needs to have the columns `site`, `height`, and `partition
 > Instead of those names, different column names can be used by providing `siteColumn`, `zColumn` and/or `partitionColumn` arguments to the `StratData` function later on. The former two need to match the column names used in the signal dataframe. 
 
 In this example:  
-  - For $site_1$, the maximum height value (or top of the sequence) is used to define a single partition for the whole site. As we will use $site_1$ as the reference site (heights will be unchanged), additional partitions would not affect the analysis.  
-  - For $site_2$, two partitions are specified: one for the part above the hiatus (for which we altered the sedimentation rate earlier) and one for part below.  
-*To define the hiatus:*   
+  - For *Site 1*, the maximum height value (or top of the sequence) is used to define a single partition for the whole site. As we will use *Site 1* as the reference site (heights will be unchanged), additional partitions would not affect the analysis.  
+  - For *Site 2*, two partitions are specified: one for the part above the hiatus (for which we altered the sedimentation rate earlier) and one for part below.  
+*To define the hiatus:*
   - The gap height is included first with an `NA` to denote the break in continuity.  
   - The same height is then specified as the top of the partition below the hiatus.  
 
@@ -112,7 +99,7 @@ site2BottomPartitionTop <- hiatus # hiatus height needs to appear twice
 partsData4 <- data.frame(
   site = c("site1", "site2", "site2", "site2"),
   height = c(site1Max, site2Max, hiatus, site2BottomPartitionTop), 
-  partition = c("partition site 1", "top partition", NA, "bottom partition"))
+  partition = c("partition site 1", "top partition, site 2", NA, "bottom partition, site 2"))
 
 # print dataframe
 partsData4
@@ -125,17 +112,17 @@ stratData4 <- StratData(signal = signalData4, parts = partsData4)
 ```
 
 To visualise the partitions, we can use the `show = "partition"` option of the `plot.StratData()` function:
-```{r plot StratData}
+```{r plot-StratData}
 plot(stratData4, show = "partition", ylab = "height (m)")
 ```
 
 Alternatively, we can visualise the signals colour-coded by partition as in the figure at the beginning of this tutorial:
-```{r plot signal data}
+```{r plot-signal-data}
 plot(stratData4, colourBy = "partition", ylab = "height (m)")
 ```
 
-## Model set-up and -run
-The model-setup is analogous to the example in the [How to use 'StratoBayes' vignette](https://stratobayes.github.io/vignettes/StratoBayes.html), with one key modification: We want to allow sedimentation rates to vary between partitions, so we specify `sedModel = "partition"`.
+## Model set-up and run
+The model-setup is analogous to the example in the [How to use 'StratoBayes' vignette](https://stratobayes.github.io/vignettes/StratoBayes.html), with one key modification: we want to allow sedimentation rates to vary between partitions, so we specify `sedModel = "partition"`.
 
 ``` {r PriorTemplate}
 StratModelTemplate(
@@ -148,11 +135,11 @@ StratModelTemplate(
 )
 ```
 ### Priors  
-Instead of a site-specific sedimentation rate prior for $site_2$ relative to $site_1$, we now specify separate sedimentation rates for the `bottom partition` and `top partition` relative to $site_1$.
+Instead of a site-specific sedimentation rate prior for *Site 2* relative to *Site 1*, we now specify separate sedimentation rates for the bottom partition and top partition relative to *Site 1*.
 
-We use the same $\alpha$ and $\ln(\gamma)$ priors as previously, with $\alpha$ spanning the entirety of $site_1$. We use normal prior for the relative sedimentation rates (on the logarithmic scale) of both partitions. The priors are centred at $0$, reflecting our belief that the sedimentation rates at $site_1$ and both partitions of $site_2$ are broadly similar.
+We use the same $\alpha$ and ln$(\gamma)$ priors as previously, with $\alpha$ spanning the entirety of *Site 1*. We use normal prior for the relative sedimentation rates (on the logarithmic scale) of both partitions. The priors are centred at 0, reflecting our belief that the sedimentation rates at *Site 1* and both partitions of *Site 2* are broadly similar.
 
-We also need to include a prior on the hiatus ("gap") at $site_2$. This prior represents our belief about the number of reference height units (e.g. meters) that correspond to the gap. In the absence of specific knowledge, we suggest using an exponential prior, which places most of the probability mass on values smaller than the height range of the reference site. In this example, we use an exponential prior with a rate parameter of $1/4$. 
+We also need to include a prior on the hiatus ("gap") at *Site 2*. This prior represents our belief about the number of reference height units (e.g. meters) that correspond to the gap. In the absence of specific knowledge, we suggest using an exponential prior, which places most of the probability mass on values smaller than the height range of the reference site. In this example, we use an exponential prior with a rate parameter of 1/4. 
 
 ``` {r priors}
 site1Min <- min(signalData4$height[signalData4$site == "site1"])
@@ -160,16 +147,16 @@ site1Max <- max(signalData4$height[signalData4$site == "site1"])
 
 stratPrior4 <- structure(list(
   "alpha_site2" = UniformPrior(min = site1Min, max = site1Max),
-  "gammaLog_bottom partition" = NormalPrior(mean = 0, sd = log(2)),
-  "gammaLog_top partition" = NormalPrior(mean = 0, sd = log(2)),
+  "gammaLog_bottom part., site 2" = NormalPrior(mean = 0, sd = log(2)),
+  "gammaLog_top part., site 2" = NormalPrior(mean = 0, sd = log(2)),
   "gap_site2_1" = ExponentialPrior(rate = 1/4)),
   class = c("StratPrior", "list"))
 ```
 
 ### Running the model
-To run the model, we create the model object using the code suggested earlier by `StratModelTemplate()` (using `15` knots to save time) and select the desired number of iterations and runs.
+To run the model, we create the model object using the code suggested earlier by `StratModelTemplate()` (using 15 knots for a quicker run time) and select the desired number of iterations and runs.
 
-``` {r model run, eval = FALSE}
+``` {r model-run, eval = FALSE}
 stratModel4 <- StratModel(stratData = stratData4,
                     priors = stratPrior4,
                     alignmentScale = "height",
@@ -181,14 +168,14 @@ stratModel4 <- StratModel(stratData = stratData4,
 stratPosterior4 <- RunStratModel(stratObject = stratData4,
                         stratModel = stratModel4,
                         nRun = 3,
-                        nIter = 10000,
+                        nIter = 1000,
                         nThin = 25,
                         runParallel = TRUE)
 ```
 
 ## Results  
 
-We can see that the model run found an alignment solution that applies different sedimentation rates to the bottom and top partition of $site_2$. It also identified that there is a gap of a few height units between the two partitions:
+We can see that the model run found an alignment solution that applies different sedimentation rates to the bottom and top partition of *Site 2*. It also identified that there is a gap of a few height units between the two partitions:
 ``` {r plot}
 plot(stratPosterior4, alignment = 1, colourBy = "partition", ylab = "reference height (m)")
 ```
@@ -199,12 +186,17 @@ To get summary statistics of the model parameters, we can use the `summary()` fu
 summary(stratPosterior4)[[c("alignment1", "summary")]]
 ```
 
-The summary shows median (`"50%"`) log sedimentation rates $\ln(\gamma)$ of `{r} formatC(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_bottom partition", "50%"], format = "f", digits = 2) ` for the bottom and `{r} formatC(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_top partition", "50%"], format = "f", digits = 2) ` for the top partition of $site_2$. These translate to a sedimentation rate ($\gamma$) of the bottom partition of `{r} formatC(exp(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_bottom partition", "50%"]), format = "f", digits = 2)` relative to $site_1$, and a relative sedimentation rate of `{r} formatC(exp(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_top partition", "50%"]), format = "f", digits = 2)` for the top partition. The hiatus is estimated as `{r} formatC(summary(stratPosterior4)[[c("alignment1", "summary")]]["gap_site2_1", "50%"], format = "f", digits = 2) ` $\text{m}$ on the reference scale.
+The summary shows median (`"50%"`) log sedimentation rates ln$(\gamma)$ of `{r} formatC(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_bottom partition", "50%"], format = "f", digits = 2) ` for the bottom and `{r} formatC(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_top partition", "50%"], format = "f", digits = 2) ` for the top partition of *Site 2*. These translate to a sedimentation rate ($\gamma$) of the bottom partition of `{r} formatC(exp(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_bottom partition", "50%"]), format = "f", digits = 2)` relative to *Site 1*, and a relative sedimentation rate of `{r} formatC(exp(summary(stratPosterior4)[[c("alignment1", "summary")]]["gammaLog_top partition", "50%"]), format = "f", digits = 2)` for the top partition. The hiatus is estimated as `{r} formatC(summary(stratPosterior4)[[c("alignment1", "summary")]]["gap_site2_1", "50%"], format = "f", digits = 2) `&nbsp;m on the reference scale.
 
 For a visual summary of the posterior probability densities of parameters, we might use the `BeanPlot()` function:
 ``` {r BeanPlot}
 BeanPlot(stratPosterior4, parameters = 1:4)
 ```
+
+Each "bean" represents the posterior probability density of a model parameter. For example, the plot on the right shows that the posterior estimate of the hiatus duration (gap) ranges from $\approx$ 2 to 3.2 Myr, with most probability density in the interval from $\approx$ 2.2 to 2.8 Myr. 
+
+## Summary
+Partitioning data allows StratoBayes to model changes in sedimentation rates and stratigraphic gaps. Most real-world data sets will feature substantial variability in sedimentation rates, so allowing for sedimentation rate changes e.g. at prominent lithological transitions can lead to better alignments. On the other hand, adding partitions adds more unknown model parameters and increases the time for the model run to converge on a solution. 
 
 ## Next steps
 - [Tie points](https://stratobayes.github.io/vignettes/Tie-points.html) can improve correlations where available  
