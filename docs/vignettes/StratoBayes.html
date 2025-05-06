@@ -208,7 +208,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Age-modelling.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
@@ -340,13 +340,19 @@ main documentation home page.-->
 <section id="model-set-up" class="level2">
 <h2 class="anchored" data-anchor-id="model-set-up">Model set-up</h2>
 <!--Somewhere about here we should help a user to answer the question "Which models might be suitable for my own data, and how are they implemented in StratoBayes"-->
-<p>Now, we want to specify a stratigraphic correlation model that takes <span class="math inline">\(site1\)</span> as the reference section, and shifts and stretches the signal of <span class="math inline">\(site2\)</span> to achieve the best possible fit to the data of <span class="math inline">\(site1\)</span>.</p>
-<p>The nature of the data informs the type of model we might use. In this case, we have no absolute age information, such as radiometric dates. We will thus fit the model on the “height” scale. <!-- (see LINKTOVIGNETTE for an example with radiometric dates). --></p>
-<p>Furthermore, we don’t have information on potential sedimentation rate changes within the sections, e.g.&nbsp;due to lithology changes. We will therefore chose a simple model that assumes a uniform sedimentation rate within each section, but allows for sedimentation rates to differ from site to site .<!-- (see LINKTOVIGNETTE for examples with sedimentation rate changes within sections). --></p>
-<p>The model used here will employ two parameters, denoting the offset of <span class="math inline">\(site2\)</span> relative to <span class="math inline">\(site1\)</span>, <span class="math inline">\(\alpha_{site\_2}\)</span>, and the natural logarithm of the sedimentation rate of <span class="math inline">\(site2\)</span>, relative to <span class="math inline">\(site1\)</span>, <span class="math inline">\(ln(\gamma_{site\_2})\)</span>. The reference site <span class="math inline">\(site1\)</span> remains unchanged. In this model, a sedimentation rate of <span class="math inline">\(ln(\gamma_{site\_2}) = ln(3) \approx 1.1\)</span> would mean that the sedimentation rate of <span class="math inline">\(site2\)</span> is three times as high as that of <span class="math inline">\(site1\)</span>. Using the log-scale for the rate parameters ensures that the prior on the rate is symmetric; a doubling or halving of the rate has equivalent distances on the log-scale.</p>
+<p>Now, we want to specify a stratigraphic correlation model that takes <em>Site&nbsp;1</em> as the reference section, and shifts and stretches the signal of <em>Site&nbsp;2</em> to achieve the best possible fit to the data of <em>Site&nbsp;1</em>.</p>
+<p>The nature of the data informs the type of model we might use. In this case, we have no absolute age information, such as radiometric dates. We will thus fit the model on the “height” scale.</p>
+<blockquote class="blockquote">
+<p>See <a href="https://stratobayes.github.io/vignettes/Tie-points.html">Age scale correlation and age modelling</a> for an example with absolute ages.</p>
+</blockquote>
+<p>Furthermore, we don’t have information on potential sedimentation rate changes within the sections, e.g.&nbsp;due to lithology changes. We will therefore chose a simple model that assumes a uniform sedimentation rate within each section, but allows for sedimentation rates to differ from site to site.</p>
+<blockquote class="blockquote">
+<p>See <a href="https://stratobayes.github.io/vignettes/Partitioning.html">Partitioning data</a> for examples with sedimentation rate changes within sections.</p>
+</blockquote>
+<p>The model used here will employ two parameters, denoting the offset of <em>Site&nbsp;2</em> relative to <em>Site&nbsp;1</em>, <span class="math inline">\(\alpha_{site2}\)</span>, and the natural logarithm of the sedimentation rate of <em>Site&nbsp;2</em>, relative to <em>Site&nbsp;1</em>, <span class="math inline">\(\ln(\gamma_{site2})\)</span>. The reference site <em>Site&nbsp;1</em> remains unchanged. In this model, a sedimentation rate of <span class="math inline">\(\ln(\gamma_{site2}) = \ln(3) \approx 1.1\)</span> would mean that the sedimentation rate of <em>Site&nbsp;2</em> is three times as high as that of <em>Site&nbsp;1</em>. Using the log-scale for the rate parameters ensures that the prior on the rate is symmetric; a doubling or halving of the rate has equivalent distances on the log-scale.</p>
 <section id="priors" class="level3">
 <h3 class="anchored" data-anchor-id="priors">Priors</h3>
-<p>As we are working in a Bayesian framework, we need to specify priors for those two parameters. The helper function <code>StratModelTemplate()</code> will tell us which priors we need to specify, and provides the code needed to run the model. When calling this function, we will specify that our model should be on the <code>"height"</code> scale (<code>alignmentscale = "height"</code>), since we don’t have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each <code>"site"</code> (<code>sedModel = "site"</code>). We further specify that the offset of <span class="math inline">\(site2\)</span> relative to <span class="math inline">\(site1\)</span>, <span class="math inline">\(\alpha_{site\_2}\)</span>, refers to the <code>"middle"</code> of <span class="math inline">\(site\_2\)</span> (<code>alphaPosition = "middle"</code>). Here, we will use a uniform prior on the <span class="math inline">\(\alpha\)</span> parameter, and a normal prior on the <span class="math inline">\(ln(\gamma)\)</span> parameters:</p>
+<p>As we are working in a Bayesian framework, we need to specify priors for those two parameters. The helper function <code>StratModelTemplate()</code> will tell us which priors we need to specify, and provides the code needed to run the model. When calling this function, we will specify that our model should be on the height scale (<code>alignmentscale = "height"</code>), since we don’t have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each site (<code>sedModel = "site"</code>). We further specify that the offset of <em>Site&nbsp;2</em> relative to <em>Site&nbsp;1</em>, <span class="math inline">\(\alpha_{site2}\)</span>, refers to the middle of <em>Site&nbsp;2</em> (<code>alphaPosition = "middle"</code>). Here, we will use a uniform prior on the <span class="math inline">\(\alpha\)</span> parameter, and a normal prior on the <span class="math inline">\(\ln(\gamma)\)</span> parameters:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratModelTemplate</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  stratDat,</span>
@@ -374,7 +380,7 @@ main documentation home page.-->
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##                         nRun = 1,</span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">##                         nIter = 1000)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(18.7\, \text{m}\)</span>. Using these as the <code>min</code> and <code>max</code> values for the uniform prior on <span class="math inline">\(\alpha_{site\_2}\)</span> means that the mid height of <span class="math inline">\(site2\)</span> may fall anywhere within the height range of <span class="math inline">\(site_1\)</span>. For the normal prior on the log of the sedimentation rate of <span class="math inline">\(site\_1\)</span> relative to <span class="math inline">\(site\_2\)</span> we use a mean of <code>0</code> (a log sedimentation rate of <code>0</code> corresponds to a relative sedimentation rate of 1, i.e.&nbsp;no stretching or squeezing of the signal). We set the standard deviation to <span class="math inline">\(\ln(2)\)</span>, which places <code>~68%</code> of the prior probability of this parameter on sedimentation rates between <span class="math inline">\(0.5\)</span> and <span class="math inline">\(2.0\)</span>, with the remaining <code>32%</code> being allocated to more extreme relative sedimentation rates.</p>
+<p>Now, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from 0.25 to 18.7&nbsp;m. Using these as the <code>min</code> and <code>max</code> values for the uniform prior on <span class="math inline">\(\alpha_{site2}\)</span> means that the mid height of <em>Site&nbsp;2</em> may fall anywhere within the height range of <em>Site&nbsp;1</em>. For the normal prior on the log of the sedimentation rate of <em>Site&nbsp;1</em> relative to <em>Site&nbsp;2</em> we use a mean of 0 (a log sedimentation rate of 0 corresponds to a relative sedimentation rate of 1, i.e.&nbsp;no stretching or squeezing of the signal). We set the standard deviation to ln&nbsp;2, which places ~68% of the prior probability of this parameter on sedimentation rates between 0.5 and 2.0, with the remaining 32% being allocated to more extreme relative sedimentation rates.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site2"</span> <span class="ot">=</span> <span class="fu">UniformPrior</span>(<span class="at">min =</span> <span class="fl">0.25</span>, <span class="at">max =</span> <span class="fl">18.7</span>),</span>
@@ -384,7 +390,7 @@ main documentation home page.-->
 </section>
 <section id="the-model-object" class="level3">
 <h3 class="anchored" data-anchor-id="the-model-object">The model object</h3>
-<p>Before being able to run the model, we have to create a model object. We can simply use the code suggested by the <code>StratModelTemplate</code> function, but because we have a small data set, we will decrease the number of knots for the splines to <code>10</code>, which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.</p>
+<p>Before being able to run the model, we have to create a model object. We can simply use the code suggested by the <code>StratModelTemplate</code> function, but because we have a small data set, we will decrease the number of knots for the splines to 10 (<code>nKnots = 10</code>), which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">StratModel</span>(<span class="at">stratData =</span> stratDat,</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">priors =</span> priors,</span>
@@ -397,7 +403,7 @@ main documentation home page.-->
 </section>
 <section id="running-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-model">Running the model</h2>
-<p>We will estimate the parameter values with the <code>RunStratModel()</code> function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. <code>nIter</code> specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for <code>2,000</code> iterations. Samples from an MCMC are usually autocorrelated, so we use the <code>nThin</code> parameter to thin the samples and keep only every <code>10th</code> sample by setting <code>nThin = 10</code>. <code>nRun</code> determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least <code>3</code> independent model runs starting from different parameter values. Setting <code>runParallel</code> to <code>TRUE</code> allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the <code>foreach</code> and the <code>doParallel</code> R packages. Note that progress bars don’t work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when <code>runParallel = TRUE</code>. If you want to just do a single run, or several runs sequentially, set <code>runParallel</code> to <code>FALSE</code>.</p>
+<p>We will estimate the parameter values with the <code>RunStratModel()</code> function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. <code>nIter</code> specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 2,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the <code>nThin</code> parameter to thin the samples and keep only every 10th sample by setting <code>nThin = 10</code>. <code>nRun</code> determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting <code>runParallel</code> to <code>TRUE</code> allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the <code>foreach</code> and the <code>doParallel</code> R packages. Note that progress bars don’t work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when <code>runParallel = TRUE</code>. If you want to just do a single run, or several runs sequentially, set <code>runParallel</code> to <code>FALSE</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>runParallel <span class="ot">&lt;-</span> <span class="fu">requireNamespace</span>(<span class="st">"doParallel"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>) <span class="sc">&amp;&amp;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">&gt;</span> <span class="dv">1</span></span>
@@ -419,7 +425,7 @@ main documentation home page.-->
 <p><code>result</code> is now an object of class <code>StratPosterior</code>, which we can examine using the <code>print()</code>, <code>summary()</code>, and various <code>plot</code> methods. This particular result is also available for use in examples, without running the model, as package data <code>stratPosterior0</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Posterior of stratigraphic model from 3 runs after 2000 iterations:</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Posterior of stratigraphic model from 3 runs after 1000 iterations:</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   Samples: 603 (201 per run)</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## The model has 2 age-height parameters: </span></span>
@@ -433,7 +439,7 @@ main documentation home page.-->
 <section id="checking-for-convergence" class="level3">
 <h3 class="anchored" data-anchor-id="checking-for-convergence">Checking for convergence</h3>
 <p>The first thing to do with the result of the model run is to check for convergence. Convergence means that the chains have reached a state were they are no longer influenced by their starting values, and they have thoroughly explored the parameter space. We also want to make sure that the chains are mixing well. This can be visually assessed with trace plots.</p>
-<p>To plot the trace of <span class="math inline">\(\alpha_{site\_2}\)</span> and <span class="math inline">\(\ln \gamma_{site\_2}\)</span>, we can run:</p>
+<p>To plot the trace of <span class="math inline">\(\alpha_{site2}\)</span> and <span class="math inline">\(\ln \gamma_{site2}\)</span>, we can run:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TracePlot</span>(result, <span class="at">parameters =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -450,13 +456,13 @@ main documentation home page.-->
 </section>
 <section id="plotting-alignments" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-alignments">Plotting alignments</h3>
-<p>The <code>plot()</code> function displays the alignment corresponding to an approximate multivariate median of the converted heights (see Eichenseer et al., submitted to Geochronology). If a Cluster analysis reveals more than one distinct possible alignment, the most likely alignment is shown by default.</p>
+<p>The <code>plot()</code> function displays the alignment corresponding to an approximate multivariate median of the converted heights (see <a href="https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1355/">Eichenseer et al.&nbsp;2025</a>). If a Cluster analysis reveals more than one distinct possible alignment, the most likely alignment is shown by default.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result, <span class="at">alignment =</span> <span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="StratoBayes_files/figure-html/plot.StratPosterior-1.png" class="img-fluid figure-img" width="336"></p>
+<p><img src="StratoBayes_files/figure-html/plot.StratPosterior-1.png" class="img-fluid figure-img" width="384"></p>
 </figure>
 </div>
 </div>
@@ -468,51 +474,51 @@ main documentation home page.-->
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(result)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Posterior of stratigraphic model from 3 runs after 2000 iterations:</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Posterior of stratigraphic model from 3 runs after 1000 iterations:</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   Total samples: 603 (201 per run).</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   Statistics summarise 300 samples (100 per run), after discarding the first 50% of</span></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   iterations from each run as burn-in.</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   The acceptance rate of proposals across the selected iterations was 37%.</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   The acceptance rate of proposals across the selected iterations was 26%.</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="do">##   'ess' is a measure of effective sample size, using coda::effectiveSize().</span></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Potential scale reduction factor: (Convergence when ~1.00)</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   alpha_site2    0.99863</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   gammaLog_site2 1.00292</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   lambda_value   0.99642</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="do">##   log prior      0.99489</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="do">##   log likelihood 0.98968</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   log posterior  0.99108</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   alpha_site2    0.98695</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   gammaLog_site2 0.99650</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   lambda_value   0.99289</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="do">##   log prior      0.99415</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="do">##   log likelihood 1.00350</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   log posterior  0.99821</span></span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Summary statistics for alignment 1 (of 1 alignments), comprising 300 samples (100%):</span></span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="do">##   Multivariate effective sample size of age-height parameters, using</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="do">##   mcmcse::multiESS(): 300</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="do">##   mcmcse::multiESS(): 221.6</span></span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="do">##                    mean      sd     2.5%      25%      50%      75%    97.5%</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2      9.4569 0.13336   9.1843   9.3728   9.4625   9.5508   9.7017</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_site2  1.01533 0.07013  0.89344  0.96734  1.01649  1.05203  1.17095</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value    1.31973 0.61653  0.46745  0.89967  1.23938  1.59627  2.65167</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior      -54.5889 2.75965 -61.9361 -55.9090 -54.6915 -52.2859 -49.8394</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood -10.3881 3.69910 -19.8245 -12.4298  -9.8716 -7.53950 -4.74404</span></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior  -64.9771 2.93520 -71.5402 -66.4608 -64.6042 -62.9519 -60.1909</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2      9.4793 0.12820   9.2237   9.3931   9.4834   9.5659   9.7293</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_site2  1.02157 0.06753  0.90004  0.98159  1.01990  1.06168  1.17065</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value    1.27054 0.52861  0.38004  0.87330  1.22261  1.66281  2.38439</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior      -54.6593 2.48593 -60.6952 -55.9351 -54.6993 -53.4221 -51.0014</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood -10.5708 3.44423 -18.4717 -12.3448  -9.9689 -8.10230 -5.36462</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior  -65.2301 2.74834 -71.6141 -66.8425 -64.7992 -63.3411 -61.1239</span></span>
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="do">##                    ess</span></span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2    328.807</span></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_site2 300.000</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2    147.073</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_site2 235.008</span></span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value   300.000</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior      300.000</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood 300.000</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior  248.797</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior      234.090</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood 229.736</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior  248.173</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stratigraphic-mapping" class="level3">
 <h3 class="anchored" data-anchor-id="stratigraphic-mapping">Stratigraphic mapping</h3>
-<p>With our age model, we can now convert any height from <span class="math inline">\(site2\)</span> to the height scale of our reference section <span class="math inline">\(site1\)</span> using the <code>StratMap()</code> function. For example, to give us the heights in section_1 corresponding to a height of 1&nbsp;m in <span class="math inline">\(site2\)</span>, we can use:</p>
+<p>With our age model, we can now convert any height from <em>Site&nbsp;2</em> to the height scale of our reference section <em>Site&nbsp;1</em> using the <code>StratMap()</code> function. For example, to give us the heights in section_1 corresponding to a height of 1&nbsp;m in <em>Site&nbsp;2</em>, we can use:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratMap</span>(result, <span class="at">heights =</span> <span class="dv">1</span>, <span class="at">site =</span> <span class="st">"site2"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   height     mean        sd    2.5%      50%    97.5%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1      1 6.688474 0.2671418 6.15726 6.682224 7.181895</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   height     mean       sd     2.5%      50%    97.5%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1      1 6.728533 0.258385 6.256851 6.708606 7.218249</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This tells us that a height of 1&nbsp;m at <span class="math inline">\(site2\)</span> would correspond to a mean height of 6.7&nbsp;m at <span class="math inline">\(site1\)</span>, for this alignment.</p>
-<p>We can visualise the stratigraphic mapping of heights from <span class="math inline">\(site2\)</span> to the reference height scale from <span class="math inline">\(site1\)</span> using the <code>StratMapPlot()</code> function:</p>
+<p>This tells us that a height of 1&nbsp;m at <em>Site&nbsp;2</em> would correspond to a mean height of 6.7&nbsp;m at <em>Site&nbsp;1</em>, for this alignment.</p>
+<p>We can visualise the stratigraphic mapping of heights from <em>Site&nbsp;2</em> to the reference height scale from <em>Site&nbsp;1</em> using the <code>StratMapPlot()</code> function:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratMapPlot</span>(result, <span class="at">site =</span> <span class="st">"site2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -530,12 +536,12 @@ main documentation home page.-->
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <!-- [ Brief summary of what our model run has taught us and what we might conclude ]-->
-<p>Our model run identified the alignment that results in the best match of the proxy records from <span class="math inline">\(site1\)</span> and <span class="math inline">\(site1\)</span>, and estimated the uncertainty associated with that alignment. The median sedimentation rate of <span class="math inline">\(site2\)</span> relative to <span class="math inline">\(site1\)</span>, <span class="math inline">\(\gamma_{site\_2} = \exp(\ln\gamma_{site\_2})\)</span>, has been estimated at 2.8, meaning the analysis has “squeezed” the record of <span class="math inline">\(site2\)</span> by a factor of 2.8 to match that of <span class="math inline">\(site1\)</span>.</p>
+<p>Our model run identified the alignment that results in the best match of the proxy records from <em>Site&nbsp;1</em> and <em>Site&nbsp;1</em>, and estimated the uncertainty associated with that alignment. The median sedimentation rate of <em>Site&nbsp;2</em> relative to <em>Site&nbsp;1</em>, <span class="math inline">\(\gamma_{site2} = \exp(\ln\gamma_{site2})\)</span>, has been estimated at 2.8, meaning the analysis has “squeezed” the record of <em>Site&nbsp;2</em> by a factor of 2.8 to match that of <em>Site&nbsp;1</em>.</p>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
-<li><a href="https://stratobayes.github.io/vignettes/Partitioning-data.html">Partitioning data</a> allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations<br>
+<li><a href="https://stratobayes.github.io/vignettes/Partitioning.html">Partitioning data</a> allows sedimentation rate changes and/or hiatuses, enabling more accurate correlations<br>
 </li>
 <li><a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a> can improve correlations where available<br>
 </li>

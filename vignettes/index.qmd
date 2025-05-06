@@ -1,0 +1,11 @@
+---
+title: "Vignette index"
+format: html
+---
+
+- [Installation](https://stratobayes.github.io/software.html#installation) -- Instructions for installing the StratoBayes R package.
+- [Getting started](https://stratobayes.github.io/vignettes/StratoBayes.html) -- Introducing the basic workflow for correlating stratigraphic data with StratoBayes.  
+- [Partitioning data](https://stratobayes.github.io/vignettes/Partitioning.html) -- Expanding the basic model by including changes in sedimentation rates and hiatuses.  
+- [Tie points](https://stratobayes.github.io/vignettes/Tie-points.html) -- Improving correlations by including known reference horizons.  
+- [Correlation on the age scale and age models](https://stratobayes.github.io/vignettes/Age-modelling.html) -- Including absolute age information as tie points for constructing age-depth models.  
+- [Real-world example](https://stratobayes.github.io/tutorial-1/StratoBayes-Tutorial-1.html) -- Alternative introduction to StratoBayes with a real-world data comprising well- and outcrop data.  

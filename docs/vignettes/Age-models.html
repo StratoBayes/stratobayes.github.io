@@ -142,7 +142,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/Age-modelling.html">Age modelling</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Correlation on the age scale and age models</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -208,14 +208,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link active">
+  <a href="../vignettes/Age-modelling.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../tutorial-1/StratoBayes-Tutorial-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial - Permian case study</span></a>
+ <span class="menu-text">Real-world example</span></a>
   </div>
 </li>
       </ul>
@@ -247,7 +247,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/Age-modelling.html">Age modelling</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Correlation on the age scale and age models</h1>
 </div>
@@ -283,14 +283,16 @@ window.Quarto = {
 <p>StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at <a href="https://stratobayes.github.io/">https://stratobayes.github.io/</a>. For a basic introduction to StratoBayes, see the <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">StratoBayes vignette</a></p>
 </blockquote>
 <p>This guide introduces stratigraphic correlations on the age scale via absolute age constraints. Please <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">let us know</a> if you have any issues or suggestions on improving this documentation.</p>
-<p>Absolute age constraints – radiometric dates, bioevents dated elsewhere, etc. – anchor the correlation in absolute time. In StratoBayes, absolute ages are treated like <a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a>, except that the correlation is carried out on the geological time axis, rather than a reference height scale.</p>
+<p>Absolute age constraints – radiometric dates, bioevents dated elsewhere, etc. – anchor the correlation in absolute time. In StratoBayes, absolute ages are treated like <a href="https://stratobayes.github.io/vignettes/Tie-points.html">tie points</a>, except that the correlation is carried out on the geological time axis, rather than a reference height scale.</p>
 <blockquote class="blockquote">
-<p>This example also includes <a href="https://stratobayes.github.io/vignettes/Partitioning-data.html">Partitions</a>.</p>
+<p><em>Before you start:</em> This vignette assumes you are familiar with<br>
+- <a href="https://stratobayes.github.io/vignettes/Partitioning.html">Partitions</a>.<br>
+- <a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a>.</p>
 </blockquote>
 <section id="absolute-ages-as-tie-points" class="level2">
 <h2 class="anchored" data-anchor-id="absolute-ages-as-tie-points">Absolute ages as tie points</h2>
 <p>We will specify ages in a <code>ties</code> dataframe for the dataset <code>StratData4</code>. Every row of the dataframe represents a tie point and needs a <code>site</code> and a <code>height</code> column. The <code>mean</code> and the standard deviation (<code>sd</code>) now correspond to the absolute age estimate of the horizon at the corresponding height and site.</p>
-<p>Here, we specify two dated horizons for <span class="math inline">\(site1\)</span>:</p>
+<p>Here, we specify two dated horizons for <em>Site 1</em>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tiesData4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">site =</span> <span class="fu">c</span>(<span class="st">"site1"</span>, <span class="st">"site1"</span>),</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">height =</span> <span class="fu">c</span>(<span class="fl">2.5</span> <span class="sc">*</span> pi, <span class="fl">6.5</span> <span class="sc">*</span> pi),</span>
@@ -301,8 +303,8 @@ window.Quarto = {
 </section>
 <section id="setting-priors" class="level2">
 <h2 class="anchored" data-anchor-id="setting-priors">Setting priors</h2>
-<p>Working on the absolute age scale forces us to specify model parameters (offsets, <span class="math inline">\(\alpha\)</span>; sedimentation rates, <span class="math inline">\(\gamma\)</span>, hiatuses, <span class="math inline">\(\delta\)</span>) on the absolute age scale in <span class="math inline">\(\text{Ma}\)</span> and <span class="math inline">\(\text{m}/\text{Myr}\)</span> or similar. Sedimentation rate priors can no longer be specified relative to a reference site, and we need rough estimates of absolute sedimentation rates.</p>
-<p>In our case, we can use the pair of dated horizons from <span class="math inline">\(Site1\)</span> for an <em>a priori</em> sedimentation rate estimate:</p>
+<p>Working on the absolute age scale forces us to specify model parameters (offsets, <span class="math inline">\(\alpha\)</span>; sedimentation rates, <span class="math inline">\(\gamma\)</span>; hiatuses, <span class="math inline">\(\delta\)</span>) on the absolute age scale in Ma and m/Myr or similar. Sedimentation rate priors can no longer be specified relative to a reference site, and we need rough estimates of absolute sedimentation rates.</p>
+<p>In our case, we can use the pair of dated horizons from <em>Site 1</em> for an <em>a priori</em> sedimentation rate estimate:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sedRateSite1 <span class="ot">&lt;-</span> <span class="fu">diff</span>(tiesData4<span class="sc">$</span>height[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)]) <span class="sc">/</span> <span class="fu">diff</span>(tiesData4<span class="sc">$</span>mean)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(sedRateSite1, <span class="dv">2</span>)) <span class="co"># display result</span></span>
@@ -310,9 +312,9 @@ window.Quarto = {
 </div>
 <p>We use</p>
 <ul>
-<li><p><span class="math inline">\(\alpha\)</span> (offsets) – We use a normal prior centred on the midpoint between the two dates for <span class="math inline">\(site1\)</span> (<span class="math inline">\(4.5\pi\)</span>),and a deliberately broad standard deviation of <span class="math inline">\(1\,\text{Myr}\)</span> to not “double-count” those ages. For site 2, in the absence of a better estimate, we simply use the mid point of the section and the same broad age uncertainty (specifying “middle” in the <code>alphaPosition</code> argument).</p></li>
-<li><p><span class="math inline">\(\gamma\)</span> (sedimentation rates) – As we don’t have age estimates from <span class="math inline">\(site2\)</span>, will use the log of this estimate as the mean of a normal distributed prior on <span class="math inline">\(\ln(\gamma) = 6.28\,\text{m}/\text{Myr}\)</span> on all partitions. To express considerable uncertainty, we set the standard deviation to <span class="math inline">\(1\,\text{m}/\text{Myr}\)</span>. This implies a <span class="math inline">\(95\%\)</span> prior probability interval ranging from <span class="math inline">\(0.14\)</span> to <span class="math inline">\(7\)</span> times the mean. Higher or lower values may be sensible in other scenarios, depending on prior expectations of sedimentation rate variability.</p></li>
-<li><p><span class="math inline">\(\delta\)</span> (hiatus or “gap”) – An exponential prior concentrates probability near zero but has a long tail to account for the possibility of a longer gap. A rate of (<span class="math inline">\(1\)</span>) gives a prior mean hiatus duration of <span class="math inline">\(1 \text{Ma}\)</span> and <span class="math inline">\(\approx 85\%\)</span> probability that the gap is <span class="math inline">\(&lt; 2\,\text{Myr}\)</span>.</p></li>
+<li><p><span class="math inline">\(\alpha\)</span> (offsets) – We use a normal prior centred on the midpoint between the two dates for <em>Site 1</em> (4.5<span class="math inline">\(\pi\)</span>), and a deliberately broad standard deviation of 1&nbsp;Myr to not “double-count” those ages. For site 2, in the absence of a better estimate, we simply use the mid point of the section and the same broad age uncertainty (specifying “middle” in the <code>alphaPosition</code> argument).</p></li>
+<li><p><span class="math inline">\(\gamma\)</span> (sedimentation rates) – As we don’t have age estimates from <em>Site 2</em>, will use the log of this estimate as the mean of a normal distributed prior on ln<span class="math inline">\((\gamma) =\)</span> 6.28&nbsp;m/Myr on all partitions. To express considerable uncertainty, we set the standard deviation to 1&nbsp;m/Myr. This implies a 95% prior probability interval ranging from 0.14 to 7 times the mean. Higher or lower values may be sensible in other scenarios, depending on prior expectations of sedimentation rate variability.</p></li>
+<li><p><span class="math inline">\(\delta\)</span> (hiatus or “gap”) – An exponential prior concentrates probability near zero but has a long tail to account for the possibility of a longer gap. A rate of 1&nbsp;Myr<span class="math inline">\(^{-1}\)</span> gives a mean prior hiatus duration of 1&nbsp;Myr and <span class="math inline">\(\approx\)</span> 95% probability that the gap is &lt;&nbsp;3&nbsp;Myr.</p></li>
 </ul>
 <p><code>StratModelTemplate()</code> lists the required priors, which we can then copy and fill in. Importantly, we have to set <code>alignmentScale = "age"</code> to confirm age scale alignment. As there is no reference site, we have to specify an <span class="math inline">\(\alpha\)</span> prior for every site.</p>
 <div class="cell">
@@ -331,13 +333,13 @@ window.Quarto = {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gap_site2_1"</span> <span class="ot">=</span> <span class="fu">ExponentialPrior</span>(<span class="at">rate =</span> <span class="dv">1</span>)),</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"StratPrior"</span>, <span class="st">"list"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To verify that the priors depict our belief, it is useful to plot them. We can show <span class="math inline">\(\gamma\)</span> rather than <span class="math inline">\(\ln(\gamma)\)</span>) by setting <code>log = FALSE</code>:</p>
+<p>To verify that the priors depict our belief, it is useful to plot them. We can show <span class="math inline">\(\gamma\)</span> rather than ln<span class="math inline">\((\gamma)\)</span> by setting <code>log = FALSE</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratPrior4b, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Age-modelling_files/figure-html/plot priors-1.png" class="img-fluid figure-img" width="432"></p>
+<p><img src="Age-models_files/figure-html/plot-priors-1.png" class="img-fluid figure-img" width="432"></p>
 </figure>
 </div>
 </div>
@@ -359,7 +361,7 @@ window.Quarto = {
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nRun =</span> <span class="dv">3</span>,</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">runParallel =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nThin =</span> <span class="dv">10</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">1000</span>) <span class="co"># user higher nIter for more accurate results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="results" class="level2">
@@ -370,7 +372,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Age-modelling_files/figure-html/plot.StratPosterior-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Age-models_files/figure-html/plot.StratPosterior-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -381,7 +383,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Age-modelling_files/figure-html/StratMapPlot-1.png" class="img-fluid figure-img" width="384"></p>
+<p><img src="Age-models_files/figure-html/StratMapPlot-1.png" class="img-fluid figure-img" width="384"></p>
 </figure>
 </div>
 </div>
@@ -393,12 +395,12 @@ window.Quarto = {
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  1.570796 13.03880 0.22837078 12.58317 13.03865 13.43674</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 14.137167 11.00879 0.08533684 10.84382 11.01295 11.17668</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can see that age estimates at the bottom of <span class="math inline">\(site1\)</span> have larger uncertainties than age estimates in the middle, where they are surrounded by two absolute ages.</p>
+<p>We can see that age estimates at the bottom of <em>Site 1</em> have larger uncertainties than age estimates in the middle, where they are surrounded by two absolute ages.</p>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
-<li>See <a href="https://stratobayes.github.io/vignettes/Partitioning-data.html">Partitioning data</a> for a refresher on how sedimentation rate changes and/or hiatuses enable more accurate correlations<br>
+<li>See <a href="https://stratobayes.github.io/vignettes/Partitioning.html">Partitioning data</a> for a refresher on how sedimentation rate changes and/or hiatuses enable more accurate correlations<br>
 </li>
 <li><a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a> introduces the use of tie points from scratch</li>
 </ul>

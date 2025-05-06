@@ -208,14 +208,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Age-modelling.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../tutorial-1/StratoBayes-Tutorial-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial - Permian case study</span></a>
+ <span class="menu-text">Real-world example</span></a>
   </div>
 </li>
       </ul>
@@ -279,18 +279,6 @@ window.Quarto = {
   font-family: sans-serif !important;
 }
 </style>
-<!-- NOTES
-
-- StratMap instead of AgeModel & AgeConversion (merge to 1 function for user)
-- AgeConversion needs to check for vector input (or accept DF as well)
-- Do not use Metropolis parameters, use mapping parameters
-- allow for vector input in clusterelect
-- fix AgeModel (StratMap) cluster logic
--->
-<!-- The user may stumble across this vignette via a link or Google that places
-it out of context.  Thus it's good practice to open with links to provide users
-with necessary context; e.g. we should certainly link "StratoBayes" to the
-main documentation home page.-->
 <blockquote class="blockquote">
 <p>StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at <a href="https://stratobayes.github.io/">https://stratobayes.github.io/</a>. For a basic introduction to StratoBayes, see the <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">StratoBayes vignette</a></p>
 </blockquote>
@@ -302,12 +290,12 @@ main documentation home page.-->
 </div>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The data</h2>
-<p>In this example, we use the included dataset <code>signalData4</code>. This data has been simulated with a hiatus (stratigraphic gap) at <span class="math inline">\(site_2\)</span>, and sedimentation rates differ between the bottom and the top stratigraphic partition (delineated by the hiatus):</p>
+<p>In this example, we use the included dataset <code>signalData4</code>. This data has been simulated with a hiatus (stratigraphic gap) at <em>Site 2</em>, and sedimentation rates differ between the bottom and the top stratigraphic partition (delineated by the hiatus):</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Partitioning_files/figure-html/plot signalData4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Partitioning_files/figure-html/plot-signalData4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -325,10 +313,9 @@ main documentation home page.-->
 <p>Instead of those names, different column names can be used by providing <code>siteColumn</code>, <code>zColumn</code> and/or <code>partitionColumn</code> arguments to the <code>StratData</code> function later on. The former two need to match the column names used in the signal dataframe.</p>
 </blockquote>
 <p>In this example:<br>
-- For <span class="math inline">\(site_1\)</span>, the maximum height value (or top of the sequence) is used to define a single partition for the whole site. As we will use <span class="math inline">\(site_1\)</span> as the reference site (heights will be unchanged), additional partitions would not affect the analysis.<br>
-- For <span class="math inline">\(site_2\)</span>, two partitions are specified: one for the part above the hiatus (for which we altered the sedimentation rate earlier) and one for part below.<br>
-<em>To define the hiatus:</em><br>
-- The gap height is included first with an <code>NA</code> to denote the break in continuity.<br>
+- For <em>Site 1</em>, the maximum height value (or top of the sequence) is used to define a single partition for the whole site. As we will use <em>Site 1</em> as the reference site (heights will be unchanged), additional partitions would not affect the analysis.<br>
+- For <em>Site 2</em>, two partitions are specified: one for the part above the hiatus (for which we altered the sedimentation rate earlier) and one for part below.<br>
+<em>To define the hiatus:</em> - The gap height is included first with an <code>NA</code> to denote the break in continuity.<br>
 - The same height is then specified as the top of the partition below the hiatus.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine the maximum recorded height for each site.</span></span>
@@ -341,15 +328,15 @@ main documentation home page.-->
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>partsData4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="fu">c</span>(<span class="st">"site1"</span>, <span class="st">"site2"</span>, <span class="st">"site2"</span>, <span class="st">"site2"</span>),</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fu">c</span>(site1Max, site2Max, hiatus, site2BottomPartitionTop), </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">partition =</span> <span class="fu">c</span>(<span class="st">"partition site 1"</span>, <span class="st">"top partition"</span>, <span class="cn">NA</span>, <span class="st">"bottom partition"</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">partition =</span> <span class="fu">c</span>(<span class="st">"partition site 1"</span>, <span class="st">"top partition, site 2"</span>, <span class="cn">NA</span>, <span class="st">"bottom partition, site 2"</span>))</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># print dataframe</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>partsData4</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="do">##    site    height        partition</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 site1 24.948872 partition site 1</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 site2 23.541414    top partition</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 site2  4.712389             &lt;NA&gt;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 site2  4.712389 bottom partition</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="do">##    site    height                partition</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 site1 24.948872         partition site 1</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 site2 23.541414    top partition, site 2</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 site2  4.712389                     &lt;NA&gt;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 site2  4.712389 bottom partition, site 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now create a <code>StratData</code> object from the <code>signalData0b</code> and the <code>partsData0b</code> objects with <code>StratData()</code>:</p>
 <div class="cell">
@@ -361,7 +348,7 @@ main documentation home page.-->
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Partitioning_files/figure-html/plot StratData-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Partitioning_files/figure-html/plot-StratData-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -372,15 +359,15 @@ main documentation home page.-->
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Partitioning_files/figure-html/plot signal data-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Partitioning_files/figure-html/plot-signal-data-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="model-set-up-and--run" class="level2">
-<h2 class="anchored" data-anchor-id="model-set-up-and--run">Model set-up and -run</h2>
-<p>The model-setup is analogous to the example in the <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">How to use ‘StratoBayes’ vignette</a>, with one key modification: We want to allow sedimentation rates to vary between partitions, so we specify <code>sedModel = "partition"</code>.</p>
+<section id="model-set-up-and-run" class="level2">
+<h2 class="anchored" data-anchor-id="model-set-up-and-run">Model set-up and run</h2>
+<p>The model-setup is analogous to the example in the <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">How to use ‘StratoBayes’ vignette</a>, with one key modification: we want to allow sedimentation rates to vary between partitions, so we specify <code>sedModel = "partition"</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratModelTemplate</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  stratData4,</span>
@@ -393,8 +380,8 @@ main documentation home page.-->
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">## priors &lt;- structure(list(</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##   "alpha_site2" = UniformPrior(min = , max = ),</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   "gammaLog_bottom partition" = NormalPrior(mean = , sd = ),</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   "gammaLog_top partition" = NormalPrior(mean = , sd = ),</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   "gammaLog_bottom partition, site 2" = NormalPrior(mean = , sd = ),</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   "gammaLog_top partition, site 2" = NormalPrior(mean = , sd = ),</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   "gap_site2_1" = ExponentialPrior(rate = )),</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">##   class = c("StratPrior", "list"))</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
@@ -412,24 +399,24 @@ main documentation home page.-->
 </div>
 <section id="priors" class="level3">
 <h3 class="anchored" data-anchor-id="priors">Priors</h3>
-<p>Instead of a site-specific sedimentation rate prior for <span class="math inline">\(site_2\)</span> relative to <span class="math inline">\(site_1\)</span>, we now specify separate sedimentation rates for the <code>bottom partition</code> and <code>top partition</code> relative to <span class="math inline">\(site_1\)</span>.</p>
-<p>We use the same <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\ln(\gamma)\)</span> priors as previously, with <span class="math inline">\(\alpha\)</span> spanning the entirety of <span class="math inline">\(site_1\)</span>. We use normal prior for the relative sedimentation rates (on the logarithmic scale) of both partitions. The priors are centred at <span class="math inline">\(0\)</span>, reflecting our belief that the sedimentation rates at <span class="math inline">\(site_1\)</span> and both partitions of <span class="math inline">\(site_2\)</span> are broadly similar.</p>
-<p>We also need to include a prior on the hiatus (“gap”) at <span class="math inline">\(site_2\)</span>. This prior represents our belief about the number of reference height units (e.g.&nbsp;meters) that correspond to the gap. In the absence of specific knowledge, we suggest using an exponential prior, which places most of the probability mass on values smaller than the height range of the reference site. In this example, we use an exponential prior with a rate parameter of <span class="math inline">\(1/4\)</span>.</p>
+<p>Instead of a site-specific sedimentation rate prior for <em>Site 2</em> relative to <em>Site 1</em>, we now specify separate sedimentation rates for the bottom partition and top partition relative to <em>Site 1</em>.</p>
+<p>We use the same <span class="math inline">\(\alpha\)</span> and ln<span class="math inline">\((\gamma)\)</span> priors as previously, with <span class="math inline">\(\alpha\)</span> spanning the entirety of <em>Site 1</em>. We use normal prior for the relative sedimentation rates (on the logarithmic scale) of both partitions. The priors are centred at 0, reflecting our belief that the sedimentation rates at <em>Site 1</em> and both partitions of <em>Site 2</em> are broadly similar.</p>
+<p>We also need to include a prior on the hiatus (“gap”) at <em>Site 2</em>. This prior represents our belief about the number of reference height units (e.g.&nbsp;meters) that correspond to the gap. In the absence of specific knowledge, we suggest using an exponential prior, which places most of the probability mass on values smaller than the height range of the reference site. In this example, we use an exponential prior with a rate parameter of 1/4.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>site1Min <span class="ot">&lt;-</span> <span class="fu">min</span>(signalData4<span class="sc">$</span>height[signalData4<span class="sc">$</span>site <span class="sc">==</span> <span class="st">"site1"</span>])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>site1Max <span class="ot">&lt;-</span> <span class="fu">max</span>(signalData4<span class="sc">$</span>height[signalData4<span class="sc">$</span>site <span class="sc">==</span> <span class="st">"site1"</span>])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>stratPrior4 <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site2"</span> <span class="ot">=</span> <span class="fu">UniformPrior</span>(<span class="at">min =</span> site1Min, <span class="at">max =</span> site1Max),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_bottom partition"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>)),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_top partition"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>)),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_bottom part., site 2"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>)),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_top part., site 2"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>)),</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gap_site2_1"</span> <span class="ot">=</span> <span class="fu">ExponentialPrior</span>(<span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)),</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"StratPrior"</span>, <span class="st">"list"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="running-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-model">Running the model</h3>
-<p>To run the model, we create the model object using the code suggested earlier by <code>StratModelTemplate()</code> (using <code>15</code> knots to save time) and select the desired number of iterations and runs.</p>
+<p>To run the model, we create the model object using the code suggested earlier by <code>StratModelTemplate()</code> (using 15 knots for a quicker run time) and select the desired number of iterations and runs.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>stratModel4 <span class="ot">&lt;-</span> <span class="fu">StratModel</span>(<span class="at">stratData =</span> stratData4,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">priors =</span> stratPrior4,</span>
@@ -442,7 +429,7 @@ main documentation home page.-->
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>stratPosterior4 <span class="ot">&lt;-</span> <span class="fu">RunStratModel</span>(<span class="at">stratObject =</span> stratData4,</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stratModel =</span> stratModel4,</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nRun =</span> <span class="dv">3</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">10000</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">1000</span>,</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nThin =</span> <span class="dv">25</span>,</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">runParallel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -450,7 +437,7 @@ main documentation home page.-->
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>We can see that the model run found an alignment solution that applies different sedimentation rates to the bottom and top partition of <span class="math inline">\(site_2\)</span>. It also identified that there is a gap of a few height units between the two partitions:</p>
+<p>We can see that the model run found an alignment solution that applies different sedimentation rates to the bottom and top partition of <em>Site 2</em>. It also identified that there is a gap of a few height units between the two partitions:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratPosterior4, <span class="at">alignment =</span> <span class="dv">1</span>, <span class="at">colourBy =</span> <span class="st">"partition"</span>, <span class="at">ylab =</span> <span class="st">"reference height (m)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -464,26 +451,26 @@ main documentation home page.-->
 <p>To get summary statistics of the model parameters, we can use the <code>summary()</code> function. For brevity, we just print a subset of the summary:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stratPosterior4)[[<span class="fu">c</span>(<span class="st">"alignment1"</span>, <span class="st">"summary"</span>)]]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">##                                   mean         sd         2.5%          25%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2                 14.8273791 0.05729985   14.7286813   14.7861217</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_bottom partition    0.2653797 0.07075603    0.1519085    0.2082650</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_top partition       1.0079606 0.02770481    0.9573503    0.9905692</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## gap_site2_1                  2.5135618 0.15835828    2.2308204    2.4066265</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value                 1.2786945 0.42988194    0.6010661    0.9588100</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior                 -299.5788746 8.78321206 -316.9752550 -305.8923406</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood              98.5137336 9.09694877   78.1285772   92.9639663</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior             -201.0651410 3.94462591 -209.2130156 -203.3586700</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">##                                    50%          75%        97.5%      ess</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2                 14.8249733   14.8659686   14.9509883 343.5421</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_bottom partition    0.2577429    0.3174761    0.4056758 364.2266</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_top partition       1.0060646    1.0230780    1.0673169 478.3895</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## gap_site2_1                  2.5012097    2.6144596    2.8690735 367.7341</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value                 1.2332032    1.5525960    2.2171121 600.0000</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior                 -299.2585025 -292.6579155 -283.7066172 370.6999</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood              98.9650366  105.2088067  112.8821157 407.1240</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior             -200.5465125 -198.0835508 -194.7860344 568.4914</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">##                                       mean         sd         2.5%          25%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2                     14.8263522 0.06139504   14.7175337   14.7809081</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_bottom part., site 2    0.2696266 0.07323268    0.1551746    0.2107582</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_top part., site 2       1.0126299 0.02951703    0.9623790    0.9935897</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## gap_site2_1                      2.5341587 0.17165284    2.2223818    2.4066706</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value                     1.2946342 0.46623487    0.5564450    0.9727650</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior                     -300.9276907 9.32441124 -319.2419994 -308.0937169</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood                  98.9529826 9.41845332   78.8659504   92.6928984</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior                 -201.9747081 3.95833759 -210.1759572 -204.3763034</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">##                                        50%          75%       97.5%      ess</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">## alpha_site2                     14.8252023   14.8658659   14.952313 600.0000</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_bottom part., site 2    0.2611951    0.3233734    0.414835 472.4900</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">## gammaLog_top part., site 2       1.0084797    1.0285063    1.081041 619.7227</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## gap_site2_1                      2.5217714    2.6538842    2.879252 600.0000</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## lambda_value                     1.2594937    1.5406157    2.374569 600.0000</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## log prior                     -301.4475212 -294.7852737 -283.725293 508.3504</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="do">## log likelihood                 100.0321460  105.8621007  115.260394 600.0000</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="do">## log posterior                 -201.6305543 -199.2044765 -195.120761 600.0000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The summary shows median (<code>"50%"</code>) log sedimentation rates <span class="math inline">\(\ln(\gamma)\)</span> of 0.26 for the bottom and 1.01 for the top partition of <span class="math inline">\(site_2\)</span>. These translate to a sedimentation rate (<span class="math inline">\(\gamma\)</span>) of the bottom partition of 1.29 relative to <span class="math inline">\(site_1\)</span>, and a relative sedimentation rate of 2.73 for the top partition. The hiatus is estimated as 2.50 <span class="math inline">\(\text{m}\)</span> on the reference scale.</p>
+<p>The summary shows median (<code>"50%"</code>) log sedimentation rates ln<span class="math inline">\((\gamma)\)</span> of NA for the bottom and NA for the top partition of <em>Site 2</em>. These translate to a sedimentation rate (<span class="math inline">\(\gamma\)</span>) of the bottom partition of NA relative to <em>Site 1</em>, and a relative sedimentation rate of NA for the top partition. The hiatus is estimated as 2.52&nbsp;m on the reference scale.</p>
 <p>For a visual summary of the posterior probability densities of parameters, we might use the <code>BeanPlot()</code> function:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BeanPlot</span>(stratPosterior4, <span class="at">parameters =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -495,6 +482,11 @@ main documentation home page.-->
 </div>
 </div>
 </div>
+<p>Each “bean” represents the posterior probability density of a model parameter. For example, the plot on the right shows that the posterior estimate of the hiatus duration (gap) ranges from <span class="math inline">\(\approx\)</span> 2 to 3.2 Myr, with most probability density in the interval from <span class="math inline">\(\approx\)</span> 2.2 to 2.8 Myr.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Partitioning data allows StratoBayes to model changes in sedimentation rates and stratigraphic gaps. Most real-world data sets will feature substantial variability in sedimentation rates, so allowing for sedimentation rate changes e.g.&nbsp;at prominent lithological transitions can lead to better alignments. On the other hand, adding partitions adds more unknown model parameters and increases the time for the model run to converge on a solution.</p>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
