@@ -7,52 +7,57 @@ slug: software
 **Automated stratigraphic correlation and age modelling**
 
 ## About
-StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below. 
+
+StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.
 
 > **Note**: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please [email us](mailto:kilian.eichenseer@durham.ac.uk).
 
 ## Installation
+
 <!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
+
 StratoBayes requires [**R version 4.2.x -- 4.5.x**](https://cran.r-project.org/). We recommend using R through the [RStudio IDE](https://posit.co/downloads/).
 
 > Binaries are available for Windows and macOS.
 
 ### Step-by-step guide
 
-1. **Install R and RStudio**:
-   - [Download and install R](https://cran.r-project.org/), ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).
-   - [Download and install RStudio](https://posit.co/downloads/) corresponding to your operating system.
+1.  **Install R and RStudio**:
+    -   [Download and install R](https://cran.r-project.org/), ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).
+    -   [Download and install RStudio](https://posit.co/downloads/) corresponding to your operating system.
 
-> If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. "Apple M1", "M2", or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require  R “For older Intel Macs".
+> If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. "Apple M1", "M2", or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs".
 
-2. **Confirm R version in RStudio**:
-   - Open RStudio.
-   - Select your R version via:
-     ```
-     Tools → Global Options → General → R version
-     ```
-   - If not already selected, chose **R version 4.5.x** (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.
+2.  **Confirm R version in RStudio**:
 
-3. **Install StratoBayes**:
-   Paste the following command into the R console within RStudio:
+    -   Open RStudio.
 
-   ```r
-   install.packages("StratoBayes", 
-                    repos = c("https://stratobayes.github.io", getOption("repos")), 
-                    type = "binary", 
-                    dependencies = TRUE)
-   ```
-   
+    -   Select your R version via:
+
+        ```         
+        Tools → Global Options → General → R version
+        ```
+
+    -   If not already selected, chose **R version 4.5.x** (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.
+
+3.  **Install StratoBayes**: Paste the following command into the R console within RStudio:
+
+    ``` r
+    install.packages("StratoBayes", 
+                     repos = c("https://stratobayes.github.io", getOption("repos")), 
+                     type = "binary", 
+                     dependencies = TRUE)
+    ```
+
 > **Note**: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.
 
+4.  **Load StratoBayes:** Paste this into the R console within RStudio:
 
-4. **Load StratoBayes:** Paste this into the R console within RStudio:
+    ``` r
+    library(StratoBayes)
+    ```
 
-   ```r
-   library(StratoBayes)
-   ```
-
-
+```{=html}
 <!-- Once R and Rstudio are installed, open Rstudio. You can select the correct version of R in `Tools`  `Global Options...`  `R version:`, then restart Rstudio.
 
 In the console, type
@@ -60,7 +65,9 @@ In the console, type
 `install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)`
 
 -->
+```
 
+```{=html}
 <!-- ### Windows
 
 currently supports R 4.4
@@ -71,11 +78,16 @@ currently supports R 4.4 for Intel and for Apple silicon
 
 ### Linux
 -->
+```
 
 ## Using StratoBayes
-Please start with the [Vignette](/vignettes/StratoBayes.html) for an introduction to StratoBayes:
 
-   ```r
-   vignette("StratoBayes")
-   ```
+For an introduction to using StratoBayes, please see the [Getting Started vignette](/vignettes/StratoBayes.html). It can be also be accessed in the R console with:
+
+``` r
+vignette("StratoBayes")
+```
+
 To get help on individual functions, type e.g. `?StratData` in the console.
+
+For an overview of available tutorials, visit the [Vignette index](https://stratobayes.github.io/vignettes/index).  

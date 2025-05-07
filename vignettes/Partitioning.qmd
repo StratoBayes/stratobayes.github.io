@@ -33,9 +33,7 @@ knitr::opts_chunk$set(
   collapse = TRUE
 )
 ```
-> StratoBayes is an R package for correlating and dating geological data. Installation instructions and more documentation are available at [https://stratobayes.github.io/](https://stratobayes.github.io/).
-For a basic introduction to StratoBayes, see the [StratoBayes vignette](https://stratobayes.github.io/vignettes/StratoBayes.html)
-
+{{< include _vignette-header.rmd >}}
 
 This guide explains how partitioning your data into segments allows StratoBayes to model changing sedimentation rates. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
 

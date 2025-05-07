@@ -291,7 +291,11 @@ window.Quarto = {
 it out of context.  Thus it's good practice to open with links to provide users
 with necessary context; e.g. we should certainly link "StratoBayes" to the
 main documentation home page.-->
-<p><em>StratoBayes is an R package for correlating and dating geological data. For more information, please visit <a href="https://stratobayes.github.io" class="uri">https://stratobayes.github.io</a>.</em></p>
+<blockquote class="blockquote">
+<p>StratoBayes is an R package for correlating and dating geological data.<br>
+- Installation instructions and documentation: <a href="https://stratobayes.github.io/">https://stratobayes.github.io/</a>.<br>
+- Overview of available vignettes: <a href="https://stratobayes.github.io/vignettes/index">Vignette index</a>.</p>
+</blockquote>
 <p>This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">let us know</a> if you have any issues or suggestions on improving this documentation.</p>
 <p><strong>Before proceeding, please ensure that you have <a href="https://stratobayes.github.io/software.html#installation">installed StratoBayes</a></strong>. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (e.g., RStudio).</p>
 <p>We start by loading the library:</p>
@@ -318,16 +322,16 @@ main documentation home page.-->
 </div>
 <p>We can transform it into a <code>StratData</code> object, which tabulates the information in the format required to run a stratigraphic model, with <code>StratData()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stratDat <span class="ot">&lt;-</span> <span class="fu">StratData</span>(<span class="at">signal =</span> signalData0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stratData0 <span class="ot">&lt;-</span> <span class="fu">StratData</span>(<span class="at">signal =</span> signalData0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Alternatively, we can read the data directly from a csv file:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>csvPath <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"signalData0.csv"</span>, <span class="at">package =</span> <span class="st">"StratoBayes"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>stratDat <span class="ot">&lt;-</span> <span class="fu">StratData</span>(<span class="at">signal =</span> csvPath)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>stratData0 <span class="ot">&lt;-</span> <span class="fu">StratData</span>(<span class="at">signal =</span> csvPath)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can use the <code>plot()</code> method to visualize the raw data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratDat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratData0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -355,7 +359,7 @@ main documentation home page.-->
 <p>As we are working in a Bayesian framework, we need to specify priors for those two parameters. The helper function <code>StratModelTemplate()</code> will tell us which priors we need to specify, and provides the code needed to run the model. When calling this function, we will specify that our model should be on the height scale (<code>alignmentscale = "height"</code>), since we don’t have dates in our data set, and that our sedimentation rate model will assume a different sedimentation rate at each site (<code>sedModel = "site"</code>). We further specify that the offset of <em>Site&nbsp;2</em> relative to <em>Site&nbsp;1</em>, <span class="math inline">\(\alpha_{site2}\)</span>, refers to the middle of <em>Site&nbsp;2</em> (<code>alphaPosition = "middle"</code>). Here, we will use a uniform prior on the <span class="math inline">\(\alpha\)</span> parameter, and a normal prior on the <span class="math inline">\(\ln(\gamma)\)</span> parameters:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratModelTemplate</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  stratDat,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  stratData0,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">alignmentScale =</span> <span class="st">"height"</span>,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sedModel =</span> <span class="st">"site"</span>,</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alphaPosition =</span> <span class="st">"middle"</span>,</span>
@@ -368,21 +372,21 @@ main documentation home page.-->
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   "gammaLog_site2" = NormalPrior(mean = , sd = )),</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   class = c("StratPrior", "list"))</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## model &lt;- StratModel(stratData = stratDat,</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## model &lt;- StratModel(stratData = stratData0,</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">##                     priors = priors,</span></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">##                     alignmentScale = "height",</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">##                     sedModel = "site",</span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="do">##                     alphaPosition = "middle",</span></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">##                     nKnots = 25)</span></span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="do">## result &lt;- RunStratModel(stratObject = stratDat,</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="do">## result &lt;- RunStratModel(stratObject = stratData0,</span></span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="do">##                         stratModel = model,</span></span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##                         nRun = 1,</span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">##                         nIter = 1000)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we can copy this template into our script and fill in the priors with appropriate values Our reference section spans the interval from 0.25 to 18.7&nbsp;m. Using these as the <code>min</code> and <code>max</code> values for the uniform prior on <span class="math inline">\(\alpha_{site2}\)</span> means that the mid height of <em>Site&nbsp;2</em> may fall anywhere within the height range of <em>Site&nbsp;1</em>. For the normal prior on the log of the sedimentation rate of <em>Site&nbsp;1</em> relative to <em>Site&nbsp;2</em> we use a mean of 0 (a log sedimentation rate of 0 corresponds to a relative sedimentation rate of 1, i.e.&nbsp;no stretching or squeezing of the signal). We set the standard deviation to ln&nbsp;2, which places ~68% of the prior probability of this parameter on sedimentation rates between 0.5 and 2.0, with the remaining 32% being allocated to more extreme relative sedimentation rates.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>stratPrior0 <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site2"</span> <span class="ot">=</span> <span class="fu">UniformPrior</span>(<span class="at">min =</span> <span class="fl">0.25</span>, <span class="at">max =</span> <span class="fl">18.7</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_site2"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>))),</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"StratPrior"</span>, <span class="st">"list"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -392,8 +396,8 @@ main documentation home page.-->
 <h3 class="anchored" data-anchor-id="the-model-object">The model object</h3>
 <p>Before being able to run the model, we have to create a model object. We can simply use the code suggested by the <code>StratModelTemplate</code> function, but because we have a small data set, we will decrease the number of knots for the splines to 10 (<code>nKnots = 10</code>), which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">StratModel</span>(<span class="at">stratData =</span> stratDat,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">priors =</span> priors,</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stratModel0 <span class="ot">&lt;-</span> <span class="fu">StratModel</span>(<span class="at">stratData =</span> stratData0,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">priors =</span> stratPrior0,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alignmentScale =</span> <span class="st">"height"</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sedModel =</span> <span class="st">"site"</span>,</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alphaPosition =</span> <span class="st">"middle"</span>,</span>
@@ -403,7 +407,7 @@ main documentation home page.-->
 </section>
 <section id="running-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-model">Running the model</h2>
-<p>We will estimate the parameter values with the <code>RunStratModel()</code> function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. <code>nIter</code> specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 2,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the <code>nThin</code> parameter to thin the samples and keep only every 10th sample by setting <code>nThin = 10</code>. <code>nRun</code> determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting <code>runParallel</code> to <code>TRUE</code> allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the <code>foreach</code> and the <code>doParallel</code> R packages. Note that progress bars don’t work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when <code>runParallel = TRUE</code>. If you want to just do a single run, or several runs sequentially, set <code>runParallel</code> to <code>FALSE</code>.</p>
+<p>We will estimate the parameter values with the <code>RunStratModel()</code> function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. <code>nIter</code> specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 1,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the <code>nThin</code> parameter to thin the samples and keep only every 5th sample by setting <code>nThin = 5</code>. <code>nRun</code> determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting <code>runParallel</code> to <code>TRUE</code> allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the <code>foreach</code> and the <code>doParallel</code> R packages. Note that progress bars don’t work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when <code>runParallel = TRUE</code>. If you want to just do a single run, or several runs sequentially, set <code>runParallel</code> to <code>FALSE</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>runParallel <span class="ot">&lt;-</span> <span class="fu">requireNamespace</span>(<span class="st">"doParallel"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>) <span class="sc">&amp;&amp;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">&gt;</span> <span class="dv">1</span></span>
@@ -412,10 +416,10 @@ main documentation home page.-->
 </div>
 <p>We run the model using the <code>RunStratModel()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">RunStratModel</span>(<span class="at">stratObject =</span> stratDat,</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stratModel =</span> model,</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">RunStratModel</span>(<span class="at">stratObject =</span> stratData0,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stratModel =</span> stratModel0,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nRun =</span> <span class="dv">3</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">2000</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">1000</span>, </span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nThin =</span> <span class="dv">10</span>,</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">runParallel =</span> runParallel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

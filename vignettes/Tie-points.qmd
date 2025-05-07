@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-{{< include _vignette-header.md >}}
+{{< include _vignette-header.rmd >}}
 
 This guide explains how you can incorporate tie points in your analysis. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
 

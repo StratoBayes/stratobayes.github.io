@@ -47,7 +47,9 @@ knitr::opts_chunk$set(
   collapse = TRUE
 )
 ```
-*StratoBayes is an R package for correlating and dating geological data. For more information, please visit <https://stratobayes.github.io>.*
+> StratoBayes is an R package for correlating and dating geological data.  
+ - Installation instructions and documentation: [https://stratobayes.github.io/](https://stratobayes.github.io/).  
+ - Overview of available vignettes: [Vignette index](https://stratobayes.github.io/vignettes/index).  
 
 This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
 
@@ -78,20 +80,20 @@ head(signalData0)
 We can transform it into a `StratData` object, which tabulates the information in the format required to run a stratigraphic model, with `StratData()`:
 
 ```{r StratData}
-stratDat <- StratData(signal = signalData0)
+stratData0 <- StratData(signal = signalData0)
 ```
 
 Alternatively, we can read the data directly from a csv file:
 
 ```{r csv}
 csvPath <- system.file("extdata", "signalData0.csv", package = "StratoBayes")
-stratDat <- StratData(signal = csvPath)
+stratData0 <- StratData(signal = csvPath)
 ```
 
 We can use the `plot()` method to visualize the raw data:
 
 ``` {r plot.StratData, fig.width=7, fig.height=3.5}
-plot(stratDat)
+plot(stratData0)
 ```
 
 ## Model set-up
@@ -121,7 +123,7 @@ Here, we will use a uniform prior on the $\alpha$ parameter, and a normal prior 
 
 ``` {r PriorTemplate}
 StratModelTemplate(
-  stratDat,
+  stratData0,
   alignmentScale = "height",
   sedModel = "site",
   alphaPosition = "middle",
@@ -135,7 +137,7 @@ Our reference section spans the interval from 0.25 to 18.7&nbsp;m. Using these a
 For the normal prior on the log of the sedimentation rate of *Site&nbsp;1* relative to *Site&nbsp;2* we use a mean of 0 (a log sedimentation rate of 0 corresponds to a relative sedimentation rate of 1, i.e. no stretching or squeezing of the signal). We set the standard deviation to ln&nbsp;2, which places ~68% of the prior probability of this parameter on sedimentation rates between 0.5 and 2.0, with the remaining 32% being allocated to more extreme relative sedimentation rates.
 
 ``` {r priors}
-priors <- structure(list(
+stratPrior0 <- structure(list(
   "alpha_site2" = UniformPrior(min = 0.25, max = 18.7),
   "gammaLog_site2" = NormalPrior(mean = 0, sd = log(2))),
   class = c("StratPrior", "list"))
@@ -146,8 +148,8 @@ priors <- structure(list(
 Before being able to run the model, we have to create a model object. We can simply use the code suggested by the `StratModelTemplate` function, but because we have a small data set, we will decrease the number of knots for the splines to 10 (`nKnots = 10`), which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.
 
 ```{r model}
-model <- StratModel(stratData = stratDat,
-                    priors = priors,
+stratModel0 <- StratModel(stratData = stratData0,
+                    priors = stratPrior0,
                     alignmentScale = "height",
                     sedModel = "site",
                     alphaPosition = "middle",
@@ -156,7 +158,7 @@ model <- StratModel(stratData = stratDat,
 
 ## Running the model
 
-We will estimate the parameter values with the `RunStratModel()` function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. `nIter` specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 2,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the `nThin` parameter to thin the samples and keep only every 10th sample by setting `nThin = 10`. `nRun` determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting `runParallel` to `TRUE` allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the `foreach` and the `doParallel` R packages. Note that progress bars don't work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when `runParallel = TRUE`. If you want to just do a single run, or several runs sequentially, set `runParallel` to `FALSE`. 
+We will estimate the parameter values with the `RunStratModel()` function by running a Markov chain Monte Carlo (MCMC) simulation to draw from the posterior of the model. `nIter` specifies the number of iterations to run. The more complicated the model is, the more iterations will be necessary to collect a sufficient number of independent samples from the posterior distribution. Here, we run it for 1,000 iterations. Samples from an MCMC are usually autocorrelated, so we use the `nThin` parameter to thin the samples and keep only every 5th sample by setting `nThin = 5`. `nRun` determines how many independent model runs will be conducted. To evaluate whether the model has converged, it is useful to have at least 3 independent model runs starting from different parameter values. Setting `runParallel` to `TRUE` allows to process each run on a separate CPU core, which can drastically improves overall run times. This requires installation of the `foreach` and the `doParallel` R packages. Note that progress bars don't work when doing parallel runs. Instead, StratoBayes attempts to display model alignments and iteration counts in a browser window when `runParallel = TRUE`. If you want to just do a single run, or several runs sequentially, set `runParallel` to `FALSE`. 
 
 ```{r, checkParallel}
 runParallel <- requireNamespace("doParallel", quietly = TRUE) &&
@@ -171,10 +173,10 @@ result <- StratoBayes::stratPosterior0
 ```
 
 ```{r, eval = FALSE}
-result <- RunStratModel(stratObject = stratDat,
-                        stratModel = model,
+result <- RunStratModel(stratObject = stratData0,
+                        stratModel = stratModel0,
                         nRun = 3,
-                        nIter = 2000,
+                        nIter = 1000, 
                         nThin = 10,
                         runParallel = runParallel)
 ```

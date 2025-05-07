@@ -1,0 +1,4 @@
+> StratoBayes is an R package for correlating and dating geological data.  
+ - Installation instructions and documentation: [https://stratobayes.github.io/](https://stratobayes.github.io/).  
+ - Basic introduction to StratoBayes: [StratoBayes vignette](https://stratobayes.github.io/vignettes/StratoBayes.html).  
+ - Overview of available vignettes: [Vignette index](https://stratobayes.github.io/vignettes/index).  
