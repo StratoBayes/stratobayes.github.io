@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Welcome to StratoBayes - StratoBayes</title>
+<title>Welcome to StratoBayes - Correlation on the age scale and age models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,22 +57,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -101,6 +101,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -113,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./software.html">Software</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/Age-modelling.html">Age modelling</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -127,8 +156,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/logo-2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo-2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -140,13 +169,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./software.html" class="sidebar-item-text sidebar-link active">
+            <a href="../software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Software</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -155,37 +184,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./software.html#installation" class="sidebar-item-text sidebar-link">
+  <a href="../software.html#installation" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Installation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/StratoBayes.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/StratoBayes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting started</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/Partitioning.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Partitioning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sedimentation rates/ gaps</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/Tie-points.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Tie-points.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tie points</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial-1/StratoBayes-Tutorial-1.html" class="sidebar-item-text sidebar-link">
+  <a href="../tutorial-1/StratoBayes-Tutorial-1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Real-world example</span></a>
   </div>
 </li>
@@ -212,9 +241,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../software.html">Software</a></li><li class="breadcrumb-item"><a href="../vignettes/Age-modelling.html">Age modelling</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">StratoBayes</h1>
+<h1 class="title">Correlation on the age scale and age models</h1>
 </div>
 
 
@@ -231,79 +260,147 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>Automated stratigraphic correlation and age modelling</strong></p>
-<section id="about" class="level2">
-<h2 class="anchored" data-anchor-id="about">About</h2>
-<p>StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.</p>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "sans-serif",
+      webFont: "sans-serif"
+    }
+  });
+</script>
+<style>
+.mjx-chtml {
+  font-family: sans-serif !important;
+}
+</style>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please <a href="mailto:kilian.eichenseer@durham.ac.uk">email us</a>.</p>
+<p>StratoBayes is an R package for correlating and dating geological data.<br>
+- Installation instructions and documentation: <a href="https://stratobayes.github.io/">https://stratobayes.github.io/</a>.<br>
+- Basic introduction to StratoBayes: <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">StratoBayes vignette</a>.<br>
+- Overview of available vignettes: <a href="https://stratobayes.github.io/vignettes/index">Vignette index</a>.</p>
 </blockquote>
+<p>This guide introduces stratigraphic correlations on the age scale via absolute age constraints. Please <a href="mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package">send us an email</a> or raise an <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">issue on Github</a> if you encounter any problems with the software or have suggestions on improving this documentation.</p>
+<p>Absolute age constraints – radiometric dates, bioevents dated elsewhere, etc. – anchor the correlation in absolute time. In StratoBayes, absolute ages are treated like <a href="https://stratobayes.github.io/vignettes/Tie-points.html">tie points</a>, except that the correlation is carried out on the geological time axis, rather than a reference height scale.</p>
+<blockquote class="blockquote">
+<p><em>Before you start:</em> This vignette assumes you are familiar with<br>
+- <a href="https://stratobayes.github.io/vignettes/Partitioning.html">Partitions</a>.<br>
+- <a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a>.</p>
+</blockquote>
+<section id="absolute-ages-as-tie-points" class="level2">
+<h2 class="anchored" data-anchor-id="absolute-ages-as-tie-points">Absolute ages as tie points</h2>
+<p>We will specify ages in a <code>ties</code> dataframe for the dataset <code>StratData4</code>. Every row of the dataframe represents a tie point and needs a <code>site</code> and a <code>height</code> column. The <code>mean</code> and the standard deviation (<code>sd</code>) now correspond to the absolute age estimate of the horizon at the corresponding height and site.</p>
+<p>Here, we specify two dated horizons for <em>Site 1</em>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tiesData4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">site =</span> <span class="fu">c</span>(<span class="st">"site1"</span>, <span class="st">"site1"</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">height =</span> <span class="fu">c</span>(<span class="fl">2.5</span> <span class="sc">*</span> pi, <span class="fl">6.5</span> <span class="sc">*</span> pi),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">10</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Age estimates are expressed as normal distributions with a mean and normal distribution.</p>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
-<p>StratoBayes requires <a href="https://cran.r-project.org/"><strong>R version 4.2.x – 4.5.x</strong></a>. We recommend using R through the <a href="https://posit.co/downloads/">RStudio IDE</a>.</p>
-<blockquote class="blockquote">
-<p>Binaries are available for Windows and macOS.</p>
-</blockquote>
-<section id="step-by-step-guide" class="level3">
-<h3 class="anchored" data-anchor-id="step-by-step-guide">Step-by-step guide</h3>
-<ol type="1">
-<li><strong>Install R and RStudio</strong>:
+<section id="setting-priors" class="level2">
+<h2 class="anchored" data-anchor-id="setting-priors">Setting priors</h2>
+<p>Working on the absolute age scale forces us to specify model parameters (offsets, <span class="math inline">\(\alpha\)</span>; sedimentation rates, <span class="math inline">\(\gamma\)</span>; hiatuses, <span class="math inline">\(\delta\)</span>) on the absolute age scale in Ma and m/Myr or similar. Sedimentation rate priors can no longer be specified relative to a reference site, and we need rough estimates of absolute sedimentation rates.</p>
+<p>In our case, we can use the pair of dated horizons from <em>Site 1</em> for an <em>a priori</em> sedimentation rate estimate:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sedRateSite1 <span class="ot">&lt;-</span> <span class="fu">diff</span>(tiesData4<span class="sc">$</span>height[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)]) <span class="sc">/</span> <span class="fu">diff</span>(tiesData4<span class="sc">$</span>mean)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(sedRateSite1, <span class="dv">2</span>)) <span class="co"># display result</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 6.28</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We use</p>
 <ul>
-<li><a href="https://cran.r-project.org/">Download and install R</a>, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).</li>
-<li><a href="https://posit.co/downloads/">Download and install RStudio</a> corresponding to your operating system.</li>
-</ul></li>
-</ol>
-<blockquote class="blockquote">
-<p>If you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.</p>
-</blockquote>
-<ol start="2" type="1">
-<li><p><strong>Confirm R version in RStudio</strong>:</p>
+<li><p><span class="math inline">\(\alpha\)</span> (offsets) – We use a normal prior centred on the midpoint between the two dates for <em>Site 1</em> (4.5<span class="math inline">\(\pi\)</span>), and a deliberately broad standard deviation of 1&nbsp;Myr to not “double-count” those ages. For site 2, in the absence of a better estimate, we simply use the mid point of the section and the same broad age uncertainty (specifying “middle” in the <code>alphaPosition</code> argument).</p></li>
+<li><p><span class="math inline">\(\gamma\)</span> (sedimentation rates) – As we don’t have age estimates from <em>Site 2</em>, will use the log of this estimate as the mean of a normal distributed prior on ln<span class="math inline">\((\gamma) =\)</span> 6.28&nbsp;m/Myr on all partitions. To express considerable uncertainty, we set the standard deviation to 1&nbsp;m/Myr. This implies a 95% prior probability interval ranging from 0.14 to 7 times the mean. Higher or lower values may be sensible in other scenarios, depending on prior expectations of sedimentation rate variability.</p></li>
+<li><p><span class="math inline">\(\delta\)</span> (hiatus or “gap”) – An exponential prior concentrates probability near zero but has a long tail to account for the possibility of a longer gap. A rate of 1&nbsp;Myr<span class="math inline">\(^{-1}\)</span> gives a mean prior hiatus duration of 1&nbsp;Myr and <span class="math inline">\(\approx\)</span> 95% probability that the gap is &lt;&nbsp;3&nbsp;Myr.</p></li>
+</ul>
+<p><code>StratModelTemplate()</code> lists the required priors, which we can then copy and fill in. Importantly, we have to set <code>alignmentScale = "age"</code> to confirm age scale alignment. As there is no reference site, we have to specify an <span class="math inline">\(\alpha\)</span> prior for every site.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratModelTemplate</span>(stratData4b, <span class="at">alignmentScale =</span> <span class="st">"age"</span>, <span class="at">sedModel =</span> <span class="st">"partition"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">alpha =</span> <span class="st">"normal"</span>, <span class="at">alphaPosition =</span> <span class="fu">c</span>(<span class="fl">4.5</span> <span class="sc">*</span> pi, <span class="st">"middle"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We load the library and specify the priors:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(StratoBayes)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>stratPrior4b <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">list</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site1"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">11</span>, <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alpha_site2"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">11</span>, <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_partition site 1"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="fu">log</span>(sedRateSite1), <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_bottom partition"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="fu">log</span>(sedRateSite1), <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_top partition"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="fu">log</span>(sedRateSite1), <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gap_site2_1"</span> <span class="ot">=</span> <span class="fu">ExponentialPrior</span>(<span class="at">rate =</span> <span class="dv">1</span>)),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"StratPrior"</span>, <span class="st">"list"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To verify that the priors depict our belief, it is useful to plot them. We can show <span class="math inline">\(\gamma\)</span> rather than ln<span class="math inline">\((\gamma)\)</span> by setting <code>log = FALSE</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratPrior4b, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Age-modelling_files/figure-html/plot-priors-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-model-run" class="level2">
+<h2 class="anchored" data-anchor-id="the-model-run">The model run</h2>
+<p>The difficult work has been done. We can now set up and run the model by modifying the <code>StratModelTemplate</code> output:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stratModel4b <span class="ot">&lt;-</span> <span class="fu">StratModel</span>(<span class="at">stratData =</span> stratData4b,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">priors =</span> stratPrior4b,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alignmentScale =</span> <span class="st">"age"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sedModel =</span> <span class="st">"partition"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alphaPosition =</span> <span class="fu">c</span>(<span class="fl">14.1371669411541</span>, <span class="st">"middle"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nKnots =</span> <span class="dv">15</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>stratPosterior4b <span class="ot">&lt;-</span> <span class="fu">RunStratModel</span>(<span class="at">stratObject =</span> stratData4b,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">stratModel =</span> stratModel4b,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nRun =</span> <span class="dv">3</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">runParallel =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nThin =</span> <span class="dv">10</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nIter =</span> <span class="dv">1000</span>) <span class="co"># user higher nIter for more accurate results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>After we have assessed the performance of the MCMC with a <code>TracePlot()</code>, we can verify that the data has been correctly aligned on the age scale:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stratPosterior4b, <span class="at">ylab =</span> <span class="st">"age (Ma)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Age-modelling_files/figure-html/plot.StratPosterior-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <code>StratMapPlot</code> function allows us to visualise the stratigraphic mapping (age-depth model) for each site:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratMapPlot</span>(stratPosterior4b, <span class="at">sites =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Age-modelling_files/figure-html/StratMapPlot-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To get an age estimate with uncertainty at individual horizons, we can use <code>StratMap()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratMap</span>(stratPosterior4b, <span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.5</span> <span class="sc">*</span> pi, <span class="fl">4.5</span> <span class="sc">*</span> pi), <span class="at">site =</span> <span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">##      height     mean         sd     2.5%      50%    97.5%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  1.570796 13.03880 0.22837078 12.58317 13.03865 13.43674</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 14.137167 11.00879 0.08533684 10.84382 11.01295 11.17668</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see that age estimates at the bottom of <em>Site 1</em> have larger uncertainties than age estimates in the middle, where they are surrounded by two absolute ages.</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
-<li><p>Open RStudio.</p></li>
-<li><p>Select your R version via:</p>
-<pre><code>Tools → Global Options → General → R version</code></pre></li>
-<li><p>If not already selected, chose <strong>R version 4.5.x</strong> (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.</p></li>
-</ul></li>
-<li><p><strong>Install StratoBayes</strong>: Paste the following command into the R console within RStudio:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"StratoBayes"</span>, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"https://stratobayes.github.io"</span>, <span class="fu">getOption</span>(<span class="st">"repos"</span>)), </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">"binary"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
-<blockquote class="blockquote">
-<p><strong>Note</strong>: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.</p>
-</blockquote>
-<ol start="4" type="1">
-<li><p><strong>Load StratoBayes:</strong> Paste this into the R console within RStudio:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(StratoBayes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
-<!-- Once R and Rstudio are installed, open Rstudio. You can select the correct version of R in `Tools`  `Global Options...`  `R version:`, then restart Rstudio.
-
-In the console, type
-
-`install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)`
-
--->
-<!-- ### Windows
-
-currently supports R 4.4
-
-### macOS
-
-currently supports R 4.4 for Intel and for Apple silicon
-
-### Linux
--->
-</section>
-</section>
-<section id="using-stratobayes" class="level2">
-<h2 class="anchored" data-anchor-id="using-stratobayes">Using StratoBayes</h2>
-<p>For an introduction to using StratoBayes, please see the <a href=".\vignettes/StratoBayes.html">Getting Started vignette</a>. It can be also be accessed in the R console with:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">"StratoBayes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To get help on individual functions, type e.g.&nbsp;<code>?StratData</code> in the console.</p>
-<p>For an overview of available tutorials, visit the <a href="https://stratobayes.github.io/vignettes/index">Vignette index</a>.</p>
+<li>See <a href="https://stratobayes.github.io/vignettes/Partitioning.html">Partitioning data</a> for a refresher on how sedimentation rate changes and/or hiatuses enable more accurate correlations<br>
+</li>
+<li><a href="https://stratobayes.github.io/vignettes/Tie-points.html">Tie points</a> introduces the use of tie points from scratch</li>
+</ul>
 
 
 </section>
