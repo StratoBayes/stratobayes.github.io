@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
 ```
 {{< include _vignette-header.rmd >}}
 
-This guide introduces stratigraphic correlations on the age scale via absolute age constraints. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
+This guide introduces stratigraphic correlations on the age scale via absolute age constraints. Please [send us an email](mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package) or raise an [issue on  Github](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you encounter any problems with the software or have suggestions on improving this documentation. 
 
 Absolute age constraints -- radiometric dates, bioevents dated elsewhere, etc. -- anchor the correlation in absolute time. In StratoBayes, absolute ages are treated like [tie points](https://stratobayes.github.io/vignettes/Tie-points.html), except that the correlation is carried out on the geological time axis, rather than a reference height scale. 
 

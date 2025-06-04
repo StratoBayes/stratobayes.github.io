@@ -208,7 +208,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/Age-modelling.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
@@ -296,8 +296,8 @@ main documentation home page.-->
 - Installation instructions and documentation: <a href="https://stratobayes.github.io/">https://stratobayes.github.io/</a>.<br>
 - Overview of available vignettes: <a href="https://stratobayes.github.io/vignettes/index">Vignette index</a>.</p>
 </blockquote>
-<p>This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">let us know</a> if you have any issues or suggestions on improving this documentation.</p>
-<p><strong>Before proceeding, please ensure that you have <a href="https://stratobayes.github.io/software.html#installation">installed StratoBayes</a></strong>. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (e.g., RStudio).</p>
+<p>This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please <a href="mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package">send us an email</a> or raise an <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">issue on Github</a> if you encounter any problems with the software or have suggestions on improving this documentation.</p>
+<p><strong>Before proceeding, please ensure that you have <a href="https://stratobayes.github.io/software.html#installation">installed StratoBayes</a></strong>. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (using e.g., RStudio).</p>
 <p>We start by loading the library:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"StratoBayes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -391,6 +391,10 @@ main documentation home page.-->
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gammaLog_site2"</span> <span class="ot">=</span> <span class="fu">NormalPrior</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">log</span>(<span class="dv">2</span>))),</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"StratPrior"</span>, <span class="st">"list"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<blockquote class="blockquote">
+<p><strong>Default priors</strong><br>
+For quick exploratory analyses, automatically generated default priors can be used (instead of specifying own priors) by setting <code>priors = NULL</code> in the <code>StratModel()</code> function. See <code>?AutoPrior</code> for details.</p>
+</blockquote>
 </section>
 <section id="the-model-object" class="level3">
 <h3 class="anchored" data-anchor-id="the-model-object">The model object</h3>

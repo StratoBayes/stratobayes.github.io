@@ -208,7 +208,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../vignettes/Age-modelling.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../vignettes/Age-modelling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Age modelling</span></a>
   </div>
 </li>
@@ -285,7 +285,7 @@ window.Quarto = {
 - Basic introduction to StratoBayes: <a href="https://stratobayes.github.io/vignettes/StratoBayes.html">StratoBayes vignette</a>.<br>
 - Overview of available vignettes: <a href="https://stratobayes.github.io/vignettes/index">Vignette index</a>.</p>
 </blockquote>
-<p>This guide explains how you can incorporate tie points in your analysis. Please <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">let us know</a> if you have any issues or suggestions on improving this documentation.</p>
+<p>This guide explains how you can incorporate tie points in your analysis. Please <a href="mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package">send us an email</a> or raise an <a href="https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+">issue on Github</a> if you encounter any problems with the software or have suggestions on improving this documentation.</p>
 <p>Tie points are stratigraphic horizons which are assumed to have the same age across two or more sites. We can declare tie points either by their height or depth in a chosen reference section, or by absolute age (age-scale alignment). In this example, we use a tie point expressed in height at the reference section:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -447,8 +447,8 @@ Show R code
 <p>We can use the <code>StratMap()</code> function to check how closely the reference height estimate of the tie point matches the specified normal distribution (with mean <span class="math inline">\(\approx 7.85\)</span> m). The tie point height (at <em>Site 2</em>) was 3.72 m:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">StratMap</span>(stratPosterior5b, <span class="at">height =</span> <span class="fl">3.72</span>, <span class="at">site =</span> <span class="dv">2</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   height     mean         sd     2.5%     50%   97.5%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1   3.72 7.819069 0.07053555 7.691334 7.81787 7.96203</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   height     mean         sd     2.5%      50%    97.5%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 1   3.72 7.817909 0.07107544 7.686489 7.816036 7.957598</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The posterior mean estimate for the tie point 7.82 m is very close to the mean of the normal distribution. The standard deviation is much lower (0.07 m) than the standard deviation specified in the <code>ties</code> dataframe (1 m). We can interprete this to mean that the tie point has excluded the alternative alignments (top and bottom wiggle of of the sign wave of <em>Site 1</em>), but the exact position on the middle wiggle was specified by matching the signals (and not simply determined by the tie point).</p>
 </section>

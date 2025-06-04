@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 
 {{< include _vignette-header.rmd >}}
 
-This guide explains how you can incorporate tie points in your analysis. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
+This guide explains how you can incorporate tie points in your analysis. Please [send us an email](mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package) or raise an [issue on  Github](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you encounter any problems with the software or have suggestions on improving this documentation. 
 
 Tie points are stratigraphic horizons which are assumed to have the same age across two or more sites. We can declare tie points either by their height or depth in a chosen reference section, or by absolute age (age-scale alignment). In this example, we use a tie point expressed in height at the reference section:
 

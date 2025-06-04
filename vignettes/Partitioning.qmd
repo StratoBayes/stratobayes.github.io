@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
 ```
 {{< include _vignette-header.rmd >}}
 
-This guide explains how partitioning your data into segments allows StratoBayes to model changing sedimentation rates. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
+This guide explains how partitioning your data into segments allows StratoBayes to model changing sedimentation rates. Please [send us an email](mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package) or raise an [issue on  Github](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you encounter any problems with the software or have suggestions on improving this documentation. 
 
 We start by loading StratoBayes and set a random seed for reproducibility:
 

@@ -51,9 +51,9 @@ knitr::opts_chunk$set(
  - Installation instructions and documentation: [https://stratobayes.github.io/](https://stratobayes.github.io/).  
  - Overview of available vignettes: [Vignette index](https://stratobayes.github.io/vignettes/index).  
 
-This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please [let us know](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you have any issues or suggestions on improving this documentation. 
+This guide walks you through the process of aligning geological data from multiple sites, using StratoBayes. Please [send us an email](mailto:contact@stratobayes.com?subject=StratoBayes%20R%20package) or raise an [issue on  Github](https://github.com/StratoBayes/StratoBayes/issues/new?title=Suggestion:+) if you encounter any problems with the software or have suggestions on improving this documentation. 
 
-**Before proceeding, please ensure that you have [installed StratoBayes](https://stratobayes.github.io/software.html#installation)**. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (e.g., RStudio).
+**Before proceeding, please ensure that you have [installed StratoBayes](https://stratobayes.github.io/software.html#installation)**. This vignette assumes that the package is installed and that you are running the provided code chunks in an R environment (using e.g., RStudio).
 
 We start by loading the library:
 
@@ -143,6 +143,8 @@ stratPrior0 <- structure(list(
   class = c("StratPrior", "list"))
 ```
 
+> **Default priors**  
+> For quick exploratory analyses, automatically generated default priors can be used (instead of specifying own priors) by setting `priors = NULL` in the `StratModel()` function. See `?AutoPrior` for details.
 
 ### The model object 
 Before being able to run the model, we have to create a model object. We can simply use the code suggested by the `StratModelTemplate` function, but because we have a small data set, we will decrease the number of knots for the splines to 10 (`nKnots = 10`), which will reduce the run time. Larger, more complicated data sets likely require more knots for the spline to fit the data well.
