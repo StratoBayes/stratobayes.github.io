@@ -40,14 +40,71 @@ StratoBayes requires [**R version 4.2.x -- 4.5.x**](https://cran.r-project.org/)
 
     -   If not already selected, chose **R version 4.5.x** (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.
 
-3.  **Install StratoBayes**: Paste the following command into the R console within RStudio:
+<!-- 3.  **Install StratoBayes**: Paste the following command into the R console within RStudio: -->
 
-    ``` r
-    install.packages("StratoBayes", 
-                     repos = c("https://stratobayes.github.io", getOption("repos")), 
-                     type = "binary", 
-                     dependencies = TRUE)
-    ```
+<!--     ``` r -->
+<!--     install.packages("StratoBayes",  -->
+<!--                      repos = c("https://stratobayes.github.io", getOption("repos")),  -->
+<!--                      type = "binary",  -->
+<!--                      dependencies = TRUE) -->
+<!--     ``` -->
+
+<form id="sb-reg" style="max-width:520px">
+  <label>Email<br>
+    <input type="email" name="email" required style="width:100%">
+  </label>
+  <br>
+  <label>Intended use<br>
+    <select name="user_type" required style="width:100%">
+      <option value="">Select…</option>
+      <option>Academic</option>
+      <option>Commercial</option>
+      <option>Other</option>
+    </select>
+  </label>
+  <br>
+  <label>If "Other", please specify<br>
+    <input type="text" name="other_note" placeholder="Optional" style="width:100%">
+  </label>
+  <br>
+  <label>
+    <input type="checkbox" name="consent" required>
+    I agree to receive occasional StratoBayes updates and accept the privacy notice.
+  </label>
+  <br><br>
+  <button type="submit">Email me the install command</button>
+</form>
+
+<div id="sb-done" style="display:none">
+  <p><strong>Thanks!</strong> Check your inbox for your personalized install command.</p>
+  <p><strong>This may take up to a few minutes.</strong></p>
+  <button type="button"
+    onclick="document.getElementById('sb-reg').style.display='';document.getElementById('sb-done').style.display='none'">
+    Send again
+  </button>
+</div>
+
+
+<script>
+document.getElementById('sb-reg').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  data.consent = !!data.consent;
+  const r = await fetch('https://dl.stratobayes.com/api/register', {
+    method: 'POST',
+    headers: {'content-type':'application/json'},
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) {
+    const msg = await r.json().catch(()=>({}));
+    alert(msg.error || 'Something went wrong. Please try again.');
+    return;
+  }
+  e.target.style.display = 'none';
+  document.getElementById('sb-done').style.display = '';
+});
+</script>
+
 
 > **Note**: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.
 
@@ -90,4 +147,4 @@ vignette("StratoBayes")
 
 To get help on individual functions, type e.g. `?StratData` in the console.
 
-For an overview of available tutorials, visit the [Vignette index](https://stratobayes.github.io/vignettes/index).  
+For an overview of available tutorials, visit the [Vignette index](https://stratobayes.github.io/vignettes/index).
