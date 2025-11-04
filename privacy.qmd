@@ -4,49 +4,53 @@ description: "How StratoBayes handles your data"
 format: html
 ---
 
-**StratoBayes (pre-formation university spinout)**  
-_Last updated: 29 October 2025_
+**StratoBayes (pre-formation university spinout)**\
+*Last updated: 4 November 2025*
 
 ## 1. Who we are
+
 StratoBayes is a university research spinout in pre-formation, developing software for stratigraphic correlation and age modelling. Until formal incorporation, data is administered by the founding research team.
 
-**Contact:** contact@stratobayes.com
+**Contact:** contact\@stratobayes.com
 
 ## 2. What personal data we collect
+
 When you request a StratoBayes install command or updates, we collect:
 
-- **Email address** — to send your personalized install command and (if you choose) occasional product updates.  
-- **Intended use** (Academic / Commercial / Other) — to understand our user base.  
-- **Optional notes** you provide — to understand your context.  
-- **Consent preference** (updates yes/no) — to respect your choice.
+- **Email address** — to send your installation instructions and follow-up information related to the software.\
+-   **Intended use** (Academic / Commercial / Other) — to understand our user base.\
+-   **Optional notes** you provide — to understand your context.\
 
 We do not use tracking cookies or collect analytics for marketing.
 
 ## 3. How we use your data
-1. Email your **personalized install command**.  
-2. If you **opt in**, send occasional updates and follow-ups.  
-3. High-level, anonymous product planning (e.g., counts of academic vs commercial interest, counts of operating system).
+
+1. Send your **personalized install command** and help you access the software.
+2. Follow up with information, improvements, or updates relevant to the trial and development of the software.
+3.  High-level, anonymous product planning (e.g., counts of academic vs commercial interest, counts of operating system).
 
 We do **not** sell or share your data with third parties.
 
 ## 4. Where your data is stored
+
 Your data is stored in **Cloudflare KV** (UK/EU processing where available) and accessed only by the StratoBayes founders for operations.
 
 ## 5. Legal basis for processing
-- **Install email:** Consent (you request it).  
-- **Optional updates:** Consent (only if you opt in).  
-You can withdraw consent at any time.
+
+- **Consent** — You provide your email address to receive access to the trial and related follow-up communications.  
+You may withdraw consent at any time.
 
 ## 6. How long we keep your data
-Registration data is kept for up to 24 months from your last interaction, unless
-you request deletion sooner. We reserve the right to keep anonymous, aggregated 
-data for product planning beyond that period. 
+
+Registration data is kept for up to 24 months from your last interaction, unless you request deletion sooner. We reserve the right to keep anonymous, aggregated data for product planning beyond that period.
 
 ## 7. Your rights
-You may request access, correction, deletion, or withdraw consent at any time.  
-Contact: **contact@stratobayes.com**. We aim to respond within **30 days**.
+
+You may request access, correction, deletion, or withdraw consent at any time.\
+Contact: **contact\@stratobayes.com**. We aim to respond within **30 days**.
 
 ## 8. Unsubscribing
-Every update email includes an **unsubscribe** link, or you can email **contact@stratobayes.com** at any time.
+
+Every update email includes an **unsubscribe** link, or you can email **contact\@stratobayes.com** at any time.
 
 We will process unsubscribe requests within **30 days**. You may receive emails already in transit during this time, but no new update messages will be sent after processing is complete.

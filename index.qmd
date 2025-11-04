@@ -10,20 +10,25 @@
 
 </p>
 
-<p class="mb-1">StratoBayes is peer-reviewed software developed at Durham University offering:</p>
+<p class="mb-1">
 
-- automated correlation of multiple sections or wells  
-- fully quantified uncertainty estimates and alternative correlations  
-- mathematical integration of stratigraphic data and prior knowledge  
-  
-**Try StratoBayes now:**  
-Receive installation instructions via email through the form below.  
+StratoBayes is peer-reviewed software developed at Durham University offering:
+
+</p>
+
+-   automated correlation of multiple sections or wells\
+-   fully quantified uncertainty estimates and alternative correlations\
+-   mathematical integration of stratigraphic data and prior knowledge
+
+**Try StratoBayes now:**\
+Sign up as a trial user to receive installation instructions via email through the form below.
 
 <form id="sb-reg" style="max-width:520px">
   <label>Email<br>
     <input type="email" name="email" required style="width:100%">
   </label>
   <br>
+
   <label>Intended use<br>
     <select name="user_type" required style="width:100%">
       <option value="">Select…</option>
@@ -33,68 +38,93 @@ Receive installation instructions via email through the form below.
     </select>
   </label>
   <br>
+
   <label>If "Other", please specify<br>
     <input type="text" name="other_note" placeholder="Optional" style="width:100%">
   </label>
   <br>
+
   <label style="display:block;margin-top:8px;">
     <input type="checkbox" name="download_consent" required>
-    I accept the <a href="privacy.qmd">Privacy Notice</a> and agree to receive my install email.
+    I would like to sign up as a StratoBayes trial user and I agree to the
+    <a href="privacy.html" target="_blank">Privacy Notice</a>. I understand that I may be
+    contacted with information and updates about the software.
   </label>
-  <label style="display:block;margin-top:6px;">
-    <input type="checkbox" name="marketing_consent">
-    I consent to occasional product updates & follow-up emails (optional).
-  </label>
-  </br>
+
+  <br>
   <button type="submit">Email installation instructions</button>
 </form>
 
-<div id="sb-done" style="display:none">
-  <p><strong>Thanks!</strong> Check your inbox for your personalized install command.</p>
-  <p><strong>This may take up to a few minutes.</strong></p>
-  <button type="button"
-    onclick="document.getElementById('sb-reg').style.display='';document.getElementById('sb-done').style.display='none'">
-    Send again
-  </button>
-</div>
+::: {#sb-done style="display:none"}
+<p><strong>Thanks!</strong> Check your inbox for your personalized install command.</p>
+<p><strong>This may take up to a few minutes.</strong></p>
+<button type="button"
+  onclick="document.getElementById('sb-reg').style.display='';document.getElementById('sb-done').style.display='none'">
+  Send again
+</button>
+:::
 
-
+```{=html}
 <script>
-document.getElementById('sb-reg').addEventListener('submit', async (e) => {
-  e.preventDefault();
+(function () {
+  // Ensure the form exists before wiring up (safe if script moves)
+  const form = document.getElementById('sb-reg');
+  if (!form) return;
 
-  const fd = new FormData(e.target);
-  // Explicit booleans:
-  const download_consent  = e.target.querySelector('input[name="download_consent"]').checked;
-  const marketing_consent = e.target.querySelector('input[name="marketing_consent"]').checked;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  if (!download_consent) {
-    alert("Please accept the Privacy Notice to receive the install email.");
-    return;
-  }
+    const fd = new FormData(form);
 
-  const payload = {
-    email: fd.get('email')?.trim(),
-    user_type: fd.get('user_type')?.trim(),
-    other_note: fd.get('other_note')?.trim() || "",
-    download_consent,
-    marketing_consent
-  };
+    const download_consent_el  = form.querySelector('input[name="download_consent"]');
+    const marketing_consent_el = form.querySelector('input[name="marketing_consent"]'); // may not exist
 
-  const r = await fetch('https://dl.stratobayes.com/api/register', {
-    method: 'POST',
-    headers: {'content-type':'application/json'},
-    body: JSON.stringify(payload)
+    const download_consent  = !!(download_consent_el && download_consent_el.checked);
+    const marketing_consent = marketing_consent_el ? !!marketing_consent_el.checked : false;
+
+    if (!download_consent) {
+      alert("Please accept the Privacy Notice to receive the install email.");
+      return;
+    }
+
+    const payload = {
+      email: (fd.get('email') || '').toString().trim(),
+      user_type: (fd.get('user_type') || '').toString().trim(),
+      other_note: (fd.get('other_note') || '').toString().trim(),
+      download_consent,
+      marketing_consent
+    };
+
+    // Basic client-side check
+    if (!payload.email) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      const r = await fetch('https://dl.stratobayes.com/api/register', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!r.ok) {
+        let msg = 'Something went wrong. Please try again.';
+        try {
+          const j = await r.json();
+          if (j && j.error) msg = j.error;
+        } catch {}
+        alert(msg);
+        return;
+      }
+
+      form.style.display = 'none';
+      document.getElementById('sb-done').style.display = '';
+    } catch (err) {
+      alert('Network error. Please check your connection and try again.');
+      console.error(err);
+    }
   });
-
-  if (!r.ok) {
-    let msg = 'Something went wrong. Please try again.';
-    try { const j = await r.json(); if (j?.error) msg = j.error; } catch {}
-    alert(msg);
-    return;
-  }
-
-  e.target.style.display = 'none';
-  document.getElementById('sb-done').style.display = '';
-});
+})();
 </script>
+```
