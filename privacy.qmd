@@ -17,7 +17,7 @@ StratoBayes is a university research spinout in pre-formation, developing softwa
 
 When you request a StratoBayes install command or updates, we collect:
 
-- **Email address** — to send your installation instructions and follow-up information related to the software.\
+-   **Email address** — to send your installation instructions and follow-up information related to the software.\
 -   **Intended use** (Academic / Commercial / Other) — to understand our user base.\
 -   **Optional notes** you provide — to understand your context.\
 
@@ -25,8 +25,8 @@ We do not use tracking cookies or collect analytics for marketing.
 
 ## 3. How we use your data
 
-1. Send your **personalized install command** and help you access the software.
-2. Follow up with information, improvements, or updates relevant to the trial and development of the software.
+1.  Send your **personalized install command** and help you access the software.
+2.  Follow up with information, improvements, or updates relevant to the trial and development of the software.
 3.  High-level, anonymous product planning (e.g., counts of academic vs commercial interest, counts of operating system).
 
 We do **not** sell or share your data with third parties.
@@ -37,8 +37,8 @@ Your data is stored in **Cloudflare KV** (UK/EU processing where available) and 
 
 ## 5. Legal basis for processing
 
-- **Consent** — You provide your email address to receive access to the trial and related follow-up communications.  
-You may withdraw consent at any time.
+-   **Consent** — You provide your email address to receive access to the trial and related follow-up communications.\
+    You may withdraw consent at any time.
 
 ## 6. How long we keep your data
 
