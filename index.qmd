@@ -133,7 +133,7 @@ Sign up as a trial user to receive installation instructions via email through t
                 
 **Having trouble with the installation? Watch our installation guide:**                
 <iframe width="560" height="315" 
-src="https://www.youtube.com/embed/vxA85PUnz54" 
+src="https://www.youtube.com/embed/hpRw3ORqfyc" 
 title="YouTube video player" frameborder="0" 
 allow="accelerometer; autoplay; clipboard-write; 
 encrypted-media; gyroscope; picture-in-picture" 

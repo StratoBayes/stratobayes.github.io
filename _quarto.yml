@@ -30,8 +30,9 @@ website:
             href: vignettes/Age-modelling.qmd
           - text: "Real-world example"
             href: tutorial-1/StratoBayes-Tutorial-1.qmd
-      - text: "Preprint"
-        href: https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1355/
+      - text: "Publication"
+        href: https://gchron.copernicus.org/articles/7/545/2025/
+        target: _blank
       - text: "Workshop"
         href: https://stratobayes.github.io/workshop
 
