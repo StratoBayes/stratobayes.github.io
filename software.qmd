@@ -10,11 +10,11 @@ slug: software
 
 StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.
 
-> **Note**: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please [email us](mailto:kilian.eichenseer@durham.ac.uk).
+> **Licence.** The R package is free for non-commercial research under the [PolyForm Strict License 1.0.0](https://polyformproject.org/licenses/strict/1.0.0), and trial builds carry an expiry date. Commercial use needs a licence from StratoBayes Limited. See [Licensing](https://www.stratobayes.com/licensing) or contact [support@stratobayes.com](mailto:support@stratobayes.com).
 
 ## Installation
 
-StratoBayes requires [**R version 4.2.x -- 4.7.x**](https://cran.r-project.org/). We recommend using R through the [RStudio IDE](https://posit.co/downloads/).
+StratoBayes requires [**R 4.3, 4.4, 4.5 or 4.6**](https://cran.r-project.org/). We recommend using R through the [RStudio IDE](https://posit.co/downloads/).
 
 > Binaries are available for Windows and macOS.
 
@@ -36,25 +36,9 @@ StratoBayes requires [**R version 4.2.x -- 4.7.x**](https://cran.r-project.org/)
         Tools → Global Options → General → R version
         ```
 
-    -   If not already selected, chose **R version 4.6.x** (or 4.5.x, 4.4.x, 4.3.x, or 4.2.x) and restart RStudio to apply the change.
+    -   If not already selected, choose **R 4.6.x** (or 4.5.x, 4.4.x or 4.3.x) and restart RStudio to apply the change.
 
-3.  **Install StratoBayes**: Receive installation instructions and sign up for a trial via email through the form below. --\>
-
-<!--     ``` r -->
-
-<!--     install.packages("StratoBayes",  -->
-
-<!--                      repos = c("https://stratobayes.github.io", getOption("repos")),  -->
-
-<!--                      type = "binary",  -->
-
-<!--                      dependencies = TRUE) -->
-
-<!--     ``` -->
-
-<!-- Load Cloudflare Turnstile -->
-
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+3.  **Install StratoBayes**: Receive installation instructions and sign up for a trial via email through the form below.
 
 **Try StratoBayes now:**\
 Sign up as a trial user to receive installation instructions via email through the form at  
@@ -62,9 +46,9 @@ Sign up as a trial user to receive installation instructions via email through t
 [www.stratobayes.com](https://stratobayes.com/signup)
                   
 
-> **Note**: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.6). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.
+> **Note**: Binaries of the current release are available for R 4.3, 4.4, 4.5 and 4.6 on Windows and macOS.
 
-After you received the email, copy & paste the installation command into the R console within RStudio.
+After you receive the email, copy & paste the installation command into the R console within RStudio.
 
 4.  **Load StratoBayes:** Paste this into the R console within RStudio:
 
@@ -72,19 +56,9 @@ After you received the email, copy & paste the installation command into the R c
     library(StratoBayes)
     ```
 
-```{=html}
-<!-- Once R and Rstudio are installed, open Rstudio. You can select the correct version of R in `Tools`  `Global Options...`  `R version:`, then restart Rstudio.
-
-In the console, type
-
-`install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)`
-
--->
-```
-
 ## Using StratoBayes
 
-For an introduction to using StratoBayes, please see the [Getting Started vignette](/vignettes/StratoBayes.html). It can be also be accessed in the R console with:
+For an introduction to using StratoBayes, please see the [Getting Started vignette](/vignettes/StratoBayes.html). It can also be accessed in the R console with:
 
 ``` r
 vignette("StratoBayes")

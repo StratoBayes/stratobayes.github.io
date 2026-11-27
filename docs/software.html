@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>StratoBayes – Welcome to StratoBayes</title>
+<title>Welcome to StratoBayes - StratoBayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -110,11 +110,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./software.html">Software</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -148,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="./software.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Software</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -236,13 +236,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="about">About</h2>
 <p>StratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.</p>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please <a href="mailto:kilian.eichenseer@durham.ac.uk">email us</a>.</p>
+<p><strong>Licence.</strong> The R package is free for non-commercial research under the <a href="https://polyformproject.org/licenses/strict/1.0.0">PolyForm Strict License 1.0.0</a>, and trial builds carry an expiry date. Commercial use needs a licence from StratoBayes Limited. See <a href="https://www.stratobayes.com/licensing">Licensing</a> or contact <a href="mailto:support@stratobayes.com">support@stratobayes.com</a>.</p>
 </blockquote>
 </section>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<!-- StratoBayes requires [R](https://www.r-project.org/) (at least version 4.1). We recommend accessing R from the [Rstudio](https://posit.co/downloads/) integrated development environment. [do we need to say anything about chosing the right version for the OS?] -->
-<p>StratoBayes requires <a href="https://cran.r-project.org/"><strong>R version 4.2.x – 4.5.x</strong></a>. We recommend using R through the <a href="https://posit.co/downloads/">RStudio IDE</a>.</p>
+<p>StratoBayes requires <a href="https://cran.r-project.org/"><strong>R 4.3, 4.4, 4.5 or 4.6</strong></a>. We recommend using R through the <a href="https://posit.co/downloads/">RStudio IDE</a>.</p>
 <blockquote class="blockquote">
 <p>Binaries are available for Windows and macOS.</p>
 </blockquote>
@@ -264,51 +263,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Open RStudio.</p></li>
 <li><p>Select your R version via:</p>
 <pre><code>Tools → Global Options → General → R version</code></pre></li>
-<li><p>If not already selected, chose <strong>R version 4.5.x</strong> (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.</p></li>
+<li><p>If not already selected, choose <strong>R 4.6.x</strong> (or 4.5.x, 4.4.x or 4.3.x) and restart RStudio to apply the change.</p></li>
 </ul></li>
-<li><p><strong>Install StratoBayes</strong>: Receive installation instructions and sign up for a trial via email through the form below. –&gt;</p></li>
+<li><p><strong>Install StratoBayes</strong>: Receive installation instructions and sign up for a trial via email through the form below.</p></li>
 </ol>
-<!--     ``` r -->
-<!--     install.packages("StratoBayes",  -->
-<!--                      repos = c("https://stratobayes.github.io", getOption("repos")),  -->
-<!--                      type = "binary",  -->
-<!--                      dependencies = TRUE) -->
-<!--     ``` -->
-<!-- Load Cloudflare Turnstile -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async="" defer=""></script>
 <p><strong>Try StratoBayes now:</strong><br>
 Sign up as a trial user to receive installation instructions via email through the form at</p>
 <p><a href="https://stratobayes.com/signup">www.stratobayes.com</a></p>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.</p>
+<p><strong>Note</strong>: Binaries of the current release are available for R 4.3, 4.4, 4.5 and 4.6 on Windows and macOS.</p>
 </blockquote>
-<p>After you received the email, copy &amp; paste the installation command into the R console within RStudio.</p>
+<p>After you receive the email, copy &amp; paste the installation command into the R console within RStudio.</p>
 <ol start="4" type="1">
 <li><p><strong>Load StratoBayes:</strong> Paste this into the R console within RStudio:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(StratoBayes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
-<!-- Once R and Rstudio are installed, open Rstudio. You can select the correct version of R in `Tools`  `Global Options...`  `R version:`, then restart Rstudio.
-
-In the console, type
-
-`install.packages("StratoBayes", repos = c("https://stratobayes.github.io", getOption("repos")), type = "binary", dependencies = TRUE)`
-
--->
-<!-- ### Windows
-
-currently supports R 4.4
-
-### macOS
-
-currently supports R 4.4 for Intel and for Apple silicon
-
-### Linux
--->
 </section>
 </section>
 <section id="using-stratobayes" class="level2">
 <h2 class="anchored" data-anchor-id="using-stratobayes">Using StratoBayes</h2>
-<p>For an introduction to using StratoBayes, please see the <a href=".\vignettes/StratoBayes.html">Getting Started vignette</a>. It can be also be accessed in the R console with:</p>
+<p>For an introduction to using StratoBayes, please see the <a href=".\vignettes/StratoBayes.html">Getting Started vignette</a>. It can also be accessed in the R console with:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">"StratoBayes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To get help on individual functions, type e.g.&nbsp;<code>?StratData</code> in the console.</p>
 <p>For an overview of available tutorials, visit the <a href="https://stratobayes.github.io/vignettes/index">Vignette index</a>.</p>
@@ -352,7 +326,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -384,29 +369,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/stratobayes\.github\.io");
@@ -414,7 +377,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
