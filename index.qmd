@@ -12,7 +12,7 @@
 
 <p class="mb-1">
 
-StratoBayes is peer-reviewed software developed at Durham University offering:
+StratoBayes is peer-reviewed software from StratoBayes Limited, a Durham University spin-out, offering:
 
 </p>
 
@@ -20,6 +20,8 @@ StratoBayes is peer-reviewed software developed at Durham University offering:
 -   fully quantified uncertainty estimates and alternative correlations\
 -   mathematical integration of stratigraphic data and prior knowledge
   
+
+The R package is free for non-commercial research under the PolyForm Strict License 1.0.0. Commercial use needs a licence from StratoBayes Limited. See [Licensing](https://www.stratobayes.com/licensing) for details.
 
 **Try StratoBayes now:**\
 Sign up as a trial user to receive installation instructions via email through the form at  

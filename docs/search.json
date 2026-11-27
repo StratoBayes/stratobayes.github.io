@@ -234,7 +234,7 @@
     "href": "software.html#about",
     "title": "StratoBayes",
     "section": "About",
-    "text": "About\nStratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.\n\nNote: This version of StratoBayes is licenced for non-commercial use only. For commercial inquiries, please email us.",
+    "text": "About\nStratoBayes is implemented as a package for the R programming language. Please follow the installation instructions below.\n\nLicence. The R package is free for non-commercial research under the PolyForm Strict License 1.0.0, and trial builds carry an expiry date. Commercial use needs a licence from StratoBayes Limited. See Licensing or contact support@stratobayes.com.",
     "crumbs": [
       "Software"
     ]
@@ -244,7 +244,7 @@
     "href": "software.html#installation",
     "title": "StratoBayes",
     "section": "Installation",
-    "text": "Installation\n\nStratoBayes requires R version 4.2.x – 4.5.x. We recommend using R through the RStudio IDE.\n\nBinaries are available for Windows and macOS.\n\n\nStep-by-step guide\n\nInstall R and RStudio:\n\nDownload and install R, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).\nDownload and install RStudio corresponding to your operating system.\n\n\n\nIf you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.\n\n\nConfirm R version in RStudio:\n\nOpen RStudio.\nSelect your R version via:\nTools → Global Options → General → R version\nIf not already selected, chose R version 4.5.x (or 4.4.x, 4.3.x or 4.2.x) and restart RStudio to apply the change.\n\nInstall StratoBayes: Receive installation instructions and sign up for a trial via email through the form below. –&gt;\n\n\n\n\n\n\n\n\n\nTry StratoBayes now:\nSign up as a trial user to receive installation instructions via email through the form at\nwww.stratobayes.com\n\nNote: Currently, StratoBayes binaries are available for R versions 4.2 and upwards (4.2 - 4.5). Ensure your R installation meets this requirement to avoid compatibility issues. Binaries are available for Windows and macOS.\n\nAfter you received the email, copy & paste the installation command into the R console within RStudio.\n\nLoad StratoBayes: Paste this into the R console within RStudio:\nlibrary(StratoBayes)",
+    "text": "Installation\nStratoBayes requires R 4.3, 4.4, 4.5 or 4.6. We recommend using R through the RStudio IDE.\n\nBinaries are available for Windows and macOS.\n\n\nStep-by-step guide\n\nInstall R and RStudio:\n\nDownload and install R, ensuring you select the correct installer for your operating system (Windows, macOS Intel, or macOS Apple Silicon).\nDownload and install RStudio corresponding to your operating system.\n\n\n\nIf you are unsure which version of Mac you are using, click the apple logo in the top left corner and select “About This Mac”. Check the processor type. “Apple M1”, “M2”, or later require R for Apple silicon; Intel processors (i5, i7, i9, etc.) require R “For older Intel Macs”.\n\n\nConfirm R version in RStudio:\n\nOpen RStudio.\nSelect your R version via:\nTools → Global Options → General → R version\nIf not already selected, choose R 4.6.x (or 4.5.x, 4.4.x or 4.3.x) and restart RStudio to apply the change.\n\nInstall StratoBayes: Receive installation instructions and sign up for a trial via email through the form below.\n\nTry StratoBayes now:\nSign up as a trial user to receive installation instructions via email through the form at\nwww.stratobayes.com\n\nNote: Binaries of the current release are available for R 4.3, 4.4, 4.5 and 4.6 on Windows and macOS.\n\nAfter you receive the email, copy & paste the installation command into the R console within RStudio.\n\nLoad StratoBayes: Paste this into the R console within RStudio:\nlibrary(StratoBayes)",
     "crumbs": [
       "Software"
     ]
@@ -254,7 +254,7 @@
     "href": "software.html#using-stratobayes",
     "title": "StratoBayes",
     "section": "Using StratoBayes",
-    "text": "Using StratoBayes\nFor an introduction to using StratoBayes, please see the Getting Started vignette. It can be also be accessed in the R console with:\nvignette(\"StratoBayes\")\nTo get help on individual functions, type e.g. ?StratData in the console.\nFor an overview of available tutorials, visit the Vignette index.",
+    "text": "Using StratoBayes\nFor an introduction to using StratoBayes, please see the Getting Started vignette. It can also be accessed in the R console with:\nvignette(\"StratoBayes\")\nTo get help on individual functions, type e.g. ?StratData in the console.\nFor an overview of available tutorials, visit the Vignette index.",
     "crumbs": [
       "Software"
     ]
@@ -264,7 +264,7 @@
     "href": "index.html",
     "title": "Welcome to StratoBayes",
     "section": "",
-    "text": "StratoBayes is peer-reviewed software developed at Durham University offering:\n\n\nautomated correlation of multiple sections or wells\n\nfully quantified uncertainty estimates and alternative correlations\n\nmathematical integration of stratigraphic data and prior knowledge\n\nTry StratoBayes now:\nSign up as a trial user to receive installation instructions via email through the form at\nwww.stratobayes.com\nHaving trouble with the installation? Watch our installation guide:",
+    "text": "StratoBayes is peer-reviewed software from StratoBayes Limited, a Durham University spin-out, offering:\n\n\nautomated correlation of multiple sections or wells\n\nfully quantified uncertainty estimates and alternative correlations\n\nmathematical integration of stratigraphic data and prior knowledge\n\nThe R package is free for non-commercial research under the PolyForm Strict License 1.0.0. Commercial use needs a licence from StratoBayes Limited. See Licensing for details.\nTry StratoBayes now:\nSign up as a trial user to receive installation instructions via email through the form at\nwww.stratobayes.com\nHaving trouble with the installation? Watch our installation guide:",
     "crumbs": [
       "Home"
     ]
@@ -274,63 +274,7 @@
     "href": "privacy.html",
     "title": "Privacy Notice",
     "section": "",
-    "text": "StratoBayes (pre-formation university spinout)\nLast updated: 4 November 2025"
-  },
-  {
-    "objectID": "privacy.html#who-we-are",
-    "href": "privacy.html#who-we-are",
-    "title": "Privacy Notice",
-    "section": "1. Who we are",
-    "text": "1. Who we are\nStratoBayes is a university research spinout in pre-formation, developing software for stratigraphic correlation and age modelling. Until formal incorporation, data is administered by the founding research team.\nContact: contact@stratobayes.com"
-  },
-  {
-    "objectID": "privacy.html#what-personal-data-we-collect",
-    "href": "privacy.html#what-personal-data-we-collect",
-    "title": "Privacy Notice",
-    "section": "2. What personal data we collect",
-    "text": "2. What personal data we collect\nWhen you request a StratoBayes install command or updates, we collect:\n\nEmail address — to send your installation instructions and follow-up information related to the software.\n\nIntended use (Academic / Commercial / Other) — to understand our user base.\n\nOptional notes you provide — to understand your context.\n\n\nWe do not use tracking cookies or collect analytics for marketing."
-  },
-  {
-    "objectID": "privacy.html#how-we-use-your-data",
-    "href": "privacy.html#how-we-use-your-data",
-    "title": "Privacy Notice",
-    "section": "3. How we use your data",
-    "text": "3. How we use your data\n\nSend your personalized install command and help you access the software.\nFollow up with information, improvements, or updates relevant to the trial and development of the software.\nHigh-level, anonymous product planning (e.g., counts of academic vs commercial interest, counts of operating system).\n\nWe do not sell or share your data with third parties."
-  },
-  {
-    "objectID": "privacy.html#where-your-data-is-stored",
-    "href": "privacy.html#where-your-data-is-stored",
-    "title": "Privacy Notice",
-    "section": "4. Where your data is stored",
-    "text": "4. Where your data is stored\nYour data is stored in Cloudflare KV (UK/EU processing where available) and accessed only by the StratoBayes founders for operations."
-  },
-  {
-    "objectID": "privacy.html#legal-basis-for-processing",
-    "href": "privacy.html#legal-basis-for-processing",
-    "title": "Privacy Notice",
-    "section": "5. Legal basis for processing",
-    "text": "5. Legal basis for processing\n\nConsent — You provide your email address to receive access to the trial and related follow-up communications.\nYou may withdraw consent at any time."
-  },
-  {
-    "objectID": "privacy.html#how-long-we-keep-your-data",
-    "href": "privacy.html#how-long-we-keep-your-data",
-    "title": "Privacy Notice",
-    "section": "6. How long we keep your data",
-    "text": "6. How long we keep your data\nRegistration data is kept for up to 24 months from your last interaction, unless you request deletion sooner. We reserve the right to keep anonymous, aggregated data for product planning beyond that period."
-  },
-  {
-    "objectID": "privacy.html#your-rights",
-    "href": "privacy.html#your-rights",
-    "title": "Privacy Notice",
-    "section": "7. Your rights",
-    "text": "7. Your rights\nYou may request access, correction, deletion, or withdraw consent at any time.\nContact: contact@stratobayes.com. We aim to respond within 30 days."
-  },
-  {
-    "objectID": "privacy.html#unsubscribing",
-    "href": "privacy.html#unsubscribing",
-    "title": "Privacy Notice",
-    "section": "8. Unsubscribing",
-    "text": "8. Unsubscribing\nEvery update email includes an unsubscribe link, or you can email contact@stratobayes.com at any time.\nWe will process unsubscribe requests within 30 days. You may receive emails already in transit during this time, but no new update messages will be sent after processing is complete."
+    "text": "The StratoBayes privacy notice is published by StratoBayes Limited at www.stratobayes.com/privacy."
   },
   {
     "objectID": "tutorial-1/StratoBayes-Tutorial-1.html",
